@@ -1,0 +1,40 @@
+# Daily forecast archive for verification (V2 milestone M0).
+# Reads CORE's public Earth2Studio store + Open-Meteo; writes only to THIS repo's releases
+# (one release per month: archive-YYYY-MM). Never writes to CORE.
+name: Forecast archive (daily)
+
+on:
+  schedule:
+    - cron: "30 5 * * *"   # 11:00 IST, after CORE's 00Z Earth2Studio run is published
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: archive
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: archive/requirements.txt
+      - run: pip install -r archive/requirements.txt
+      - name: Snapshot
+        run: python archive/snapshot.py --out "$RUNNER_TEMP/archive"
+      - name: Upload to monthly release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag="archive-$(TZ=Asia/Kolkata date +%Y-%m)"
+          gh release view "$tag" >/dev/null 2>&1 || gh release create "$tag" --latest=false \
+            --title "Forecast archive $(TZ=Asia/Kolkata date +%B\ %Y)" \
+            --notes "Daily forecast snapshots for verification (see archive/snapshot.py). Data, not a software release."
+          gh release upload "$tag" "$RUNNER_TEMP"/archive/*.nc "$RUNNER_TEMP"/archive/*.json --clobber

@@ -1,0 +1,1176 @@
+{
+ "started_utc": "2026-09-27T19:44:06.518959Z",
+ "runner": "GitHub Actions 1000000072",
+ "imd": {
+  "years": [
+   {
+    "year": 1991,
+    "ok": true,
+    "attempts": 1,
+    "secs": 25.6,
+    "bytes": 25431832,
+    "reason": null,
+    "sha256": "fd5f8309d02f0875fbb5b43663d7d7f38a5d1e7911ac4b72dc80897f82895377",
+    "days": 365,
+    "shape": [
+     365,
+     129,
+     135
+    ],
+    "valid_cells": 4964
+   },
+   {
+    "year": 1992,
+    "ok": true,
+    "attempts": 1,
+    "secs": 21.4,
+    "bytes": 25501500,
+    "reason": null,
+    "sha256": "e5d0c389573e7d006923b9ef16bc67f631061a10da03b25949551a03dff7da61",
+    "days": 366,
+    "shape": [
+     366,
+     129,
+     135
+    ],
+    "valid_cells": 4964
+   },
+   {
+    "year": 1993,
+    "ok": true,
+    "attempts": 1,
+    "secs": 58.2,
+    "bytes": 25431832,
+    "reason": null,
+    "sha256": "2fedcb184f08989672037d06485666b18165f244aead36c46e8a6a8df58b8f3c",
+    "days": 365,
+    "shape": [
+     365,
+     129,
+     135
+    ],
+    "valid_cells": 4964
+   },
+   {
+    "year": 1994,
+    "ok": true,
+    "attempts": 1,
+    "secs": 16.3,
+    "bytes": 25431832,
+    "reason": null,
+    "sha256": "153f742dc9596d413af259e114d83aa415c0ba3ef7f22ed3f60d8854d71a92f3",
+    "days": 365,
+    "shape": [
+     365,
+     129,
+     135
+    ],
+    "valid_cells": 4964
+   },
+   {
+    "year": 1995,
+    "ok": true,
+    "attempts": 1,
+    "secs": 17.8,
+    "bytes": 25431832,
+    "reason": null,
+    "sha256": "ee769ab54c2d02e7f6db23fd440ceef107f4a3d79308ee34d5ad1015df813e0c",
+    "days": 365,
+    "shape": [
+     365,
+     129,
+     135
+    ],
+    "valid_cells": 4964
+   },
+   {
+    "year": 1996,
+    "ok": true,
+    "attempts": 1,
+    "secs": 33.1,
+    "bytes": 25501500,
+    "reason": null,
+    "sha256": "606d5eaa75bf96cf698330ae137a42f244b1e0850178f14460c3f8d3a47ec589",
+    "days": 366,
+    "shape": [
+     366,
+     129,
+     135
+    ],
+    "valid_cells": 4964
+   },
+   {
+    "year": 1997,
+    "ok": true,
+    "attempts": 1,
+    "secs": 35.8,
+    "bytes": 25431832,
+    "reason": null,
+    "sha256": "0edb75fb4fb6f215811e34480d09e1d8d6487d7a0166cedb3d05b38f2e439724",
+    "days": 365,
+    "shape": [
+     365,
+     129,
+     135
+    ],
+    "valid_cells": 4964
+   },
+   {
+    "year": 1998,
+    "ok": true,
+    "attempts": 1,
+    "secs": 34.2,
+    "bytes": 25431832,
+    "reason": null,
+    "sha256": "dbcc01ec2d44f22f94d74009da38c7f936920534bf6d7206ea73fc1bf5c0fd7d",
+    "days": 365,
+    "shape": [
+     365,
+     129,
+     135
+    ],
+    "valid_cells": 4964
+   },
+   {
+    "year": 1999,
+    "ok": true,
+    "attempts": 3,
+    "secs": 21.9,
+    "bytes": 25431832,
+    "reason": null,
+    "sha256": "636961db4399dbb3c51caba7c815ccfecb361cd271cce767825862e2e6920884",
+    "days": 365,
+    "shape": [
+     365,
+     129,
+     135
+    ],
+    "valid_cells": 4964
+   },
+   {
+    "year": 2000,
+    "ok": true,
+    "attempts": 1,
+    "secs": 25.7,
+    "bytes": 25501500,
+    "reason": null,
+    "sha256": "eee32b28de22dee336d1b414a8b6a3f420e3dfcfb7ca6186d56a3a02dd344782",
+    "days": 366,
+    "shape": [
+     366,
+     129,
+     135
+    ],
+    "valid_cells": 4964
+   },
+   {
+    "year": 2001,
+    "ok": true,
+    "attempts": 1,
+    "secs": 21.2,
+    "bytes": 25431832,
+    "reason": null,
+    "sha256": "f3e0536f688908cfbcd5bc8272362c4bf238aac198e607220071867899b7f175",
+    "days": 365,
+    "shape": [
+     365,
+     129,
+     135
+    ],
+    "valid_cells": 4964
+   },
+   {
+    "year": 2002,
+    "ok": true,
+    "attempts": 1,
+    "secs": 36.5,
+    "bytes": 25431832,
+    "reason": null,
+    "sha256": "4c61fdae1ea69b733cdfe2a27ebadbfa79f11aea2ae5ef4cf2e99624f7f1efdb",
+    "days": 365,
+    "shape": [
+     365,
+     129,
+     135
+    ],
+    "valid_cells": 4964
+   },
+   {
+    "year": 2003,
+    "ok": true,
+    "attempts": 1,
+    "secs": 36.2,
+    "bytes": 25431832,
+    "reason": null,
+    "sha256": "f215e6182fb15f1e2b59da09e408fa10d23cca6c3041aea54adb878d784b64d2",
+    "days": 365,
+    "shape": [
+     365,
+     129,
+     135
+    ],
+    "valid_cells": 4964
+   },
+   {
+    "year": 2004,
+    "ok": true,
+    "attempts": 1,
+    "secs": 19.8,
+    "bytes": 25501500,
+    "reason": null,
+    "sha256": "1ab45a65b10277e415dc06965008156637777a79b86367cf45329b2718545935",
+    "days": 366,
+    "shape": [
+     366,
+     129,
+     135
+    ],
+    "valid_cells": 4964
+   },
+   {
+    "year": 2005,
+    "ok": true,
+    "attempts": 1,
+    "secs": 24.7,
+    "bytes": 25431832,
+    "reason": null,
+    "sha256": "c6de4f7b35238f6c9fca22950934390ac8f08f630fe0bfb3c90cc62849f9cc50",
+    "days": 365,
+    "shape": [
+     365,
+     129,
+     135
+    ],
+    "valid_cells": 4964
+   },
+   {
+    "year": 2006,
+    "ok": true,
+    "attempts": 1,
+    "secs": 60.4,
+    "bytes": 25431832,
+    "reason": null,
+    "sha256": "8caf5b4fa2900a2be070f87b760a84297d686e74ee0dacded6c2944451e1d9f1",
+    "days": 365,
+    "shape": [
+     365,
+     129,
+     135
+    ],
+    "valid_cells": 4964
+   },
+   {
+    "year": 2007,
+    "ok": true,
+    "attempts": 1,
+    "secs": 19.8,
+    "bytes": 25431832,
+    "reason": null,
+    "sha256": "f4430feb443d8f8e8d8882e8c52ebe738f20aefea269bd7a10aa14e5da799ef8",
+    "days": 365,
+    "shape": [
+     365,
+     129,
+     135
+    ],
+    "valid_cells": 4964
+   },
+   {
+    "year": 2008,
+    "ok": true,
+    "attempts": 1,
+    "secs": 20.0,
+    "bytes": 25501500,
+    "reason": null,
+    "sha256": "345079a1a4c84a3d0ca198f46693384767e9639c05f131e40de4d5a649931279",
+    "days": 366,
+    "shape": [
+     366,
+     129,
+     135
+    ],
+    "valid_cells": 4964
+   },
+   {
+    "year": 2009,
+    "ok": true,
+    "attempts": 1,
+    "secs": 16.5,
+    "bytes": 25431832,
+    "reason": null,
+    "sha256": "109c02519016c3e12e248d8032f6baebc4a3635a163dbf13d374b582f43e0486",
+    "days": 365,
+    "shape": [
+     365,
+     129,
+     135
+    ],
+    "valid_cells": 4964
+   },
+   {
+    "year": 2010,
+    "ok": true,
+    "attempts": 1,
+    "secs": 21.9,
+    "bytes": 25431832,
+    "reason": null,
+    "sha256": "fe7ea2aba9dab02865684040e9c1abfd1402481feac214c78b5bd94cf881b84b",
+    "days": 365,
+    "shape": [
+     365,
+     129,
+     135
+    ],
+    "valid_cells": 4964
+   },
+   {
+    "year": 2011,
+    "ok": true,
+    "attempts": 1,
+    "secs": 18.7,
+    "bytes": 25431832,
+    "reason": null,
+    "sha256": "925e06db22b6797afd393b781e834ee8016cf8850b2501f73dbb13e6c2c936de",
+    "days": 365,
+    "shape": [
+     365,
+     129,
+     135
+    ],
+    "valid_cells": 4964
+   },
+   {
+    "year": 2012,
+    "ok": true,
+    "attempts": 1,
+    "secs": 20.2,
+    "bytes": 25501500,
+    "reason": null,
+    "sha256": "7708a4846e8ef0664962c7042e886f3a5f055af365d536782eff63760dc3f666",
+    "days": 366,
+    "shape": [
+     366,
+     129,
+     135
+    ],
+    "valid_cells": 4964
+   },
+   {
+    "year": 2013,
+    "ok": true,
+    "attempts": 1,
+    "secs": 19.2,
+    "bytes": 25431832,
+    "reason": null,
+    "sha256": "2042932a2aea8288bbf45482272f65b9225e8aafa9a44cf06c65962007f8bc79",
+    "days": 365,
+    "shape": [
+     365,
+     129,
+     135
+    ],
+    "valid_cells": 4964
+   },
+   {
+    "year": 2014,
+    "ok": true,
+    "attempts": 1,
+    "secs": 19.1,
+    "bytes": 25431832,
+    "reason": null,
+    "sha256": "9ecca0e9049f0e6cf366a44420e2e7361bff67bf97ae43c6502999b25da76457",
+    "days": 365,
+    "shape": [
+     365,
+     129,
+     135
+    ],
+    "valid_cells": 4964
+   },
+   {
+    "year": 2015,
+    "ok": true,
+    "attempts": 1,
+    "secs": 21.8,
+    "bytes": 25431832,
+    "reason": null,
+    "sha256": "c276ce7ebff1d74d79123a7c777d9ef61c3c5765aa3b6db464ff6224b30a3926",
+    "days": 365,
+    "shape": [
+     365,
+     129,
+     135
+    ],
+    "valid_cells": 4964
+   },
+   {
+    "year": 2016,
+    "ok": true,
+    "attempts": 1,
+    "secs": 21.8,
+    "bytes": 25501500,
+    "reason": null,
+    "sha256": "e5b0ba1feb2bf10a3347091867237b1c480a71cbd8087037ef846e4346cbcdef",
+    "days": 366,
+    "shape": [
+     366,
+     129,
+     135
+    ],
+    "valid_cells": 4964
+   },
+   {
+    "year": 2017,
+    "ok": true,
+    "attempts": 1,
+    "secs": 20.4,
+    "bytes": 25431832,
+    "reason": null,
+    "sha256": "49786e2d2b661c5d3bcfb3ffd90385c1133ec27a8a04bf272ff2df5029106a9c",
+    "days": 365,
+    "shape": [
+     365,
+     129,
+     135
+    ],
+    "valid_cells": 4964
+   },
+   {
+    "year": 2018,
+    "ok": true,
+    "attempts": 1,
+    "secs": 17.4,
+    "bytes": 25431832,
+    "reason": null,
+    "sha256": "26bd53aeb2d6f3f7d39516c41606db005dede474906b33462d1a0caef69cd6ec",
+    "days": 365,
+    "shape": [
+     365,
+     129,
+     135
+    ],
+    "valid_cells": 4964
+   },
+   {
+    "year": 2019,
+    "ok": true,
+    "attempts": 1,
+    "secs": 32.9,
+    "bytes": 25431832,
+    "reason": null,
+    "sha256": "c551c563b3514d492a2de94c706c1c254d5826656738b4a8e7dbd83841344a5b",
+    "days": 365,
+    "shape": [
+     365,
+     129,
+     135
+    ],
+    "valid_cells": 4964
+   },
+   {
+    "year": 2020,
+    "ok": true,
+    "attempts": 1,
+    "secs": 27.2,
+    "bytes": 25501500,
+    "reason": null,
+    "sha256": "2e567f0f71f3a1936ba11d61a0214fc3927c7b969ee5669d14959aa0b6b026dc",
+    "days": 366,
+    "shape": [
+     366,
+     129,
+     135
+    ],
+    "valid_cells": 4964
+   }
+  ],
+  "total_secs": 1023,
+  "all_ok": true,
+  "total_bytes": 763512304,
+  "retried_years": [
+   1999
+  ]
+ },
+ "om_meta": {
+  "ecmwf_ifs025": {
+   "chunk_time_length": 104,
+   "data_end_time": 1791817200,
+   "last_run_availability_time": 1790538224,
+   "last_run_initialisation_time": 1790510400,
+   "last_run_modification_time": 1790538143,
+   "temporal_resolution_seconds": 10800,
+   "update_interval_seconds": 21600
+  },
+  "ncep_gfs025": {
+   "chunk_time_length": 481,
+   "data_end_time": 1791896400,
+   "last_run_availability_time": 1790533529,
+   "last_run_initialisation_time": 1790510400,
+   "last_run_modification_time": 1790531951,
+   "temporal_resolution_seconds": 3600,
+   "update_interval_seconds": 21600
+  },
+  "ncep_gfs013": {
+   "chunk_time_length": 481,
+   "data_end_time": 1791896400,
+   "last_run_availability_time": 1790530591,
+   "last_run_initialisation_time": 1790510400,
+   "last_run_modification_time": 1790530340,
+   "temporal_resolution_seconds": 3600,
+   "update_interval_seconds": 21600
+  },
+  "dwd_icon": {
+   "chunk_time_length": 253,
+   "data_end_time": 1791162000,
+   "last_run_availability_time": 1790524562,
+   "last_run_initialisation_time": 1790510400,
+   "last_run_modification_time": 1790523748,
+   "temporal_resolution_seconds": 3600,
+   "update_interval_seconds": 21600
+  },
+  "ecmwf_ifs": {
+   "chunk_time_length": 504,
+   "data_end_time": 1791810000,
+   "last_run_availability_time": 1790535177,
+   "last_run_initialisation_time": 1790510400,
+   "last_run_modification_time": 1790533696,
+   "temporal_resolution_seconds": 3600,
+   "update_interval_seconds": 21600
+  }
+ },
+ "om_daily_by_model": {
+  "ecmwf_ifs025": {
+   "time": [
+    "2026-09-28",
+    "2026-09-29",
+    "2026-09-30",
+    "2026-10-01",
+    "2026-10-02",
+    "2026-10-03",
+    "2026-10-04",
+    "2026-10-05",
+    "2026-10-06",
+    "2026-10-07"
+   ],
+   "temperature_2m_max": [
+    31.3,
+    32.3,
+    32.9,
+    33.5,
+    34.7,
+    34.5,
+    33.4,
+    33.1,
+    32.9,
+    34.5
+   ],
+   "temperature_2m_min": [
+    24.3,
+    24.1,
+    24.0,
+    24.0,
+    24.1,
+    24.9,
+    24.3,
+    23.1,
+    23.3,
+    25.5
+   ],
+   "precipitation_sum": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.1,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.2
+   ],
+   "wind_gusts_10m_max": [
+    30.2,
+    22.3,
+    22.3,
+    23.8,
+    25.2,
+    23.8,
+    26.3,
+    25.9,
+    23.4,
+    23.0
+   ]
+  },
+  "gfs_seamless": {
+   "time": [
+    "2026-09-28",
+    "2026-09-29",
+    "2026-09-30",
+    "2026-10-01",
+    "2026-10-02",
+    "2026-10-03",
+    "2026-10-04",
+    "2026-10-05",
+    "2026-10-06",
+    "2026-10-07"
+   ],
+   "temperature_2m_max": [
+    33.8,
+    34.7,
+    34.7,
+    34.9,
+    35.9,
+    35.7,
+    35.4,
+    35.8,
+    35.4,
+    35.7
+   ],
+   "temperature_2m_min": [
+    25.3,
+    25.6,
+    26.1,
+    26.6,
+    26.9,
+    27.1,
+    26.7,
+    26.3,
+    26.2,
+    26.4
+   ],
+   "precipitation_sum": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "wind_gusts_10m_max": [
+    22.7,
+    14.8,
+    18.4,
+    13.0,
+    16.2,
+    16.6,
+    13.3,
+    20.5,
+    15.1,
+    20.9
+   ]
+  },
+  "gfs025": {
+   "time": [
+    "2026-09-28",
+    "2026-09-29",
+    "2026-09-30",
+    "2026-10-01",
+    "2026-10-02",
+    "2026-10-03",
+    "2026-10-04",
+    "2026-10-05",
+    "2026-10-06",
+    "2026-10-07"
+   ],
+   "temperature_2m_max": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "temperature_2m_min": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "precipitation_sum": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "wind_gusts_10m_max": [
+    22.7,
+    14.8,
+    18.4,
+    13.0,
+    16.2,
+    16.6,
+    13.3,
+    20.5,
+    15.1,
+    20.9
+   ]
+  },
+  "gfs_global": {
+   "time": [
+    "2026-09-28",
+    "2026-09-29",
+    "2026-09-30",
+    "2026-10-01",
+    "2026-10-02",
+    "2026-10-03",
+    "2026-10-04",
+    "2026-10-05",
+    "2026-10-06",
+    "2026-10-07"
+   ],
+   "temperature_2m_max": [
+    33.8,
+    34.7,
+    34.7,
+    34.9,
+    35.9,
+    35.7,
+    35.4,
+    35.8,
+    35.4,
+    35.7
+   ],
+   "temperature_2m_min": [
+    25.3,
+    25.6,
+    26.1,
+    26.6,
+    26.9,
+    27.1,
+    26.7,
+    26.3,
+    26.2,
+    26.4
+   ],
+   "precipitation_sum": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "wind_gusts_10m_max": [
+    22.7,
+    14.8,
+    18.4,
+    13.0,
+    16.2,
+    16.6,
+    13.3,
+    20.5,
+    15.1,
+    20.9
+   ]
+  },
+  "icon_seamless": {
+   "time": [
+    "2026-09-28",
+    "2026-09-29",
+    "2026-09-30",
+    "2026-10-01",
+    "2026-10-02",
+    "2026-10-03",
+    "2026-10-04",
+    "2026-10-05",
+    "2026-10-06",
+    "2026-10-07"
+   ],
+   "temperature_2m_max": [
+    31.6,
+    33.3,
+    33.7,
+    34.1,
+    35.1,
+    35.0,
+    34.5,
+    null,
+    null,
+    null
+   ],
+   "temperature_2m_min": [
+    25.0,
+    24.7,
+    24.7,
+    24.6,
+    24.3,
+    24.4,
+    24.6,
+    null,
+    null,
+    null
+   ],
+   "precipitation_sum": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    null,
+    null,
+    null
+   ],
+   "wind_gusts_10m_max": [
+    23.8,
+    15.1,
+    19.1,
+    21.2,
+    19.1,
+    19.1,
+    21.6,
+    null,
+    null,
+    null
+   ]
+  },
+  "icon_global": {
+   "time": [
+    "2026-09-28",
+    "2026-09-29",
+    "2026-09-30",
+    "2026-10-01",
+    "2026-10-02",
+    "2026-10-03",
+    "2026-10-04",
+    "2026-10-05",
+    "2026-10-06",
+    "2026-10-07"
+   ],
+   "temperature_2m_max": [
+    31.6,
+    33.3,
+    33.7,
+    34.1,
+    35.1,
+    35.0,
+    34.5,
+    null,
+    null,
+    null
+   ],
+   "temperature_2m_min": [
+    25.0,
+    24.7,
+    24.7,
+    24.6,
+    24.3,
+    24.4,
+    24.6,
+    null,
+    null,
+    null
+   ],
+   "precipitation_sum": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    null,
+    null,
+    null
+   ],
+   "wind_gusts_10m_max": [
+    23.8,
+    15.1,
+    19.1,
+    21.2,
+    19.1,
+    19.1,
+    21.6,
+    null,
+    null,
+    null
+   ]
+  }
+ },
+ "om_previous_runs": {
+  "gfs_seamless": {
+   "2021-03-15": {
+    "temperature_2m_previous_day1": 0,
+    "temperature_2m_previous_day7": 0,
+    "precipitation_previous_day1": 0,
+    "wind_gusts_10m_previous_day1": 0,
+    "cape_previous_day1": 0
+   },
+   "2023-06-15": {
+    "temperature_2m_previous_day1": 24,
+    "temperature_2m_previous_day7": 24,
+    "precipitation_previous_day1": 0,
+    "wind_gusts_10m_previous_day1": 0,
+    "cape_previous_day1": 0
+   },
+   "2024-01-05": {
+    "temperature_2m_previous_day1": 0,
+    "temperature_2m_previous_day7": 0,
+    "precipitation_previous_day1": 0,
+    "wind_gusts_10m_previous_day1": 0,
+    "cape_previous_day1": 0
+   },
+   "2024-01-20": {
+    "temperature_2m_previous_day1": 24,
+    "temperature_2m_previous_day7": 0,
+    "precipitation_previous_day1": 24,
+    "wind_gusts_10m_previous_day1": 24,
+    "cape_previous_day1": 24
+   },
+   "2024-02-05": {
+    "temperature_2m_previous_day1": 24,
+    "temperature_2m_previous_day7": 24,
+    "precipitation_previous_day1": 24,
+    "wind_gusts_10m_previous_day1": 24,
+    "cape_previous_day1": 24
+   },
+   "2024-03-05": {
+    "temperature_2m_previous_day1": 24,
+    "temperature_2m_previous_day7": 24,
+    "precipitation_previous_day1": 24,
+    "wind_gusts_10m_previous_day1": 24,
+    "cape_previous_day1": 24
+   },
+   "2024-04-05": {
+    "temperature_2m_previous_day1": 24,
+    "temperature_2m_previous_day7": 24,
+    "precipitation_previous_day1": 24,
+    "wind_gusts_10m_previous_day1": 24,
+    "cape_previous_day1": 24
+   },
+   "2024-05-05": {
+    "temperature_2m_previous_day1": 24,
+    "temperature_2m_previous_day7": 24,
+    "precipitation_previous_day1": 24,
+    "wind_gusts_10m_previous_day1": 24,
+    "cape_previous_day1": 24
+   },
+   "2024-06-05": {
+    "temperature_2m_previous_day1": 24,
+    "temperature_2m_previous_day7": 24,
+    "precipitation_previous_day1": 24,
+    "wind_gusts_10m_previous_day1": 24,
+    "cape_previous_day1": 24
+   },
+   "2024-07-05": {
+    "temperature_2m_previous_day1": 24,
+    "temperature_2m_previous_day7": 24,
+    "precipitation_previous_day1": 24,
+    "wind_gusts_10m_previous_day1": 24,
+    "cape_previous_day1": 24
+   }
+  },
+  "ecmwf_ifs025": {
+   "2021-03-15": {
+    "temperature_2m_previous_day1": 0,
+    "temperature_2m_previous_day7": 0,
+    "precipitation_previous_day1": 0,
+    "wind_gusts_10m_previous_day1": 0,
+    "cape_previous_day1": 0
+   },
+   "2023-06-15": {
+    "temperature_2m_previous_day1": 0,
+    "temperature_2m_previous_day7": 0,
+    "precipitation_previous_day1": 0,
+    "wind_gusts_10m_previous_day1": 0,
+    "cape_previous_day1": 0
+   },
+   "2024-01-05": {
+    "temperature_2m_previous_day1": 0,
+    "temperature_2m_previous_day7": 0,
+    "precipitation_previous_day1": 0,
+    "wind_gusts_10m_previous_day1": 0,
+    "cape_previous_day1": 0
+   },
+   "2024-01-20": {
+    "temperature_2m_previous_day1": 0,
+    "temperature_2m_previous_day7": 0,
+    "precipitation_previous_day1": 0,
+    "wind_gusts_10m_previous_day1": 0,
+    "cape_previous_day1": 0
+   },
+   "2024-02-05": {
+    "temperature_2m_previous_day1": 24,
+    "temperature_2m_previous_day7": 0,
+    "precipitation_previous_day1": 24,
+    "wind_gusts_10m_previous_day1": 0,
+    "cape_previous_day1": 0
+   },
+   "2024-03-05": {
+    "temperature_2m_previous_day1": 24,
+    "temperature_2m_previous_day7": 24,
+    "precipitation_previous_day1": 24,
+    "wind_gusts_10m_previous_day1": 0,
+    "cape_previous_day1": 0
+   },
+   "2024-04-05": {
+    "temperature_2m_previous_day1": 24,
+    "temperature_2m_previous_day7": 24,
+    "precipitation_previous_day1": 24,
+    "wind_gusts_10m_previous_day1": 0,
+    "cape_previous_day1": 0
+   },
+   "2024-05-05": {
+    "temperature_2m_previous_day1": 24,
+    "temperature_2m_previous_day7": 24,
+    "precipitation_previous_day1": 24,
+    "wind_gusts_10m_previous_day1": 0,
+    "cape_previous_day1": 0
+   },
+   "2024-06-05": {
+    "temperature_2m_previous_day1": 24,
+    "temperature_2m_previous_day7": 24,
+    "precipitation_previous_day1": 24,
+    "wind_gusts_10m_previous_day1": 0,
+    "cape_previous_day1": 0
+   },
+   "2024-07-05": {
+    "temperature_2m_previous_day1": 24,
+    "temperature_2m_previous_day7": 24,
+    "precipitation_previous_day1": 24,
+    "wind_gusts_10m_previous_day1": 0,
+    "cape_previous_day1": 0
+   }
+  },
+  "icon_seamless": {
+   "2021-03-15": {
+    "temperature_2m_previous_day1": 0,
+    "temperature_2m_previous_day7": 0,
+    "precipitation_previous_day1": 0,
+    "wind_gusts_10m_previous_day1": 0,
+    "cape_previous_day1": 0
+   },
+   "2023-06-15": {
+    "temperature_2m_previous_day1": 0,
+    "temperature_2m_previous_day7": 0,
+    "precipitation_previous_day1": 0,
+    "wind_gusts_10m_previous_day1": 0,
+    "cape_previous_day1": 0
+   },
+   "2024-01-05": {
+    "temperature_2m_previous_day1": 0,
+    "temperature_2m_previous_day7": 0,
+    "precipitation_previous_day1": 0,
+    "wind_gusts_10m_previous_day1": 0,
+    "cape_previous_day1": 0
+   },
+   "2024-01-20": {
+    "temperature_2m_previous_day1": 24,
+    "temperature_2m_previous_day7": 0,
+    "precipitation_previous_day1": 24,
+    "wind_gusts_10m_previous_day1": 24,
+    "cape_previous_day1": 0
+   },
+   "2024-02-05": {
+    "temperature_2m_previous_day1": 24,
+    "temperature_2m_previous_day7": 0,
+    "precipitation_previous_day1": 24,
+    "wind_gusts_10m_previous_day1": 24,
+    "cape_previous_day1": 0
+   },
+   "2024-03-05": {
+    "temperature_2m_previous_day1": 24,
+    "temperature_2m_previous_day7": 0,
+    "precipitation_previous_day1": 24,
+    "wind_gusts_10m_previous_day1": 24,
+    "cape_previous_day1": 0
+   },
+   "2024-04-05": {
+    "temperature_2m_previous_day1": 24,
+    "temperature_2m_previous_day7": 0,
+    "precipitation_previous_day1": 24,
+    "wind_gusts_10m_previous_day1": 24,
+    "cape_previous_day1": 0
+   },
+   "2024-05-05": {
+    "temperature_2m_previous_day1": 24,
+    "temperature_2m_previous_day7": 0,
+    "precipitation_previous_day1": 24,
+    "wind_gusts_10m_previous_day1": 24,
+    "cape_previous_day1": 0
+   },
+   "2024-06-05": {
+    "temperature_2m_previous_day1": 24,
+    "temperature_2m_previous_day7": 0,
+    "precipitation_previous_day1": 24,
+    "wind_gusts_10m_previous_day1": 24,
+    "cape_previous_day1": 0
+   },
+   "2024-07-05": {
+    "temperature_2m_previous_day1": 24,
+    "temperature_2m_previous_day7": 0,
+    "precipitation_previous_day1": 24,
+    "wind_gusts_10m_previous_day1": 24,
+    "cape_previous_day1": 0
+   }
+  }
+ },
+ "om_historical_forecast_2024_07_15": {
+  "ecmwf_ifs025": {
+   "cape": 24,
+   "lifted_index": 0,
+   "wind_gusts_10m": 0
+  },
+  "icon_seamless": {
+   "cape": 24,
+   "lifted_index": 0,
+   "wind_gusts_10m": 24
+  },
+  "gfs_seamless": {
+   "cape": 24,
+   "lifted_index": 24,
+   "wind_gusts_10m": 24
+  }
+ },
+ "om_36_points": {
+  "ok": true,
+  "secs": 0.7,
+  "bytes": 28007,
+  "locations": 36,
+  "error": null
+ },
+ "om_counters": {
+  "requests": 45,
+  "limit_responses": 0,
+  "http_errors": 0,
+  "network_errors": 0
+ },
+ "iem": {
+  "ok": true,
+  "status": 200,
+  "secs": 0.9,
+  "bytes": 691
+ },
+ "aviationweather": {
+  "ok": true,
+  "status": 200,
+  "secs": 0.1,
+  "bytes": 7327
+ },
+ "finished_utc": "2026-09-27T20:03:45.114831Z"
+}

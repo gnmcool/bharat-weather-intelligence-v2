@@ -90,7 +90,7 @@ def test_complete_archive_is_publishable(tmp_path, store, monkeypatch):
     assert not g["missing"]
     assert any(x["model"] == "ecmwf_ifs025" and x["leads"] for x in g["not_provided_by_source"])  # beyond the short run
     df = pq.read_table(next(stage.glob("forecasts_*.parquet"))).to_pandas()
-    assert set(df["model"]) == {"ecmwf_ifs025", "gfs025", "icon_global", "e2s_gfs025"}
+    assert set(df["model"]) == {"ecmwf_ifs025", "gfs_global", "icon_global", "e2s_gfs025"}
     assert df["run_time_known"].all()
 
 
@@ -121,14 +121,14 @@ def test_injected_faults_are_refused(tmp_path, store, monkeypatch, inject, expec
 
 def test_failed_model_is_refused(tmp_path, store, monkeypatch):
     def broken(url, timeout=90, tries=4):
-        if "models=gfs025" in url:
+        if "models=gfs_global" in url:
             raise common.ArchiveError("simulated outage")
         return fake_http(url)
     monkeypatch.setattr(collect, "http_json", broken)
     monkeypatch.setattr(sys, "argv", ["collect.py", "--out", str(tmp_path / "s"), "--store", str(store)])
     collect.main()
     res = validate.validate(tmp_path / "s")
-    assert not res["ok"] and any("gfs025 missing entirely" in p for p in res["problems"])
+    assert not res["ok"] and any("gfs_global missing entirely" in p for p in res["problems"])
 
 
 def test_unit_mixup_is_refused(tmp_path, store, monkeypatch):
@@ -152,3 +152,17 @@ def test_points_file_is_fixed_and_valid():
     assert len(PTS) == 36 and len({p["id"] for p in PTS}) == 36
     for p in PTS:
         assert 5 <= p["lat"] <= 38 and 66 <= p["lon"] <= 99
+
+
+def test_grids_disagreeing_on_run_time_is_refused(tmp_path, store, monkeypatch):
+    def split(url, timeout=90, tries=4):
+        r = fake_http(url)
+        if "ncep_gfs013" in url:
+            r = {**r, "last_run_initialisation_time": r["last_run_initialisation_time"] - 21600}
+        return r
+    monkeypatch.setattr(collect, "http_json", split)
+    monkeypatch.setattr(collect.time, "sleep", lambda s: None)
+    monkeypatch.setattr(sys, "argv", ["collect.py", "--out", str(tmp_path / "s"), "--store", str(store)])
+    collect.main()
+    res = validate.validate(tmp_path / "s")
+    assert not res["ok"] and any("gfs_global" in p for p in res["problems"])

@@ -39,12 +39,16 @@ CORE_API = "https://bharat-weather-intelligence-brown.vercel.app/api/v1"
 CORE_STORE_URL = "https://github.com/gnmcool/bharat-weather-intelligence/releases/download/forecast/gfs_latest.nc"
 FORECAST_DAYS = 10
 
-# Archive model -> (Open-Meteo forecast model id, Open-Meteo metadata id giving the exact run, variables the
-# source provides for that model). Chosen from the M4 Step 1 probe (docs/ARCHIVE.md).
+# Archive model -> (Open-Meteo forecast model id, Open-Meteo metadata ids that must all report the same run,
+# variables the source provides). From the M4 Step 1 probe (27 Sep 2026, GitHub Actions):
+#   ecmwf_ifs025 = CORE's ECMWF; all four daily variables present
+#   gfs_global  = CORE's gfs_seamless over India (identical values); built from the GFS 0.11 and 0.25 grids, so both
+#                 metadata files must report the same initialisation. (`gfs025` alone returned no temperature/rain.)
+#   icon_global = CORE's icon_seamless over India (identical values); ~7.5-day range
 MODELS = {
-    "ecmwf_ifs025": ("ecmwf_ifs025", "ecmwf_ifs025", ["tmax", "tmin", "precip", "gust_max"]),
-    "gfs025": ("gfs025", "ncep_gfs025", ["tmax", "tmin", "precip", "gust_max"]),
-    "icon_global": ("icon_global", "dwd_icon", ["tmax", "tmin", "precip", "gust_max"]),
+    "ecmwf_ifs025": ("ecmwf_ifs025", ["ecmwf_ifs025"], ["tmax", "tmin", "precip", "gust_max"]),
+    "gfs_global": ("gfs_global", ["ncep_gfs013", "ncep_gfs025"], ["tmax", "tmin", "precip", "gust_max"]),
+    "icon_global": ("icon_global", ["dwd_icon"], ["tmax", "tmin", "precip", "gust_max"]),
 }
 
 STATS = {"requests": 0, "retries": 0, "rate_limited": 0, "http_errors": 0, "network_errors": 0}
@@ -81,27 +85,34 @@ def parse_ts(v) -> datetime:
     return datetime.fromisoformat(str(v).replace("Z", "+00:00"))
 
 
-def model_meta(meta_id: str) -> dict:
-    m = http_json(OM_META.format(meta_id))
-    return {"run_time_utc": parse_ts(m["last_run_initialisation_time"]), "data_end_utc": parse_ts(m["data_end_time"]),
-            "available_utc": parse_ts(m["last_run_availability_time"]), "step_hours": int(m["temporal_resolution_seconds"] // 3600)}
+def model_meta(meta_ids: list[str]) -> dict:
+    """Run metadata; when a model is built from several grids, all must report the same initialisation."""
+    ms = [http_json(OM_META.format(i)) for i in meta_ids]
+    inits = {m["last_run_initialisation_time"] for m in ms}
+    if len(inits) != 1:
+        return {"run_time_utc": None, "inits": sorted(inits)}
+    return {"run_time_utc": parse_ts(ms[0]["last_run_initialisation_time"]),
+            "data_end_utc": min(parse_ts(m["data_end_time"]) for m in ms),
+            "available_utc": max(parse_ts(m["last_run_availability_time"]) for m in ms),
+            "step_hours": max(int(m["temporal_resolution_seconds"] // 3600) for m in ms)}
 
 
 def fetch_model(arch_model: str, pts: list[dict], retrieved: datetime) -> tuple[list[dict], dict]:
-    om_model, meta_id, variables = MODELS[arch_model]
+    om_model, meta_ids, variables = MODELS[arch_model]
     q = urllib.parse.urlencode({
         "latitude": ",".join(str(p["lat"]) for p in pts), "longitude": ",".join(str(p["lon"]) for p in pts),
         "daily": ",".join(DAILY_VARS), "models": om_model, "timezone": "Asia/Kolkata",
         "forecast_days": FORECAST_DAYS, "wind_speed_unit": "kmh"})
     for attempt in range(3):
-        before = model_meta(meta_id)
+        before = model_meta(meta_ids)
         data = http_json(f"{OPEN_METEO}?{q}")
-        after = model_meta(meta_id)
-        if before["run_time_utc"] == after["run_time_utc"]:
+        after = model_meta(meta_ids)
+        if before["run_time_utc"] is not None and before["run_time_utc"] == after["run_time_utc"]:
             break
-        STATS["retries"] += 1  # a new run landed during the request: its run time would be ambiguous
+        STATS["retries"] += 1  # a run landed during the request, or the grids disagree: run time would be ambiguous
+        time.sleep(120)
     else:
-        raise ArchiveError(f"{arch_model}: model run changed during every attempt")
+        raise ArchiveError(f"{arch_model}: exact run time could not be established (run changed or grids disagree)")
     data = data if isinstance(data, list) else [data]
     if len(data) != len(pts):
         raise ArchiveError(f"{arch_model}: {len(data)} locations returned for {len(pts)} points")
@@ -122,7 +133,7 @@ def fetch_model(arch_model: str, pts: list[dict], retrieved: datetime) -> tuple[
     first = date.fromisoformat(data[0]["daily"]["time"][0])
     dates = [first + timedelta(days=k) for k in range(FORECAST_DAYS)]
     full_leads = sorted({lead_day(d, run) for d in dates if day_fully_covered(d, run, end, step)})
-    spec = {"model": arch_model, "open_meteo_model": om_model, "metadata_id": meta_id,
+    spec = {"model": arch_model, "open_meteo_model": om_model, "metadata_ids": meta_ids,
             "run_time_utc": run.isoformat(), "run_available_utc": before["available_utc"].isoformat(),
             "data_end_utc": end.isoformat(), "step_hours": step, "variables": variables,
             "expected_leads": full_leads, "points": len(pts)}

@@ -8,7 +8,7 @@ fixed points in `archive/points.json`. It replaces the M0 monthly appendable rel
 
 | File | Content | Rows per day |
 | --- | --- | --- |
-| `forecasts_<D>.parquet` | ECMWF IFS 0.25° (`ecmwf_ifs025`), GFS 0.25° (`gfs025`), ICON global (`icon_global`) daily Tmax, Tmin, rain, max gust at the 36 points for the next 10 IST days, plus Earth2Studio GFS (CORE store, nearest 0.25° cell) | 36 × 4 variables × (10 + 10 + 10 + ~9) days ≈ 5,600 |
+| `forecasts_<D>.parquet` | ECMWF IFS 0.25° (`ecmwf_ifs025`), GFS global (`gfs_global`; identical to CORE's `gfs_seamless` over India, run time checked on both GFS grids), ICON global (`icon_global`) daily Tmax, Tmin, rain, max gust at the 36 points for the next 10 IST days, plus Earth2Studio GFS (CORE store, nearest 0.25° cell) | 36 × 4 variables × (10 + 10 + 10 + ~9) days ≈ 5,600 |
 | `core_risks_<D>.parquet` | All 11 CORE risk items per point exactly as CORE showed them (level, status, period, peak, agreement basis, matched official alert ids, CORE's per-model run note) | 396 |
 | `core_daily_<D>.parquet` | CORE best-match daily values as shown (a blend: no single model run) | ~1,440 |
 | `e2s_gfs_grid_<cycle>.nc` | Earth2Studio GFS daily grid over India (as in M0) | grid |

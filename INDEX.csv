@@ -1,2 +1,3 @@
 archive_date_ist,status,tag,manifest_sha256,forecast_rows,missing,recorded_utc,run_id
 2026-09-28,published,archive-daily-2026-09-28,0e1a7a5aad8be7a7982896eeba2caac58a6ebe1672f51cc3fd443b23613b917a,5616,0,2026-09-27T20:12:01+00:00,36346968339
+2026-09-28,refused,,b518419093be86813b81eaac3a121809ff37801b610aca28b57ee7dae4eaeeab,5616,0,2026-09-27T20:15:53+00:00,36347335335

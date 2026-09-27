@@ -14,13 +14,15 @@ export interface WeatherMapProps {
   fieldOpacity?: number;
   /** district id -> CSS colour (government choropleth or official-alert overlay) */
   districtFill?: Record<string, string> | null;
+  /** district id -> CSS colour of an outline (used for OFFICIAL alerts when a system fill is shown, so the two never merge) */
+  districtOutline?: Record<string, string> | null;
   highlightState?: string | null;
   eo?: CoreEoLayer | null;
   fires?: GeoJSON.FeatureCollection | null;
   marker?: { lat: number; lon: number } | null;
   flyTo?: { lat: number; lon: number; zoom?: number } | null;
   onClick?: (lat: number, lon: number) => void;
-  onDistrictClick?: (id: string, stateSlug: string, name: string) => void;
+  onDistrictClick?: (id: string, stateSlug: string, name: string, lat: number, lon: number) => void;
   className?: string;
   interactive?: boolean;
 }
@@ -58,6 +60,7 @@ export default function WeatherMap(p: WeatherMapProps) {
       m.addSource("districts", { type: "geojson", data: coreAsset("geo/india_districts.geojson"), promoteId: "id" });
       m.addLayer({ id: "district-fill", type: "fill", source: "districts", paint: { "fill-color": ["coalesce", ["feature-state", "fill"], "rgba(0,0,0,0)"], "fill-opacity": 0.72 } }, firstSymbol);
       m.addLayer({ id: "district-line", type: "line", source: "districts", paint: { "line-color": "rgba(210,220,235,0.18)", "line-width": 0.5 } }, firstSymbol);
+      m.addLayer({ id: "district-outline", type: "line", source: "districts", paint: { "line-color": ["coalesce", ["feature-state", "outline"], "rgba(0,0,0,0)"], "line-width": 2, "line-dasharray": [2, 1] } }, firstSymbol);
       m.addSource("states", { type: "geojson", data: coreAsset("geo/india_states.geojson") });
       m.addLayer({ id: "state-line", type: "line", source: "states", paint: { "line-color": "rgba(230,236,245,0.55)", "line-width": 0.9 } }, firstSymbol);
       m.addLayer({ id: "state-hl", type: "line", source: "states", filter: ["==", ["get", "state_slug"], ""], paint: { "line-color": "#3b9ae1", "line-width": 2.2 } }, firstSymbol);
@@ -66,7 +69,7 @@ export default function WeatherMap(p: WeatherMapProps) {
         paint: { "circle-radius": ["interpolate", ["linear"], ["zoom"], 4, 2, 8, 4], "circle-color": ["interpolate", ["linear"], ["get", "frp"], 0, "#ffd166", 20, "#f77f00", 80, "#d62828"], "circle-stroke-color": "#1b1b1b", "circle-stroke-width": 0.5 } });
       m.on("click", (e) => {
         const f = m.queryRenderedFeatures(e.point, { layers: ["district-fill"] })[0];
-        if (f && cb.current.onDistrictClick) cb.current.onDistrictClick(String(f.properties.id), String(f.properties.state_slug), String(f.properties.district));
+        if (f && cb.current.onDistrictClick) cb.current.onDistrictClick(String(f.properties.id), String(f.properties.state_slug), String(f.properties.district), e.lngLat.lat, e.lngLat.lng);
         else cb.current.onClick?.(e.lngLat.lat, e.lngLat.lng);
       });
       setReady(true);
@@ -90,7 +93,7 @@ export default function WeatherMap(p: WeatherMapProps) {
     const m = map.current;
     if (!ready || !m) return;
     const apply = () => {
-      for (const id of lastFill.current) m.removeFeatureState({ source: "districts", id });
+      for (const id of lastFill.current) m.setFeatureState({ source: "districts", id }, { fill: null });
       const ids = Object.keys(p.districtFill ?? {});
       for (const id of ids) m.setFeatureState({ source: "districts", id }, { fill: p.districtFill![id] });
       lastFill.current = ids;
@@ -98,6 +101,20 @@ export default function WeatherMap(p: WeatherMapProps) {
     if (m.isSourceLoaded("districts")) apply();
     else m.once("sourcedata", apply);
   }, [ready, p.districtFill]);
+
+  const lastOutline = useRef<string[]>([]);
+  useEffect(() => {
+    const m = map.current;
+    if (!ready || !m) return;
+    const apply = () => {
+      for (const id of lastOutline.current) m.setFeatureState({ source: "districts", id }, { outline: null });
+      const ids = Object.keys(p.districtOutline ?? {});
+      for (const id of ids) m.setFeatureState({ source: "districts", id }, { outline: p.districtOutline![id] });
+      lastOutline.current = ids;
+    };
+    if (m.isSourceLoaded("districts")) apply();
+    else m.once("sourcedata", apply);
+  }, [ready, p.districtOutline]);
 
   useEffect(() => {
     const m = map.current;

@@ -4,6 +4,13 @@ Newest first. Each decision was approved by the owner unless marked *proposed*.
 
 | Date | Decision | Why |
 |---|---|---|
+| 2026-09-27 | M2 intelligence runs in a **separate service `api-v2/`** (FastAPI, `/api/v2`, own Vercel project) that reads CORE only over HTTP `/api/v1` | Owner's M2 brief: V2-only, isolated, no `/api/v1` change |
+| 2026-09-27 | Events = CORE risk items at Watch or above; severity, timing, criteria unchanged. No "Extreme rain" category (IMD ≥ 204.5 mm is not a CORE rule) | No new thresholds in M2 |
+| 2026-09-27 | CORE `confidence.score` is not passed to the UI; agreement is shown only as "k of n" | Prevents agreement being read as probability |
+| 2026-09-27 | District counts only for heat/cold/rain/wind (what CORE evaluates per district); other hazards listed as not counted | No manufactured precision; no new district rule |
+| 2026-09-27 | Official alerts drawn as a dashed red outline when the system-risk fill is on | Official and system never visually merged |
+| 2026-09-27 | Official-alert ↔ hazard link in evidence uses words in the alert's event/headline; CORE's location match is shown | Display link only; issuer wording untouched |
+| 2026-09-27 | Farmer: event → existing CORE indicator using the same weather variable (display link); no link where none exists | No new agronomic rules |
 | 2026-09-27 | M1 uses **only** CORE's public API, plus two public CORE website files (district and state GeoJSON outlines), both listed in the contract. No CORE source is imported; the map is V2's own MapLibre implementation | Owner's M1 brief. `/api/v1` does not serve polygons; these files are public, read-only and CORS-open |
 | 2026-09-27 | CORE's `thunderstorm` and `lightning` risk items are labelled **"Thunderstorm potential — model derived"** and **"Lightning potential — model derived"**. Levels, status and rules unchanged | Approved decision: never present model output as observed lightning |
 | 2026-09-27 | "What should you know?" lists official alerts first, then CORE risk items at Watch or above; if none, it says so. No new detection | M1 brief: no invented intelligence |

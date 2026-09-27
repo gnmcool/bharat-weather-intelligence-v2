@@ -25,7 +25,7 @@ layers only.
 | Repository | [gnmcool/bharat-weather-intelligence](https://github.com/gnmcool/bharat-weather-intelligence) | gnmcool/bharat-weather-intelligence-v2 |
 | Website | https://gnmcool.github.io/bharat-weather-intelligence/ | https://gnmcool.github.io/bharat-weather-intelligence-v2/ |
 | API | `https://bharat-weather-intelligence-brown.vercel.app/api/v1` | consumes CORE's API **read-only** |
-| Status | Production/reference, unchanged since tag `core-v1.0` | In development (M1 built, awaiting approval) |
+| Status | Production/reference, unchanged since tag `core-v1.0` | In development (M1 approved; M2 built, awaiting approval) |
 
 CORE stays independently buildable, deployable and runnable. V2 never modifies it. **CORE's API
 is the boundary.** V2 imports no CORE source code, and every CORE endpoint and field it relies on
@@ -45,7 +45,7 @@ tools/compare/  CORE-vs-V2 data comparison (M1 acceptance test)
 contract/   CORE API contract + live checker
 archive/    daily forecast archive for verification → this repo's releases
 docs/       architecture and policies
-api-v2/     (from M2) V2-only endpoints in a separate service; never changes /api/v1
+api-v2/     (M2) V2-only endpoints in a separate service (/api/v2); reads CORE over HTTP, never changes /api/v1
 ```
 
 Full picture: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
@@ -77,8 +77,8 @@ The two are never merged into one statement.
 | | Scope | Status |
 |---|---|---|
 | M0 | Foundation: repo, docs, CI, Pages, CORE contract, forecast archive | **Done** |
-| M1 | Navigation (Home, Map, Risks & alerts, Forecast, Insights × Citizen/Farmer/Government) on existing CORE data only; CORE-vs-V2 comparison tool | **Built — awaiting approval** |
-| M2 | What-should-you-know, evidence ("Why this forecast?"), weather vs normal (IMD normals), events; `api-v2/` | Planned |
+| M1 | Navigation (Home, Map, Risks & alerts, Forecast, Insights × Citizen/Farmer/Government) on existing CORE data only; CORE-vs-V2 comparison tool | Approved |
+| M2 | Events, evidence drawer, what-should-you-know by priority, India district risk counts, map risk layer, farmer event chain; `api-v2/` (IMD normals deferred) | **Built — awaiting approval** |
 | M3 | Farmer workflow; Government India summary and district drill-down | Planned |
 | M4 | Satellite point values, thunderstorm potential, verification report, performance | Planned |
 

@@ -1,5 +1,6 @@
 import { CalendarDays, Home as HomeIcon, Lightbulb, Map as MapIcon, ShieldAlert } from "lucide-react";
 import { lazy, Suspense, useEffect } from "react";
+import EvidenceDrawer from "../components/EvidenceDrawer";
 import LocationPicker from "../components/LocationPicker";
 import { config } from "../config";
 import { MODES, navigate, SCREENS, useRoute } from "../lib/router";
@@ -77,6 +78,8 @@ export default function App() {
           {screen === "insights" && <InsightsPage mode={mode} />}
         </Suspense>
       </main>
+
+      <EvidenceDrawer />
 
       {/* phone / tablet navigation */}
       <nav aria-label="Primary" className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 border-t border-line bg-bg/95 pb-[env(safe-area-inset-bottom)] backdrop-blur lg:hidden">

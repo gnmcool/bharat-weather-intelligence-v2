@@ -1,8 +1,9 @@
-import { ChevronDown, ExternalLink, Info, ShieldAlert } from "lucide-react";
+import { ChevronDown, ExternalLink, Info, ScanSearch, ShieldAlert } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import type { CoreOfficialWarning, CoreProvenance, CoreRiskItem } from "../core-api/types";
 import { istDateTime, runLabel } from "../lib/format";
 import { AGREEMENT_EXPLAINER, LEVEL, modelAgreement, riskLabel, SEVERITY } from "../lib/present";
+import { useApp } from "../lib/store";
 import type { Loadable } from "../lib/useCore";
 
 export function Section({ title, right, children, id, className = "" }: { title: string; right?: ReactNode; children: ReactNode; id?: string; className?: string }) {
@@ -69,6 +70,7 @@ export function OfficialAlert({ w, compact }: { w: CoreOfficialWarning; compact?
 /** SYSTEM ASSESSMENT — one CORE risk item, levels and rules unchanged; "confidence" shown as Model agreement. */
 export function SystemRisk({ r, open: openInit = false }: { r: CoreRiskItem; open?: boolean }) {
   const [open, setOpen] = useState(openInit);
+  const { place, openEvidence } = useApp();
   const ag = modelAgreement(r.confidence);
   const lv = LEVEL[r.level] ?? LEVEL[0];
   return (
@@ -101,6 +103,7 @@ export function SystemRisk({ r, open: openInit = false }: { r: CoreRiskItem; ope
             <dt>Sources</dt><dd className="text-text">{r.sources.join(" · ")}</dd>
             {r.reference && (<><dt>Method</dt><dd className="text-text">CORE methodology {r.reference}</dd></>)}
           </dl>
+          <EvidenceButton onClick={() => openEvidence({ point: { lat: place.lat, lon: place.lon, name: place.name, taluka: place.taluka }, risk: r.id })} />
           <p className="flex items-start gap-1.5 text-[11.5px] text-muted"><Info size={12} className="mt-0.5 shrink-0" />{AGREEMENT_EXPLAINER}</p>
         </div>
       )}
@@ -142,5 +145,15 @@ export function Stat({ label, value, sub, testid }: { label: string; value: Reac
       <div className="text-[16px] font-medium tabular-nums text-text" data-testid={testid}>{value}</div>
       {sub && <div className="text-[11px] text-muted">{sub}</div>}
     </div>
+  );
+}
+
+/** Opens the evidence drawer (same structure everywhere). */
+export function EvidenceButton({ onClick, label = "View evidence" }: { onClick: () => void; label?: string }) {
+  return (
+    <button onClick={onClick} data-testid="view-evidence"
+      className="inline-flex items-center gap-1.5 rounded-md border border-line px-2 py-1 text-[12px] font-medium text-accent hover:border-accent">
+      <ScanSearch size={13} /> {label}
+    </button>
   );
 }

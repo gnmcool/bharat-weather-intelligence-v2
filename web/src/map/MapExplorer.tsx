@@ -1,4 +1,4 @@
-import { Flame, Layers, ShieldAlert, X } from "lucide-react";
+import { Flame, Layers, ShieldAlert, TriangleAlert, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { core } from "../core-api/client";
 import type { CoreEoLayer, CoreFires, CoreGridField, CoreGridMeta, CoreOfficialWarning } from "../core-api/types";
@@ -6,6 +6,11 @@ import { istDateTime, num, runLabel } from "../lib/format";
 import { SEVERITY } from "../lib/present";
 import { useApp } from "../lib/store";
 import { cached, useCore } from "../lib/useCore";
+import { EvidenceButton, LevelDot } from "../components/ui";
+import { LEVEL } from "../lib/present";
+import { hazardFill, LEVEL_FILL, OFFICIAL_OUTLINE, openDistrictEvidence } from "../modes/IndiaRisks";
+import { v2 } from "../v2-api/client";
+import type { V2District, V2IndiaRisks } from "../v2-api/types";
 import { sample } from "./field";
 import { cssGradient, PALETTES } from "./palettes";
 import WeatherMap from "./WeatherMap";
@@ -15,7 +20,7 @@ const JUMPS: [string, number][] = [["Now", 0], ["+6 h", 6], ["+12 h", 12], ["+24
 const SEV_FILL: Record<string, string> = { Extreme: "#dc2626", Severe: "#f97316", Moderate: "#facc15", Minor: "#38bdf8" };
 
 export default function MapExplorer({ compact = false, className = "" }: { compact?: boolean; className?: string }) {
-  const { place, setPlace } = useApp();
+  const { place, setPlace, openEvidence } = useApp();
   const meta = useCore<CoreGridMeta>("grid-meta", core.gridMeta);
   const [layer, setLayer] = useState("tp");
   const [ti, setTi] = useState<number | null>(null);
@@ -26,6 +31,10 @@ export default function MapExplorer({ compact = false, className = "" }: { compa
   const [firesOn, setFiresOn] = useState(false);
   const [panel, setPanel] = useState(false);
   const [point, setPoint] = useState<{ lat: number; lon: number } | null>(null);
+  // M2 system-risk layer (districts) from /api/v2/region/india/risks
+  const [riskHazard, setRiskHazard] = useState<string | null>(null);
+  const [riskPick, setRiskPick] = useState<V2District | null>(null);
+  const risks = useCore<V2IndiaRisks>(riskHazard ? "v2:india-risks" : null, v2.indiaRisks);
   const warnings = useCore<CoreOfficialWarning[]>(alertsOn ? "warnings" : null, core.warnings);
   const eoLayers = useCore<CoreEoLayer[]>(eoId ? "eo-layers" : null, core.earthobsLayers);
   const fires = useCore<CoreFires>(firesOn ? "fires" : null, core.fires);
@@ -69,6 +78,14 @@ export default function MapExplorer({ compact = false, className = "" }: { compa
     return best;
   }, [alertsOn, warnings]);
 
+  const riskFill = useMemo(() => (riskHazard && risks.state === "ok" ? hazardFill(risks.data, riskHazard) : null), [riskHazard, risks]);
+  const riskById = useMemo(() => (risks.state === "ok" ? new Map(risks.data.districts.map((x) => [x.id, x])) : null), [risks]);
+  // Official alerts become an outline when the system fill is on, so official and system are never merged.
+  const officialAsOutline = useMemo(() => {
+    if (!riskFill || !alertFill) return null;
+    return Object.fromEntries(Object.keys(alertFill).map((id) => [id, OFFICIAL_OUTLINE]));
+  }, [riskFill, alertFill]);
+
   const pal = PALETTES[layer];
   const eo = eoId && eoLayers.state === "ok" ? eoLayers.data.find((l) => l.id === eoId) ?? null : null;
   const pointVal = point && field ? sample(field, point.lat, point.lon) : null;
@@ -76,12 +93,37 @@ export default function MapExplorer({ compact = false, className = "" }: { compa
 
   return (
     <div className={`relative overflow-hidden rounded-xl border border-line ${className}`}>
-      <WeatherMap className="h-full w-full" field={field && pal ? { data: field, palette: pal } : null} fieldOpacity={eo ? 0.35 : 0.72}
-        districtFill={alertFill} eo={eo} fires={firesOn && fires.state === "ok" ? (fires.data as unknown as GeoJSON.FeatureCollection) : null}
-        marker={point ?? { lat: place.lat, lon: place.lon }} onClick={(lat, lon) => setPoint({ lat, lon })} interactive />
+      <WeatherMap className="h-full w-full" field={field && pal ? { data: field, palette: pal } : null} fieldOpacity={eo ? 0.35 : riskFill ? 0.25 : 0.72}
+        districtFill={riskFill ?? alertFill} districtOutline={officialAsOutline} eo={eo} fires={firesOn && fires.state === "ok" ? (fires.data as unknown as GeoJSON.FeatureCollection) : null}
+        marker={point ?? { lat: place.lat, lon: place.lon }} onClick={(lat, lon) => { setRiskPick(null); setPoint({ lat, lon }); }} interactive
+        onDistrictClick={riskFill ? (id, _s, _n, lat, lon) => {
+          const x = riskById?.get(id);
+          if (x && riskHazard && (riskHazard === "any" ? x.max_level : x.levels[riskHazard]) >= 1) { setPoint(null); setRiskPick(x); }
+          else { setRiskPick(null); setPoint({ lat, lon }); }
+        } : undefined} />
 
       {/* layer + timeline controls */}
       <div className="pointer-events-none absolute inset-x-2 bottom-2 flex flex-col gap-2 sm:inset-x-3 sm:bottom-3">
+        {riskPick && riskHazard && (
+          <div className="pointer-events-auto self-start rounded-lg border border-line bg-surface/95 p-3 text-[12.5px] shadow-xl" data-testid="map-risk-card" data-district={riskPick.id}>
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <div className="text-[10.5px] font-semibold uppercase tracking-wide text-slate-300">System assessment · district</div>
+                <div className="font-medium">{riskPick.district}, {riskPick.state}</div>
+                <div className="mt-1 grid grid-cols-2 gap-x-3">
+                  {Object.entries(riskPick.levels).map(([k, lv]) => <span key={k} className="inline-flex items-center gap-1.5"><LevelDot level={lv} />{k}: {LEVEL[lv].name}</span>)}
+                </div>
+                <div className="text-muted">When: next 7 days (open evidence for the dates) · representative point</div>
+              </div>
+              <button onClick={() => setRiskPick(null)} aria-label="Close"><X size={15} className="text-muted" /></button>
+            </div>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {Object.entries(riskPick.levels).filter(([, lv]) => lv >= 1).map(([k]) => (
+                <EvidenceButton key={k} label={`Evidence: ${k}`} onClick={() => openDistrictEvidence(openEvidence, riskPick, k)} />
+              ))}
+            </div>
+          </div>
+        )}
         {point && (
           <div className="pointer-events-auto self-start rounded-lg border border-line bg-surface/95 p-3 text-[12.5px] shadow-xl" data-testid="point-card">
             <div className="flex items-start justify-between gap-4">
@@ -138,11 +180,27 @@ export default function MapExplorer({ compact = false, className = "" }: { compa
               <button key={v} onClick={() => setLayer(v)} className={`rounded-md px-2 py-1.5 text-left ${layer === v ? "bg-accent text-white" : "bg-surface-2 hover:bg-line"}`}>{PALETTES[v].label}</button>
             ))}
           </div>
+          <div className="mt-3 text-[11.5px] uppercase tracking-wide text-muted">System risk by district (next 7 days)</div>
+          <div className="mt-1 grid grid-cols-3 gap-1" data-testid="risk-layer">
+            {[["none", "Off"], ["any", "Any"], ["rain", "Heavy rain"], ["heat", "Heat"], ["cold", "Cold"], ["wind", "Wind"]].map(([id, lbl]) => (
+              <button key={id} onClick={() => { setRiskHazard(id === "none" ? null : id); setRiskPick(null); }} data-hazard={id}
+                className={`rounded-md px-2 py-1.5 text-left ${(riskHazard ?? "none") === id ? "bg-accent text-white" : "bg-surface-2 hover:bg-line"}`}>{lbl}</button>
+            ))}
+          </div>
+          {riskHazard && (
+            <div className="mt-1 text-[11px] text-muted">
+              <div className="flex flex-wrap gap-x-3">{[1, 2, 3].map((l) => <span key={l} className="inline-flex items-center gap-1"><span className="h-2 w-2 rounded-sm" style={{ background: LEVEL_FILL[l] }} />{LEVEL[l].name}</span>)}</div>
+              {risks.state === "loading" && <p>Loading district counts (up to a minute on first use)…</p>}
+              {risks.state === "error" && <p className="text-red-300">Unavailable: {risks.message}</p>}
+              {risks.state === "ok" && <p data-testid="risk-layer-count" data-count={Object.keys(riskFill ?? {}).length}><TriangleAlert size={11} className="inline" /> {Object.keys(riskFill ?? {}).length} districts at Watch or above. CORE level at each district's representative point; official alerts shown as dashed outline. Click a coloured district for evidence.</p>}
+            </div>
+          )}
           <div className="mt-3 text-[11.5px] uppercase tracking-wide text-muted">Official</div>
           <label className="mt-1 flex items-center gap-2"><input type="checkbox" checked={alertsOn} onChange={(e) => setAlertsOn(e.target.checked)} />
             <ShieldAlert size={14} className="text-official" /> Districts with official alerts
           </label>
-          {alertsOn && (
+          {alertsOn && riskFill && <p className="ml-6 mt-1 text-[11px] text-muted">Shown as a dashed red outline while the system-risk layer is on, so official and system are never merged.</p>}
+          {alertsOn && !riskFill && (
             <div className="ml-6 mt-1 flex flex-wrap gap-x-3 text-[11px] text-muted">
               {Object.entries(SEV_FILL).map(([k, c]) => <span key={k} className="inline-flex items-center gap-1"><span className="h-2 w-2 rounded-sm" style={{ background: c }} /><span className={SEVERITY[k]?.text}>{k}</span></span>)}
             </div>

@@ -18,7 +18,7 @@
 │ contract/   the endpoints/fields V2 depends on + live checker           │                                      │
 │ archive/    daily forecast archive  ────────────────────────────────────┘ + Open-Meteo (ECMWF/GFS/ICON points)  │
 │             → this repo's releases (archive-YYYY-MM)                                                          │
-│ api-v2/     (M2+, not created yet) V2-only endpoints: events, evidence, district risk counts, verification    │
+│ api-v2/     (M2) V2-only endpoints: /api/v2/events, /evidence, /region/india/risks (reads CORE over HTTP)  │
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -32,13 +32,18 @@
 | `contract/` | `core-api-contract.json` (what V2 depends on) + `check-core-contract.mjs` | CI (`core-contract.yml`), locally |
 | `archive/` | `snapshot.py` + `points.json`: daily forecast archive for verification | GitHub Actions (`archive.yml`) |
 | `.github/workflows/` | `ci.yml` build/tests · `pages.yml` deploy · `core-contract.yml` · `archive.yml` | GitHub Actions |
+| `api-v2/` (M2) | FastAPI service, `/api/v2/events`, `/evidence`, `/region/india/risks`, `/health`. Reads CORE only over HTTP; in-process TTL cache; offline tests with captured CORE responses. See `EVENTS_AND_EVIDENCE.md` | Vercel (second project, root `api-v2`, region bom1) |
+| `web/src/v2-api/` (M2) | Typed client for `api-v2` | Browser |
+| `tools/m2-acceptance/` (M2) | CORE vs V2 API vs V2 UI acceptance test (events, evidence, district reconciliation) | Locally / on demand |
 
-## Planned (not built in M0)
+```
+Browser (GitHub Pages) ──► CORE /api/v1  (forecast, risks, alerts, maps)
+        │
+        └────────────────► api-v2 /api/v2 ──► CORE /api/v1   (events, evidence, India counts)
+```
 
-- `api-v2/` (M2): a separate FastAPI service for V2-only endpoints (`/events`, `/evidence`,
-  `/region/india/risks`). It calls CORE's API; it does not import or modify CORE code, and it does
-  not change any `/api/v1` contract. Hosting to be decided at M2 (a second Vercel project is the
-  default).
+## Planned
+
 - Verification metrics (M4) computed from `archive/` outputs; see `VERIFICATION.md`.
 
 ## Why this shape

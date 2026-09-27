@@ -2,9 +2,12 @@ import { ExternalLink, ShieldCheck, Sprout } from "lucide-react";
 import { useEffect, useState } from "react";
 import { core } from "../core-api/client";
 import type { CoreCropList, CoreDistrict, CoreFarmerReport, CoreState } from "../core-api/types";
-import { LevelDot, Load, OfficialAlert, Provenance, Section } from "../components/ui";
+import { EventCard } from "../components/EventCard";
+import { LevelDot, Load, OfficialAlert, Provenance, Section, SystemLabel } from "../components/ui";
+import { v2 } from "../v2-api/client";
+import type { V2Events } from "../v2-api/types";
 import { istDay, num } from "../lib/format";
-import { LEVEL } from "../lib/present";
+import { FARMER_LINK, LEVEL } from "../lib/present";
 import { useApp } from "../lib/store";
 import { useCore } from "../lib/useCore";
 
@@ -102,6 +105,8 @@ export default function FarmerWorkflow() {
                 </Section>
               )}
 
+              <FarmerEvents report={r} />
+
               {/* SYSTEM-DERIVED — clearly unvalidated */}
               <section className="rounded-xl border border-system/40 bg-system/[0.07] p-4" data-testid="farmer-indicators">
                 <div className="flex flex-wrap items-center gap-2 text-[11px] font-semibold uppercase tracking-wide text-slate-200">
@@ -147,5 +152,54 @@ export default function FarmerWorkflow() {
         </Load>
       )}
     </div>
+  );
+}
+
+/**
+ * M2: SYSTEM ASSESSMENT → potential crop relevance → existing CORE crop indicator → official advisory.
+ * Uses the same /api/v2/events records and evidence drawer as Citizen and Government. No new agronomic rules.
+ */
+function FarmerEvents({ report }: { report: CoreFarmerReport }) {
+  const place = useApp((s) => s.place);
+  const ev = useCore<V2Events>(`events:${place.lat},${place.lon},${place.name}`, () => v2.events(place));
+  return (
+    <Section title="Weather events and your crop" right={<SystemLabel />}>
+      <Load s={ev} lines={3}>
+        {(d) => {
+          const events = d.events.filter((e) => e.classification === "system");
+          if (!events.length) return <p className="text-[13px] text-muted" data-testid="farmer-events-none">No significant weather event detected for this field in CORE's 7-day assessment.</p>;
+          return (
+            <div className="space-y-3" data-testid="farmer-events">
+              {events.map((e) => {
+                const link = FARMER_LINK[e.type];
+                const inds = link ? report.indicators.filter((i) => link.ids.includes(i.id)) : [];
+                return (
+                  <div key={e.id} className="grid gap-2 rounded-xl border border-line p-2.5 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]" data-testid="farmer-event-chain" data-event-type={e.type}>
+                    <EventCard e={e} />
+                    <div className="space-y-1.5 text-[12.5px]">
+                      <div className="text-[11px] font-semibold uppercase tracking-wide text-muted">Potential crop relevance</div>
+                      {inds.length ? (
+                        <>
+                          <p className="text-muted">Existing CORE indicator{inds.length > 1 ? "s" : ""} for {report.crop_label} ({stageName(report.stage)}) that use {link!.why}:</p>
+                          {inds.map((i) => (
+                            <div key={i.id} className="flex items-start gap-2 rounded-lg border border-system/40 bg-system/[0.07] px-2.5 py-1.5" data-testid="farmer-linked-indicator" data-id={i.id} data-level={i.level}>
+                              <LevelDot level={i.level} />
+                              <div><span className="font-medium">{i.label}</span> <span className={LEVEL[i.level]?.text}>{LEVEL[i.level]?.name}</span> · {i.value}<div className="text-[11px] text-muted">Rule: {i.rule} · {report.validation_status}</div></div>
+                            </div>
+                          ))}
+                        </>
+                      ) : (
+                        <p className="text-muted" data-testid="farmer-no-indicator">No existing CORE crop indicator for {report.crop_label} at this stage uses this signal. V2 does not add agronomic rules.</p>
+                      )}
+                      <p className="text-[11.5px] text-muted">Official advisory: {report.official.title} — see the green box above.</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          );
+        }}
+      </Load>
+    </Section>
   );
 }

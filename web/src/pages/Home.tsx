@@ -8,11 +8,13 @@ import { CurrentWeather, ForecastPreview, InsightsPreview, Load, RiskSummary, Ru
 
 const MapExplorer = lazy(() => import("../map/MapExplorer"));
 const GovernmentIndiaLazy = lazy(() => import("../modes/Government"));
+const IndiaRisksLazy = lazy(() => import("../modes/IndiaRisks"));
 
 export default function Home({ mode }: { mode: Mode }) {
   if (mode === "government") {
     return (
       <div className="space-y-8">
+        <Suspense fallback={<div className="h-96 animate-pulse rounded-xl bg-surface" />}><IndiaRisksLazy /></Suspense>
         <Suspense fallback={<div className="h-96 animate-pulse rounded-xl bg-surface" />}><GovernmentIndiaLazy /></Suspense>
         <GovernmentStateTable title="State drill-down" />
       </div>

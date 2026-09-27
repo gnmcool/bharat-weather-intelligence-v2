@@ -39,6 +39,16 @@ interface State {
   setCrop: (c: { crop: string; stage: string } | null) => void;
   govState: string | null; // state slug
   setGovState: (s: string | null) => void;
+  /** Evidence drawer target (not persisted). */
+  evidence: EvidenceTarget | null;
+  openEvidence: (t: EvidenceTarget | null) => void;
+}
+
+export interface EvidenceTarget {
+  point: { lat: number; lon: number; name?: string | null; taluka?: string | null };
+  risk: string;
+  /** Optional line explaining where the request came from (e.g. a district count on the map). */
+  context?: string;
 }
 
 export const useApp = create<State>((set) => ({
@@ -57,4 +67,6 @@ export const useApp = create<State>((set) => ({
     save("bwi2.govState", govState);
     set({ govState });
   },
+  evidence: null,
+  openEvidence: (evidence) => set({ evidence }),
 }));

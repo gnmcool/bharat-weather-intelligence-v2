@@ -51,3 +51,15 @@ export function whatToKnow(risks: CoreRiskItem[], warnings: CoreOfficialWarning[
   const officialRisk = risks.filter((r) => r.official && r.level >= 1); // e.g. CORE cyclone item built from an IMD alert
   return { official, officialRisk, system };
 }
+
+/**
+ * Farmer: existing CORE crop indicators that use the same weather variable as a system event.
+ * A display link only — not an agronomic rule, and it does not change any indicator (docs/EVENTS_AND_EVIDENCE.md).
+ */
+export const FARMER_LINK: Record<string, { ids: string[]; why: string }> = {
+  heat: { ids: ["heat_stress"], why: "daily maximum temperature" },
+  cold: { ids: ["cold_stress"], why: "daily minimum temperature" },
+  rain: { ids: ["heavy_rain", "harvest_window"], why: "daily rainfall" },
+  flood: { ids: ["heavy_rain", "harvest_window"], why: "daily rainfall" },
+  drought: { ids: ["dry_spell"], why: "consecutive dry days" },
+};

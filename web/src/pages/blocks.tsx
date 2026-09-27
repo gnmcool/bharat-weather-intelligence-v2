@@ -1,10 +1,13 @@
 // Home building blocks, all rendered from one CORE /dashboard response (no extra calls).
 import { ArrowRight, CircleCheck } from "lucide-react";
+import { useState } from "react";
+import { EventCard } from "../components/EventCard";
+import { v2 } from "../v2-api/client";
+import type { V2Events } from "../v2-api/types";
 import { core } from "../core-api/client";
 import type { CoreDashboard } from "../core-api/types";
-import { Load, OfficialAlert, Section, Stat, SystemLabel, SystemRisk } from "../components/ui";
+import { Load, OfficialAlert, Section, Stat, SystemLabel } from "../components/ui";
 import { compass, istDateTime, istDay, istTime, num, signed, wmoText } from "../lib/format";
-import { whatToKnow } from "../lib/present";
 import { navigate } from "../lib/router";
 import { useApp } from "../lib/store";
 import { useCore } from "../lib/useCore";
@@ -49,30 +52,65 @@ export function CurrentWeather({ d }: { d: CoreDashboard }) {
   );
 }
 
-/** Existing CORE data only: official alerts first, then CORE risk items at Watch or above. No new detection. */
-export function WhatToKnow({ d, limit = 3 }: { d: CoreDashboard; limit?: number }) {
-  const { official, officialRisk, system } = whatToKnow(d.risks, d.warnings);
-  const nothing = !official.length && !officialRisk.length && !system.length;
+/**
+ * "What should you know?" from /api/v2/events (M2). Order: 1 official alerts, 2 severe, 3 alert-level,
+ * 4 watch-level system assessments, 5 significant departures from normal. Every line is a CORE record;
+ * no generated text. If nothing significant: "No significant weather event detected."
+ */
+export function WhatToKnow({ limit = 3 }: { d?: CoreDashboard; limit?: number }) {
+  const place = useApp((s) => s.place);
+  const ev = useCore<V2Events>(`events:${place.lat},${place.lon},${place.name}`, () => v2.events(place));
   return (
-    <div className="space-y-2.5" data-testid="what-to-know">
-      {nothing && (
-        <div className="flex items-start gap-2.5 rounded-lg border border-line bg-surface px-3 py-3 text-[14px]">
+    <div data-testid="what-to-know">
+      <Load s={ev} lines={3}>{(d) => <WhatToKnowBody d={d} limit={limit} />}</Load>
+      {ev.state === "error" && <p className="mt-2 text-[12px] text-muted">The V2 event service is unavailable. CORE's own risk list is still under Risks &amp; alerts.</p>}
+    </div>
+  );
+}
+
+function WhatToKnowBody({ d, limit }: { d: V2Events; limit: number }) {
+  const [more, setMore] = useState(false);
+  const byId = new Map(d.events.map((e) => [e.id, e]));
+  const official = d.official_alerts;
+  const officialEvents = d.what_to_know.items.filter((i) => i.kind === "official_event").map((i) => byId.get(i.ref)!).filter(Boolean);
+  const system = d.what_to_know.items.filter((i) => i.kind === "event").map((i) => byId.get(i.ref)!).filter(Boolean);
+  const anomalies = d.anomalies;
+  const n = more ? 99 : limit;
+  return (
+    <div className="space-y-3">
+      {d.what_to_know.message && (
+        <div className="flex items-start gap-2.5 rounded-lg border border-line bg-surface px-3 py-3 text-[14px]" data-testid="wtk-none">
           <CircleCheck size={18} className="mt-0.5 shrink-0 text-emerald-400" />
           <div>
-            <div>No official alerts for this location, and no risk at Watch level or above in CORE's 7-day assessment.</div>
-            <div className="mt-1 text-[12px] text-muted">From CORE's existing rules (IMD criteria and system indicators) and the official NDMA SACHET feed.</div>
+            <div className="font-medium">{d.what_to_know.message}</div>
+            <div className="mt-1 text-[12px] text-muted">No official alert for this location and no CORE risk at Watch level or above in the next 7 days.</div>
           </div>
         </div>
       )}
-      {official.slice(0, limit).map((w) => <OfficialAlert key={w.id} w={w} compact />)}
-      {official.length > limit && (
-        <button onClick={() => navigate({ screen: "risks" })} className="text-[12.5px] text-accent">+{official.length - limit} more official alerts</button>
+      {(official.length > 0 || officialEvents.length > 0) && (
+        <div className="space-y-2" data-testid="wtk-official">
+          <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-red-200">Official alert</div>
+          {official.slice(0, n).map((w) => <OfficialAlert key={w.id} w={w} compact />)}
+          {officialEvents.map((e) => <EventCard key={e.id} e={e} />)}
+          {official.length > n && <button onClick={() => navigate({ screen: "risks" })} className="text-[12.5px] text-accent">+{official.length - n} more official alerts</button>}
+        </div>
       )}
-      {officialRisk.map((r) => <SystemRisk key={r.id} r={r} />)}
       {system.length > 0 && (
-        <div className="space-y-2">
-          <div className="flex items-center gap-2 pt-1"><SystemLabel /><span className="text-[12px] text-muted">CORE risk rules, next 7 days</span></div>
-          {system.slice(0, limit).map((r) => <SystemRisk key={r.id} r={r} />)}
+        <div className="space-y-2" data-testid="wtk-system">
+          <div className="flex items-center gap-2"><SystemLabel /><span className="text-[12px] text-muted">CORE risk rules · next 7 days · not official warnings</span></div>
+          {system.slice(0, n).map((e) => <EventCard key={e.id} e={e} />)}
+          {system.length > n && <button onClick={() => setMore(true)} className="text-[12.5px] text-accent">Show {system.length - n} more system assessments</button>}
+        </div>
+      )}
+      {anomalies.length > 0 && (
+        <div className="space-y-1" data-testid="wtk-anomalies">
+          <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted">Departure from normal <span className="font-normal normal-case tracking-normal">· not a hazard on its own</span></div>
+          {anomalies.slice(0, more ? 99 : 2).map((a) => (
+            <p key={a.id} className="text-[13px]" data-testid="wtk-anomaly" data-id={a.id}>
+              <span className="text-muted">{a.label} ({a.period}):</span> forecast {num(a.value, 1)} {a.unit}, normal {num(a.normal, 1)} {a.unit} → <b className="font-medium">{signed(a.departure)} {a.unit}</b>{a.category ? ` · ${a.category}` : ""}
+            </p>
+          ))}
+          <p className="text-[11px] text-muted">Normal: NASA POWER 1991–2020 (MERRA-2 reanalysis), indicative — not IMD normals.</p>
         </div>
       )}
     </div>

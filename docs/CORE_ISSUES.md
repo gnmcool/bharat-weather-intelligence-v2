@@ -27,10 +27,11 @@ Status values: **Open** (recorded, not investigated) · **Investigating** · **C
 | Status | Open |
 | Affected endpoint / rule | `/api/v1/dashboard` `risks[id=heat]`; rule M-HEAT ("Watch (system): departure ≥ 3 °C") |
 | Evidence | Chennai, 27 Sep 2026: level 0 "No risk"; explanation "the week's highest is 36.3 °C, +4.8 °C vs normal"; confidence basis "0 of 3 models (ECMWF, GFS, ICON) show no event in 7 days" (i.e. all three models show an event); per-model Tmax 37.0–38.0 °C vs normal 31.5 °C |
+| Second observation | Chennai, CORE run of 18:36 UTC 27 Sep: level "No risk", explanation "+4.4 °C vs normal", basis now "2 of 3 models … show no event". The model-check contradiction has gone, but the departure (≥ 3 °C) still meets the written Watch criterion while the level is No risk |
 | Example location | Chennai (13.0827, 80.2707) |
 | Potential consequence | A heat Watch may be missing at coastal locations; the model-check field and the level disagree, so evidence looks contradictory |
 | Proposed investigation | Read the M-HEAT implementation for coastal Watch logic (is the Watch gated on the coastal Tmax ≥ 37 °C threshold as well?); check the basis wording for level 0; test Chennai and other coastal points against the written criterion. **No explanation is assumed until investigated** |
-| V2 handling | CORE level shown unchanged; no heat event created; "CORE output inconsistency" note on Home, Risks and the heat evidence (triggered only when a risk is at No risk while CORE's basis says 0 of n models show no event) |
+| V2 handling | CORE level shown unchanged; no heat event created; "CORE output inconsistency" note on Home, Risks and the heat evidence, triggered only when a risk is at No risk while CORE's basis says 0 of n models show no event. V2 does **not** test the departure against the Watch criterion itself — that would re-implement CORE's rule — so the second form of this issue is visible in the evidence (departure and rule side by side) but not flagged |
 
 ## CORE-3 — Earth2Studio GFS grid values vs point forecasts in mountain terrain
 

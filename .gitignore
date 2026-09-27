@@ -3,3 +3,6 @@ dist/
 *.tsbuildinfo
 __pycache__/
 out/
+.env.local
+.env.*.local
+.pytest_cache/

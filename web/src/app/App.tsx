@@ -1,86 +1,79 @@
 import { useEffect, useState } from "react";
-import { MODES, SCREENS, type Mode, type Screen } from "./modes";
-import CoreStatus from "../pages/CoreStatus";
+import { config } from "../config";
+import { core, CoreApiError } from "../core-api/client";
+import type { CoreGridMeta, CoreHealth, CoreOfficialWarning } from "../core-api/types";
 
-// V2 shell (milestone M0). Navigation, mode and routing only; screens arrive in M1+.
-// Routing is hash-based (#/map?mode=farmer) so it works on GitHub Pages without server rewrites.
+// M0 deployment check page — NOT the V2 application UI (that starts in M1).
+// It proves three things on the deployed site: the build works, the page is served from the
+// V2 repository, and CORE's API is reachable read-only from V2's origin.
 
-function readHash(): { screen: Screen; mode: Mode } {
-  const [path, query] = location.hash.replace(/^#\/?/, "").split("?");
-  const screen = (SCREENS.find((s) => s.id === path)?.id ?? "home") as Screen;
-  const m = new URLSearchParams(query ?? "").get("mode");
-  const mode = (MODES.find((x) => x.id === m)?.id ?? "citizen") as Mode;
-  return { screen, mode };
+type Status<T> = { state: "loading" } | { state: "ok"; data: T } | { state: "error"; message: string };
+
+function useCore<T>(fn: () => Promise<T>): Status<T> {
+  const [s, setS] = useState<Status<T>>({ state: "loading" });
+  useEffect(() => {
+    fn().then((data) => setS({ state: "ok", data })).catch((e: unknown) =>
+      setS({ state: "error", message: e instanceof CoreApiError ? e.message : "unexpected error" }));
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  return s;
+}
+
+const ist = (iso: string | null | undefined) =>
+  iso ? new Date(iso).toLocaleString("en-IN", { timeZone: "Asia/Kolkata", day: "numeric", month: "short", hour: "numeric", minute: "2-digit" }) + " IST" : "—";
+
+function Row<T>({ label, s, show }: { label: string; s: Status<T>; show: (d: T) => string }) {
+  const dot = s.state === "ok" ? "bg-emerald-400" : s.state === "error" ? "bg-official" : "bg-muted";
+  return (
+    <div className="flex items-start justify-between gap-4 py-2.5">
+      <dt className="flex items-center gap-2 text-[13px]"><span className={`inline-block h-2 w-2 rounded-full ${dot}`} />{label}</dt>
+      <dd className="text-right text-[13px]">{s.state === "ok" ? show(s.data) : s.state === "error" ? <span className="text-official">{s.message}</span> : "checking…"}</dd>
+    </div>
+  );
 }
 
 export default function App() {
-  const [{ screen, mode }, setRoute] = useState(readHash);
-  useEffect(() => {
-    const h = () => setRoute(readHash());
-    window.addEventListener("hashchange", h);
-    return () => window.removeEventListener("hashchange", h);
-  }, []);
-  const go = (s: Screen, m: Mode = mode) => {
-    location.hash = `/${s}?mode=${m}`;
-  };
-  const current = SCREENS.find((s) => s.id === screen)!;
+  const health = useCore<CoreHealth>(core.health);
+  const grid = useCore<CoreGridMeta>(core.gridMeta);
+  const alerts = useCore<CoreOfficialWarning[]>(core.warnings);
+  const repo = "https://github.com/gnmcool/bharat-weather-intelligence-v2";
 
   return (
-    <div className="mx-auto flex min-h-full max-w-6xl flex-col px-4 pb-10 sm:px-6">
-      <div className="mt-3 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-[12.5px] text-amber-200">
-        V2 preview (milestone M0) — work in progress, not for decisions. The live product remains{" "}
-        <a className="underline" href="https://gnmcool.github.io/bharat-weather-intelligence/">Bharat Weather Intelligence</a>.
+    <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6">
+      <div className="rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-[12.5px] text-amber-200">
+        V2 foundation (milestone M0) — deployment check only, not a weather product. For weather information use{" "}
+        <a className="underline" href={config.coreSite}>Bharat Weather Intelligence</a>.
       </div>
 
-      <header className="flex flex-wrap items-center gap-x-6 gap-y-3 py-5">
-        <div className="flex items-center gap-3">
-          <img src={`${import.meta.env.BASE_URL}favicon.svg`} alt="" className="h-9 w-9" />
-          <div className="leading-tight">
-            <div className="text-[17px] font-semibold tracking-tight">Bharat Weather Intelligence</div>
-            <div className="text-[12px] text-muted">Weather. Impact. Decisions for a Safer, Stronger India.</div>
-            <div className="text-[11px] text-muted">Made by <span className="font-medium text-text">Gaurav Makwana</span></div>
-          </div>
-        </div>
-        <div role="radiogroup" aria-label="Mode" className="ml-auto flex rounded-lg border border-line bg-surface p-1">
-          {MODES.map((m) => (
-            <button key={m.id} role="radio" aria-checked={mode === m.id} onClick={() => go(screen, m.id)}
-              className={`rounded-md px-3 py-1.5 text-[13px] font-medium transition-colors ${mode === m.id ? "bg-accent text-white" : "text-muted hover:text-text"}`}>
-              {m.label}
-            </button>
-          ))}
+      <header className="mt-6 flex items-center gap-3">
+        <img src={`${import.meta.env.BASE_URL}favicon.svg`} alt="" className="h-10 w-10" />
+        <div className="leading-tight">
+          <h1 className="text-[20px] font-semibold tracking-tight">Bharat Weather Intelligence — V2</h1>
+          <div className="text-[13px] text-muted">Weather. Impact. Decisions for a Safer, Stronger India.</div>
+          <div className="text-[12px] text-muted">Made by <span className="font-medium text-text">Gaurav Makwana</span></div>
         </div>
       </header>
 
-      <nav aria-label="Primary" className="-mx-1 flex gap-1 overflow-x-auto border-b border-line pb-px">
-        {SCREENS.map((s) => (
-          <button key={s.id} onClick={() => go(s.id)} aria-current={screen === s.id ? "page" : undefined}
-            className={`shrink-0 border-b-2 px-3 py-2 text-[13.5px] font-medium ${screen === s.id ? "border-accent text-text" : "border-transparent text-muted hover:text-text"}`}>
-            {s.label}
-          </button>
-        ))}
-      </nav>
+      <section className="mt-6 rounded-xl border border-line bg-surface p-5">
+        <h2 className="text-[13px] font-semibold uppercase tracking-wide text-muted">CORE API (read-only)</h2>
+        <p className="mt-1 text-[13px] text-muted">
+          Live responses from <code className="text-text">{config.coreApiBase}</code>. V2 reads CORE only through this API.
+        </p>
+        <dl className="mt-3 divide-y divide-line">
+          <Row label="API health" s={health} show={(d) => d.status} />
+          <Row label="Forecast grid" s={grid} show={(d) => `${d.source} · ${d.model} · run ${ist(d.issue_time)}`} />
+          <Row label="Official alerts feed" s={alerts} show={(d) => `${d.length} active (NDMA SACHET)`} />
+        </dl>
+      </section>
 
-      <main className="mt-6 grid gap-5 lg:grid-cols-[1fr_380px]">
-        <section className="rounded-xl border border-line bg-surface p-5">
-          <div className="text-[12px] uppercase tracking-wide text-muted">{MODES.find((m) => m.id === mode)!.label} · {current.label}</div>
-          <h1 className="mt-1 text-[20px] font-semibold">{current.what}</h1>
-          <p className="mt-3 max-w-prose text-[14px] leading-relaxed text-muted">
-            This screen is planned for milestone {current.milestone}. It will be built on CORE's existing APIs; nothing
-            shown in V2 will use mock data.
-          </p>
-          <div className="mt-5 grid gap-3 sm:grid-cols-2">
-            <div className="rounded-lg border border-official/40 bg-official/10 p-3">
-              <div className="text-[11px] font-semibold uppercase tracking-wide text-official">Official warning</div>
-              <p className="mt-1 text-[13px] text-text">IMD, CWC, NDMA/SACHET, SDMA — shown verbatim, always in this style.</p>
-            </div>
-            <div className="rounded-lg border border-system/40 bg-system/10 p-3">
-              <div className="text-[11px] font-semibold uppercase tracking-wide text-system">System assessment</div>
-              <p className="mt-1 text-[13px] text-text">Bharat Weather Intelligence analysis — never presented as a warning.</p>
-            </div>
-          </div>
-        </section>
-        <CoreStatus />
-      </main>
+      <section className="mt-4 rounded-xl border border-line bg-surface p-5 text-[13px]">
+        <h2 className="text-[13px] font-semibold uppercase tracking-wide text-muted">Build</h2>
+        <dl className="mt-2 grid grid-cols-[auto_1fr] gap-x-6 gap-y-1.5">
+          <dt className="text-muted">Environment</dt><dd>{config.appEnv}</dd>
+          <dt className="text-muted">CORE baseline</dt><dd>{config.coreBaseline}</dd>
+          <dt className="text-muted">Source</dt><dd><a className="text-accent underline" href={repo}>{repo.replace("https://", "")}</a></dd>
+          <dt className="text-muted">Docs</dt><dd><a className="text-accent underline" href={`${repo}/tree/main/docs`}>architecture, boundary and data policies</a></dd>
+        </dl>
+      </section>
     </div>
   );
 }

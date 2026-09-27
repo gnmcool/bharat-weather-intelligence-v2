@@ -1,11 +1,11 @@
 # V2 website -> GitHub Pages (https://gnmcool.github.io/bharat-weather-intelligence-v2/).
-# Consumes CORE read-only: code via the `core` submodule (pinned commit), data via CORE's API.
+# Consumes CORE read-only over its public API (repository variable CORE_API_BASE).
 name: V2 website (GitHub Pages)
 
 on:
   push:
     branches: [main]
-    paths: ["web/**", "core", ".github/workflows/pages.yml"]
+    paths: ["web/**", ".github/workflows/pages.yml"]
   workflow_dispatch:
 
 permissions:
@@ -22,8 +22,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: true
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -32,7 +30,8 @@ jobs:
       - name: Build
         working-directory: web
         env:
-          VITE_API_BASE: ${{ vars.CORE_API_BASE || 'https://bharat-weather-intelligence-brown.vercel.app/api/v1' }}
+          VITE_CORE_API_BASE: ${{ vars.CORE_API_BASE || 'https://bharat-weather-intelligence-brown.vercel.app/api/v1' }}
+          VITE_APP_ENV: preview
         run: |
           npm ci
           npx tsc -b

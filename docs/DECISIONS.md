@@ -1,13 +1,20 @@
 # V2 decisions log
 
+Newest first. Each decision was approved by the owner unless marked *proposed*.
+
 | Date | Decision | Why |
 |---|---|---|
-| 2026-09-27 | V2 is a **separate repository**; CORE is untouched and independently deployable | Owner's instruction; zero risk to the live CORE site and API |
-| 2026-09-27 | V2 consumes CORE **read-only**: code via a pinned git submodule (`core/`), data via CORE's `/api/v1` | Reuse without forking; CORE updates are adopted deliberately |
-| 2026-09-27 | V2 backend additions go in a separate service in this repo (`api-v2/`, from M2); no change to `/api/v1` contracts | Owner's instruction; isolates risk |
-| 2026-09-27 | V2 website on this repo's GitHub Pages (`gnmcool.github.io/bharat-weather-intelligence-v2`) | Own URL, free, and CORE's API already allows this origin, so CORE needs no change. Replaces the earlier "own Vercel site" idea, which assumed a branch in the CORE repo |
-| 2026-09-27 | **District** is the finest unit for area statistics; taluka and village get point forecasts only | A 0.25° cell (~700 km²) is larger than an average taluka (~550 km²) |
-| 2026-09-27 | Map shows **"Thunderstorm potential (model)"**, not "Lightning"; plus official lightning alerts | No open observed-lightning feed for India |
-| 2026-09-27 | "Confidence" is shown as **model agreement** (independent models only: ECMWF, GFS, ICON) | Earth2Studio GFS and FourCastNet share GFS, so they are not independent; no calibration yet |
-| 2026-09-27 | Five destinations: Home, Map, Risks & alerts, Forecast, Insights; mode (Citizen / Farmer / Government) is the primary switch | Avoid 7 tabs × 3 modes clutter |
-| 2026-09-27 | Forecast archive starts in M0 | Verification is impossible without saved past forecasts |
+| 2026-09-27 | **CORE's API is the boundary.** V2 imports no CORE source code. The earlier M0 draft pinned CORE as a git submodule and imported two CORE frontend files; both were removed | Owner's M0 brief: no structural dependency on internal CORE files without a clear technical reason |
+| 2026-09-27 | V2 declares its own types for the CORE fields it uses (`web/src/core-api/`), backed by `contract/core-api-contract.json` and a daily live check | A duplicated type is safe only if drift is detected. The contract check detects it |
+| 2026-09-27 | Controlled reuse of CORE frontend code (e.g. the map engine in M1) only with a written reason and approval, as a copy with a header naming the CORE file and commit | Keeps V2 independent while avoiding needless rewrites |
+| 2026-09-27 | V2 is a **separate repository**; CORE is untouched and independently deployable | Owner's instruction |
+| 2026-09-27 | V2 website on this repository's GitHub Pages | Own URL, free, and CORE's CORS already allows `gnmcool.github.io`, so no CORE change is needed |
+| 2026-09-27 | V2 backend additions go in a separate service (`api-v2/`, from M2); no change to `/api/v1` contracts | Owner's instruction |
+| 2026-09-27 | `main` + short-lived milestone branches with PRs and required CI; no long-running `develop` branch | One developer; `main` deploys only the preview site |
+| 2026-09-27 | **District** is the finest unit for area statistics; taluka and village get labelled point forecasts only | 0.25° cell (~700 km²) is larger than an average taluka (~550 km²); 144 of 724 districts already have < 3 cells |
+| 2026-09-27 | "Thunderstorm potential — model derived" plus official lightning alerts. Never "lightning" as observed | No open observed-lightning feed for India |
+| 2026-09-27 | **Model Agreement** from ECMWF, GFS and ICON only; API field `confidence` kept for CORE compatibility | Earth2Studio GFS and FourCastNet share GFS; no calibration yet |
+| 2026-09-27 | Rain vs normal to use **IMD 1991–2020 gridded normals** when implemented; NASA POWER for temperature, and not presented as India rainfall climatology | MERRA-2 rainfall is weak over India |
+| 2026-09-27 | "Satellite imagery available" until Earthdata point values are implemented | Images are not quantitative evidence |
+| 2026-09-27 | Verification: archive from M0; references IMERG and ERA5, always named; no confidence claims before enough history | Verification needs saved forecasts and a named reference |
+| 2026-09-27 | Five destinations (Home, Map, Risks & alerts, Forecast, Insights); mode is the primary context; satellite lives in Map and evidence | Avoid 7 tabs × 3 modes clutter |

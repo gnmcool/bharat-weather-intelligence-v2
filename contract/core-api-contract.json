@@ -1,0 +1,22 @@
+{
+  "description": "Every CORE /api/v1 endpoint and field V2 depends on. Checked against CORE's live OpenAPI document and live responses by contract/check-core-contract.mjs. Extend this file together with web/src/core-api/types.ts.",
+  "core_baseline": "core-v1.0 (2840f8d)",
+  "endpoints": [
+    {
+      "path": "/api/v1/health",
+      "sample": "/api/v1/health",
+      "fields": { "status": "string", "time": "string", "earth2studio_store": "string|null" }
+    },
+    {
+      "path": "/api/v1/grid/meta",
+      "sample": "/api/v1/grid/meta?source=gfs",
+      "fields": { "source": "string", "model": "string", "issue_time": "string|null", "times": "array", "resolution_note": "string" }
+    },
+    {
+      "path": "/api/v1/warnings",
+      "sample": "/api/v1/warnings?national=true",
+      "list": true,
+      "fields": { "id": "string", "headline": "string", "issuer": "string", "severity": "string|null", "effective": "string|null", "expires": "string|null", "area": "string|null", "source": "string" }
+    }
+  ]
+}

@@ -61,7 +61,8 @@ def e2s_daily(src: pathlib.Path, out_dir: pathlib.Path, retrieved: str) -> pathl
     if "fg10m" in ds:
         out["gust_max_kmh"] = (g.max("time")["fg10m"] * 3.6).astype("float32")
     issue_day = np.datetime64((datetime.fromisoformat(issue.replace("Z", "+00:00")) + IST).date())
-    out = out.assign_coords(lead_day=("ist_day", (out.ist_day.values - issue_day).astype(int)))
+    lead = (out.ist_day.values.astype("datetime64[D]") - issue_day) / np.timedelta64(1, "D")
+    out = out.assign_coords(lead_day=("ist_day", lead.astype("int16")))
     out.attrs = {
         "title": "BWI V2 forecast archive — Earth2Studio GFS daily values (IST days)",
         "source": ds.attrs.get("source", "NOAA GFS via Earth2Studio"),

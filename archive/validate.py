@@ -104,7 +104,8 @@ def validate(stage: pathlib.Path) -> dict:
                 for lead in s["expected_leads"]:
                     if (p["id"], m, lead, v) not in have:
                         gaps["missing"].append({"point_id": p["id"], "model": m, "variable": v, "lead_day": lead})
-        beyond = sorted(set(range(0, 10)) - set(s["expected_leads"]))
+        stored = set(int(x) for x in df.loc[df["model"] == m, "lead_day"].unique())
+        beyond = sorted(stored - set(s["expected_leads"]))
         if beyond:
             gaps["not_provided_by_source"].append({"model": m, "leads": beyond,
                                                    "reason": "outside the run's full-day coverage (partial or beyond its last valid time)"})

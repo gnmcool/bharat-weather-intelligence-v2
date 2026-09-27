@@ -53,7 +53,7 @@ jobs:
           if git ls-remote --exit-code --heads origin archive-index >/dev/null; then
             git fetch -q origin archive-index && git worktree add -q "$IDX" origin/archive-index && git -C "$IDX" checkout -q -B archive-index
           else
-            git worktree add -q --detach "$IDX" && git -C "$IDX" checkout -q --orphan archive-index && git -C "$IDX" rm -rq . && \
+            git worktree add -q --detach "$IDX" && git -C "$IDX" switch -q --orphan archive-index && \
             printf '# Archive index\n\nAppend-only record of the immutable daily forecast archive. See docs/ARCHIVE.md on main.\n' > "$IDX/README.md"
           fi
           echo "IDX=$IDX" >> "$GITHUB_ENV"

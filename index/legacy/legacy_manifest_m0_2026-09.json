@@ -1,0 +1,25 @@
+{
+ "schema_version": 0,
+ "kind": "legacy_m0",
+ "source_release": "archive-2026-09",
+ "preserved_utc": "2026-09-27T20:07:52+00:00",
+ "provenance_complete": false,
+ "run_time_known": false,
+ "files": [
+  {
+   "name": "e2s_gfs_daily_2026092706.nc",
+   "bytes": 2191011,
+   "sha256": "3d10a5dcbd6833a65abcfe9291523abe5006109655796f4e31daab783a09ae58"
+  },
+  {
+   "name": "points_2026-09-27.json",
+   "bytes": 64350,
+   "sha256": "55fe40fbd7c077f51766bee61f9b00cdf26f69961ba09b41c60866706d359e34"
+  }
+ ],
+ "provenance_notes": [
+  "points_2026-09-27.json: Open-Meteo per-model daily forecasts; the model run (initialisation) times were NOT recorded -> run_time_known = false. Not usable for lead-time verification.",
+  "e2s_gfs_daily_2026092706.nc: re-uploaded with --clobber at 2026-09-27T16:15Z after the lead_day unit fix (seconds -> days); the first upload (16:03Z) was not retained. Earth2Studio issue time 2026-09-27T06:00Z is recorded in the file.",
+  "The M0 release was appendable and mutable; these files are preserved here immutably as they stood on the preservation date."
+ ]
+}

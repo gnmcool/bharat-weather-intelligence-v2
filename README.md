@@ -81,7 +81,7 @@ The two are never merged into one statement.
 | M1 | Navigation (Home, Map, Risks & alerts, Forecast, Insights × Citizen/Farmer/Government) on existing CORE data only; CORE-vs-V2 comparison tool | Approved |
 | M2 | Events, evidence drawer, what-should-you-know by priority, India district risk counts, map risk layer, farmer event chain; `api-v2/` (IMD normals deferred) | Approved |
 | M3 | Decision support with guardrails: Citizen summary + WHEN timeline, Farmer 7-step workflow, Government India → state → district → event → evidence, impact context, data-quality notices, CORE issues log | **Built — awaiting approval** |
-| M4 | Satellite point values, thunderstorm potential, verification report, performance | Planned |
+| M4 | Scientific validation. Done: Phase 0 plan, Step 1 feasibility, **immutable daily forecast archive (awaiting review)**. Next stages not started | In progress |
 
 See [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) and [docs/DECISIONS.md](docs/DECISIONS.md).
 

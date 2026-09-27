@@ -59,11 +59,23 @@ for it. **Missing stays missing**: nothing is filled, interpolated or taken from
 
 ## Legacy M0 data
 
-The M0 release `archive-2026-09` (mutable, appendable) is kept unchanged except for a LEGACY
-note. An immutable copy is published as `archive-legacy-m0-2026-09` with
+The M0 release `archive-2026-09` (appendable and mutable during M0) keeps its two files unchanged.
+Editing its notes after release immutability was enabled made GitHub mark it immutable as well
+(27 Sep 2026); its title and notes say so. An immutable copy is published as `archive-legacy-m0-2026-09` with
 `legacy_manifest_m0_2026-09.json`: **provenance incomplete** — Open-Meteo run times were not recorded
 (`run_time_known = false`) and the Earth2Studio file was overwritten once during M0. Not usable for
 lead-time verification.
+
+## Measured (first release, 28 Sep 2026)
+
+| Item | Value |
+| --- | --- |
+| Files per day | forecasts 17.5 KB · core_risks 9.3 KB · core_daily 5.3 KB · Earth2Studio grid 2.18 MB · manifest 3.8 KB · gap report 1.2 KB |
+| Per day | ≈ 2.22 MB (points only ≈ 37 KB; the grid is 98 %) |
+| Per month / year | ≈ 67 MB / ≈ 810 MB (points only ≈ 1.1 MB / ≈ 13.5 MB) |
+| Rows per day | 5,616 forecast rows (5,184 required, 432 ICON days 8–10 stored empty and partial), 396 CORE risk rows, 1,440 CORE daily rows |
+| GitHub Actions | ≈ 3 min per day (collect ≈ 2 min 15 s, validate 1 s, publish + verify 8 s, index 2 s) |
+| Requests per day | ≈ 48 HTTP requests (3 multi-location Open-Meteo data requests ≈ 108 counted calls, metadata before/after, 36 CORE dashboards, 1 store download) |
 
 ## Acceptance tests
 

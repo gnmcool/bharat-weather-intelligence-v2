@@ -4,6 +4,9 @@ Newest first. Each decision was approved by the owner unless marked *proposed*.
 
 | Date | Decision | Why |
 |---|---|---|
+| 2026-09-28 | Forecast archive = one **immutable** GitHub release per IST day (`archive-daily-YYYY-MM-DD`), draft → verified → published; manifest + checks committed to the append-only `archive-index` branch; refusal on any incomplete data | M4 B2; Step 1 found monthly appends incompatible with immutability |
+| 2026-09-28 | Archive models `ecmwf_ifs025`, `gfs_global`, `icon_global` with exact run times from Open-Meteo run metadata (checked before and after; GFS on both grids). `gfs025` rejected: no temperature or rain | Step 1 probe |
+| 2026-09-28 | Only the 36 fixed points; no backfill, no 109-station expansion until the prospective archive is proven | Owner's instruction (B3 not approved) |
 | 2026-09-27 | Government counts are worded "districts with system-assessed … risk" with the statement "District risk counts are based on the representative forecast point for each district. Conditions may vary within a district." Never "affected districts" | Owner's M3 brief: no district-wide impact dataset |
 | 2026-09-27 | Data-quality notices are one reusable component; each is triggered by a CORE field (terrain, model-check text, grid source) or by coverage — never a new threshold (`DATA_QUALITY.md`) | Honest about limits without changing CORE |
 | 2026-09-27 | CORE problems are logged in `CORE_ISSUES.md` (CORE-1 … CORE-6) and not fixed from V2 | CORE frozen; fixes need explicit approval |

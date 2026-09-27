@@ -25,7 +25,7 @@ layers only.
 | Repository | [gnmcool/bharat-weather-intelligence](https://github.com/gnmcool/bharat-weather-intelligence) | gnmcool/bharat-weather-intelligence-v2 |
 | Website | https://gnmcool.github.io/bharat-weather-intelligence/ | https://gnmcool.github.io/bharat-weather-intelligence-v2/ |
 | API | `https://bharat-weather-intelligence-brown.vercel.app/api/v1` | consumes CORE's API **read-only** |
-| Status | Production/reference, unchanged since tag `core-v1.0` | In development (milestone M0 done) |
+| Status | Production/reference, unchanged since tag `core-v1.0` | In development (M1 built, awaiting approval) |
 
 CORE stays independently buildable, deployable and runnable. V2 never modifies it. **CORE's API
 is the boundary.** V2 imports no CORE source code, and every CORE endpoint and field it relies on
@@ -35,9 +35,13 @@ is listed in `contract/core-api-contract.json` and checked daily against the liv
 ## Architecture (short)
 
 ```
-web/        V2 website (React + TypeScript + Vite + Tailwind) → GitHub Pages
+web/        V2 website (React + TypeScript + Vite + Tailwind + MapLibre + Recharts) → GitHub Pages
   src/config.ts     runtime configuration
-  src/core-api/     typed read-only client for CORE's /api/v1
+  src/core-api/     typed read-only client for CORE's /api/v1 (the only way V2 reaches CORE)
+  src/pages/        Home, Forecast, Risks & alerts, Insights
+  src/modes/        Farmer workflow, Government India view and state drill-down
+  src/map/          V2's own map (MapLibre) drawing CORE's gridded fields
+tools/compare/  CORE-vs-V2 data comparison (M1 acceptance test)
 contract/   CORE API contract + live checker
 archive/    daily forecast archive for verification → this repo's releases
 docs/       architecture and policies
@@ -73,7 +77,7 @@ The two are never merged into one statement.
 | | Scope | Status |
 |---|---|---|
 | M0 | Foundation: repo, docs, CI, Pages, CORE contract, forecast archive | **Done** |
-| M1 | Navigation (Home, Map, Risks & alerts, Forecast, Insights × Citizen/Farmer/Government); Home, Forecast, Map on CORE data | Awaiting approval |
+| M1 | Navigation (Home, Map, Risks & alerts, Forecast, Insights × Citizen/Farmer/Government) on existing CORE data only; CORE-vs-V2 comparison tool | **Built — awaiting approval** |
 | M2 | What-should-you-know, evidence ("Why this forecast?"), weather vs normal (IMD normals), events; `api-v2/` | Planned |
 | M3 | Farmer workflow; Government India summary and district drill-down | Planned |
 | M4 | Satellite point values, thunderstorm potential, verification report, performance | Planned |
@@ -94,6 +98,7 @@ Other commands:
 ```bash
 npm run build              # typecheck + production build (web/dist)
 npm run contract           # check CORE still provides what V2 needs (read-only GETs)
+node ../tools/compare/compare.mjs   # CORE vs V2 data comparison in a real browser (needs Playwright)
 BWI_CORE_ORIGIN=http://127.0.0.1:8000 npm run dev   # use a CORE API running on your own PC
 
 cd ../archive

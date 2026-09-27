@@ -29,7 +29,7 @@ No secrets are needed in M0. An Earthdata token (for IMERG, in M4) will be a rep
 | | Scope | Exit check |
 |---|---|---|
 | **M0** ✅ | Repo, docs, CI, Pages, CORE API client + contract check, forecast archive | V2 site live; CORE unchanged; archive files present |
-| M1 | V2 shell on real data: navigation (5 destinations × 3 modes), Home "now", Forecast, Map. Existing CORE APIs only; "Model agreement" label | V2 shows the same numbers as CORE for the same place and time |
+| M1 (built) | V2 experience on existing CORE data: 5 destinations × 3 modes, location, current, forecast, map, risks, alerts, insights, Farmer and Government workflows | `tools/compare/compare.mjs`: V2 and CORE show the same data for 4 locations + Farmer + Government |
 | M2 | Intelligence: what-should-you-know cards, evidence drawer, weather vs normal (IMD rain normals), events. `api-v2/` created | Every card opens evidence with provenance; official and system never merged |
 | M3 | Farmer workflow, Government summary (district counts), drill-down, exports | District counts reconcile with maps; exports open |
 | M4 | Satellite point values, thunderstorm potential (CAPE), first verification report, performance, phone layout | Verification report with named reference, ≥ 30 days of archive |

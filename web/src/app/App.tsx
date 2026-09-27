@@ -1,79 +1,95 @@
-import { useEffect, useState } from "react";
+import { CalendarDays, Home as HomeIcon, Lightbulb, Map as MapIcon, ShieldAlert } from "lucide-react";
+import { lazy, Suspense, useEffect } from "react";
+import LocationPicker from "../components/LocationPicker";
 import { config } from "../config";
-import { core, CoreApiError } from "../core-api/client";
-import type { CoreGridMeta, CoreHealth, CoreOfficialWarning } from "../core-api/types";
+import { MODES, navigate, SCREENS, useRoute } from "../lib/router";
+import { useApp, type Screen } from "../lib/store";
+import Home from "../pages/Home";
+import RisksPage from "../pages/Risks";
 
-// M0 deployment check page — NOT the V2 application UI (that starts in M1).
-// It proves three things on the deployed site: the build works, the page is served from the
-// V2 repository, and CORE's API is reachable read-only from V2's origin.
+// Heavier screens load on demand (map engine, charts)
+const MapExplorer = lazy(() => import("../map/MapExplorer"));
+const ForecastPage = lazy(() => import("../pages/Forecast"));
+const InsightsPage = lazy(() => import("../pages/Insights"));
+const Loading = () => <div className="h-40 animate-pulse rounded-xl bg-surface" aria-busy="true" />;
 
-type Status<T> = { state: "loading" } | { state: "ok"; data: T } | { state: "error"; message: string };
+const ICON: Record<Screen, typeof HomeIcon> = { home: HomeIcon, map: MapIcon, risks: ShieldAlert, forecast: CalendarDays, insights: Lightbulb };
 
-function useCore<T>(fn: () => Promise<T>): Status<T> {
-  const [s, setS] = useState<Status<T>>({ state: "loading" });
-  useEffect(() => {
-    fn().then((data) => setS({ state: "ok", data })).catch((e: unknown) =>
-      setS({ state: "error", message: e instanceof CoreApiError ? e.message : "unexpected error" }));
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-  return s;
-}
-
-const ist = (iso: string | null | undefined) =>
-  iso ? new Date(iso).toLocaleString("en-IN", { timeZone: "Asia/Kolkata", day: "numeric", month: "short", hour: "numeric", minute: "2-digit" }) + " IST" : "—";
-
-function Row<T>({ label, s, show }: { label: string; s: Status<T>; show: (d: T) => string }) {
-  const dot = s.state === "ok" ? "bg-emerald-400" : s.state === "error" ? "bg-official" : "bg-muted";
+function ModeSwitch({ mode, className }: { mode: string; className: string }) {
   return (
-    <div className="flex items-start justify-between gap-4 py-2.5">
-      <dt className="flex items-center gap-2 text-[13px]"><span className={`inline-block h-2 w-2 rounded-full ${dot}`} />{label}</dt>
-      <dd className="text-right text-[13px]">{s.state === "ok" ? show(s.data) : s.state === "error" ? <span className="text-official">{s.message}</span> : "checking…"}</dd>
+    <div role="radiogroup" aria-label="Mode" className={`rounded-lg border border-line bg-surface p-0.5 ${className}`}>
+      {MODES.map((m) => (
+        <button key={m.id} role="radio" aria-checked={mode === m.id} onClick={() => navigate({ mode: m.id })}
+          className={`flex-1 rounded-md px-3 py-1.5 text-[13px] font-medium sm:flex-none ${mode === m.id ? "bg-accent text-white" : "text-muted hover:text-text"}`}>{m.label}</button>
+      ))}
     </div>
   );
 }
 
 export default function App() {
-  const health = useCore<CoreHealth>(core.health);
-  const grid = useCore<CoreGridMeta>(core.gridMeta);
-  const alerts = useCore<CoreOfficialWarning[]>(core.warnings);
-  const repo = "https://github.com/gnmcool/bharat-weather-intelligence-v2";
+  const route = useRoute();
+  const { setPlace } = useApp();
+  const { screen, mode } = route;
+
+  // A shared/tested link may carry an exact location: #/home?mode=citizen&lat=..&lon=..&name=..
+  useEffect(() => {
+    if (route.lat !== undefined && route.lon !== undefined) {
+      setPlace({ name: route.name ?? `${route.lat.toFixed(3)}, ${route.lon.toFixed(3)}`, lat: route.lat, lon: route.lon, via: route.name ? "link" : "map" });
+      navigate({ screen, mode }); // drop the coordinates from the address bar
+    }
+  }, [route.lat, route.lon]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6">
-      <div className="rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-[12.5px] text-amber-200">
-        V2 foundation (milestone M0) — deployment check only, not a weather product. For weather information use{" "}
-        <a className="underline" href={config.coreSite}>Bharat Weather Intelligence</a>.
-      </div>
-
-      <header className="mt-6 flex items-center gap-3">
-        <img src={`${import.meta.env.BASE_URL}favicon.svg`} alt="" className="h-10 w-10" />
-        <div className="leading-tight">
-          <h1 className="text-[20px] font-semibold tracking-tight">Bharat Weather Intelligence — V2</h1>
-          <div className="text-[13px] text-muted">Weather. Impact. Decisions for a Safer, Stronger India.</div>
-          <div className="text-[12px] text-muted">Made by <span className="font-medium text-text">Gaurav Makwana</span></div>
+    <div className="min-h-full pb-20 lg:pb-8">
+      <header className="sticky top-0 z-40 border-b border-line bg-bg/95 backdrop-blur">
+        <div className="mx-auto flex max-w-[1400px] items-center gap-3 px-4 py-2.5 sm:gap-5 sm:px-6">
+          <a href="#/home" className="flex min-w-0 shrink items-center gap-2.5" onClick={(e) => { e.preventDefault(); navigate({ screen: "home" }); }}>
+            <img src={`${import.meta.env.BASE_URL}favicon.svg`} alt="" className="h-8 w-8 shrink-0" />
+            <span className="min-w-0 leading-tight">
+              <span className="block truncate text-[15px] font-semibold tracking-tight">Bharat Weather Intelligence</span>
+              <span className="block truncate text-[11px] text-muted">Made by Gaurav Makwana · V2 preview</span>
+            </span>
+          </a>
+          <ModeSwitch mode={mode} className="hidden sm:flex" />
+          <div className="ml-auto min-w-0 max-w-[45%] sm:max-w-none"><LocationPicker compact /></div>
         </div>
+        <div className="px-4 pb-2 sm:hidden"><ModeSwitch mode={mode} className="flex w-full" /></div>
+        <nav aria-label="Primary" className="mx-auto hidden max-w-[1400px] gap-1 px-4 sm:px-6 lg:flex">
+          {SCREENS.map((s) => (
+            <button key={s.id} onClick={() => navigate({ screen: s.id })} aria-current={screen === s.id ? "page" : undefined}
+              className={`border-b-2 px-3 py-2 text-[13.5px] font-medium ${screen === s.id ? "border-accent text-text" : "border-transparent text-muted hover:text-text"}`}>{s.label}</button>
+          ))}
+        </nav>
       </header>
 
-      <section className="mt-6 rounded-xl border border-line bg-surface p-5">
-        <h2 className="text-[13px] font-semibold uppercase tracking-wide text-muted">CORE API (read-only)</h2>
-        <p className="mt-1 text-[13px] text-muted">
-          Live responses from <code className="text-text">{config.coreApiBase}</code>. V2 reads CORE only through this API.
+      <div className="mx-auto max-w-[1400px] px-4 pt-3 sm:px-6">
+        <p className="text-[11.5px] text-amber-200/80">
+          Preview of V2, built on the same data as <a className="underline" href={config.coreSite}>Bharat Weather Intelligence</a>. Official warnings come only from IMD, CWC and SDMAs; everything else is a system assessment.
         </p>
-        <dl className="mt-3 divide-y divide-line">
-          <Row label="API health" s={health} show={(d) => d.status} />
-          <Row label="Forecast grid" s={grid} show={(d) => `${d.source} · ${d.model} · run ${ist(d.issue_time)}`} />
-          <Row label="Official alerts feed" s={alerts} show={(d) => `${d.length} active (NDMA SACHET)`} />
-        </dl>
-      </section>
+      </div>
 
-      <section className="mt-4 rounded-xl border border-line bg-surface p-5 text-[13px]">
-        <h2 className="text-[13px] font-semibold uppercase tracking-wide text-muted">Build</h2>
-        <dl className="mt-2 grid grid-cols-[auto_1fr] gap-x-6 gap-y-1.5">
-          <dt className="text-muted">Environment</dt><dd>{config.appEnv}</dd>
-          <dt className="text-muted">CORE baseline</dt><dd>{config.coreBaseline}</dd>
-          <dt className="text-muted">Source</dt><dd><a className="text-accent underline" href={repo}>{repo.replace("https://", "")}</a></dd>
-          <dt className="text-muted">Docs</dt><dd><a className="text-accent underline" href={`${repo}/tree/main/docs`}>architecture, boundary and data policies</a></dd>
-        </dl>
-      </section>
+      <main className="mx-auto max-w-[1400px] px-4 pt-4 sm:px-6">
+        <Suspense fallback={<Loading />}>
+          {screen === "home" && <Home mode={mode} />}
+          {screen === "map" && <MapExplorer className="h-[calc(100vh-190px)] min-h-[480px]" />}
+          {screen === "risks" && <RisksPage mode={mode} />}
+          {screen === "forecast" && <ForecastPage mode={mode} />}
+          {screen === "insights" && <InsightsPage mode={mode} />}
+        </Suspense>
+      </main>
+
+      {/* phone / tablet navigation */}
+      <nav aria-label="Primary" className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 border-t border-line bg-bg/95 pb-[env(safe-area-inset-bottom)] backdrop-blur lg:hidden">
+        {SCREENS.map((s) => {
+          const Icon = ICON[s.id];
+          return (
+            <button key={s.id} onClick={() => navigate({ screen: s.id })} aria-current={screen === s.id ? "page" : undefined}
+              className={`flex flex-col items-center gap-0.5 py-2 text-[10.5px] ${screen === s.id ? "text-accent" : "text-muted"}`}>
+              <Icon size={19} />{s.label.replace(" & alerts", "")}
+            </button>
+          );
+        })}
+      </nav>
     </div>
   );
 }

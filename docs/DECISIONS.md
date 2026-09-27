@@ -4,6 +4,10 @@ Newest first. Each decision was approved by the owner unless marked *proposed*.
 
 | Date | Decision | Why |
 |---|---|---|
+| 2026-09-27 | M1 uses **only** CORE's public API, plus two public CORE website files (district and state GeoJSON outlines), both listed in the contract. No CORE source is imported; the map is V2's own MapLibre implementation | Owner's M1 brief. `/api/v1` does not serve polygons; these files are public, read-only and CORS-open |
+| 2026-09-27 | CORE's `thunderstorm` and `lightning` risk items are labelled **"Thunderstorm potential — model derived"** and **"Lightning potential — model derived"**. Levels, status and rules unchanged | Approved decision: never present model output as observed lightning |
+| 2026-09-27 | "What should you know?" lists official alerts first, then CORE risk items at Watch or above; if none, it says so. No new detection | M1 brief: no invented intelligence |
+| 2026-09-27 | The 10-day table shows CORE's per-model values (ECMWF, GFS, ICON) as a range "across models", not as a probability | Existing CORE data; model-agreement methodology |
 | 2026-09-27 | **CORE's API is the boundary.** V2 imports no CORE source code. The earlier M0 draft pinned CORE as a git submodule and imported two CORE frontend files; both were removed | Owner's M0 brief: no structural dependency on internal CORE files without a clear technical reason |
 | 2026-09-27 | V2 declares its own types for the CORE fields it uses (`web/src/core-api/`), backed by `contract/core-api-contract.json` and a daily live check | A duplicated type is safe only if drift is detected. The contract check detects it |
 | 2026-09-27 | Controlled reuse of CORE frontend code (e.g. the map engine in M1) only with a written reason and approval, as a copy with a header naming the CORE file and commit | Keeps V2 independent while avoiding needless rewrites |

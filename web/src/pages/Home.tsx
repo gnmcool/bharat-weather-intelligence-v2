@@ -4,7 +4,7 @@ import { useMedia } from "../lib/useMedia";
 import { lazy, Suspense } from "react";
 import FarmerWorkflow from "../modes/Farmer";
 import GovernmentStateTable from "../modes/GovernmentStateTable";
-import { CurrentWeather, ForecastPreview, InsightsPreview, Load, RiskSummary, RunLine, Section, useDashboard, WhatToKnow } from "./blocks";
+import { CurrentWeather, EventsWhen, ForecastPreview, InsightsPreview, Load, RiskSummary, RunLine, Section, useDashboard, WhatToKnow } from "./blocks";
 
 const MapExplorer = lazy(() => import("../map/MapExplorer"));
 const GovernmentIndiaLazy = lazy(() => import("../modes/Government"));
@@ -39,10 +39,11 @@ function CitizenHome() {
             <>
               <CurrentWeather d={d} />
               <Section title="What should you know?"><WhatToKnow d={d} /></Section>
-              <Section title="Risks and alerts"><RiskSummary d={d} /></Section>
+              <Section title="When — next 7 days"><EventsWhen /></Section>
               <Section title="Forecast"><ForecastPreview d={d} /></Section>
               {!wide && <Section title="Map">{map}</Section>}
               <Section title="Weather vs normal"><InsightsPreview d={d} /></Section>
+              <Section title="All risks and alerts"><RiskSummary d={d} /></Section>
               <div className="space-y-2 border-t border-line pt-4"><RunLine d={d} /><Provenance sources={d.sources} /></div>
             </>
           )}

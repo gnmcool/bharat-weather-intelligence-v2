@@ -4,6 +4,12 @@ Newest first. Each decision was approved by the owner unless marked *proposed*.
 
 | Date | Decision | Why |
 |---|---|---|
+| 2026-09-27 | Government counts are worded "districts with system-assessed … risk" with the statement "District risk counts are based on the representative forecast point for each district. Conditions may vary within a district." Never "affected districts" | Owner's M3 brief: no district-wide impact dataset |
+| 2026-09-27 | Data-quality notices are one reusable component; each is triggered by a CORE field (terrain, model-check text, grid source) or by coverage — never a new threshold (`DATA_QUALITY.md`) | Honest about limits without changing CORE |
+| 2026-09-27 | CORE problems are logged in `CORE_ISSUES.md` (CORE-1 … CORE-6) and not fixed from V2 | CORE frozen; fixes need explicit approval |
+| 2026-09-27 | Impact context = fixed, conditional catalogue lines shown only beside a CORE event; tested against instruction words; no LLM | FACT → ASSESSMENT → EVIDENCE → POTENTIAL RELEVANCE (`IMPACT_CONTEXT.md`) |
+| 2026-09-27 | Farmer order: location → crop → stage → weather → system indicators (SYSTEM-DERIVED · UNVALIDATED) → potential crop relevance → official advisory (separate block) | Owner's M3 brief |
+| 2026-09-27 | Incomplete India counts (a CORE state failing after one retry) are flagged directly under the count tiles and cached 60 s only | Never present a partial total as complete |
 | 2026-09-27 | M2 intelligence runs in a **separate service `api-v2/`** (FastAPI, `/api/v2`, own Vercel project) that reads CORE only over HTTP `/api/v1` | Owner's M2 brief: V2-only, isolated, no `/api/v1` change |
 | 2026-09-27 | Events = CORE risk items at Watch or above; severity, timing, criteria unchanged. No "Extreme rain" category (IMD ≥ 204.5 mm is not a CORE rule) | No new thresholds in M2 |
 | 2026-09-27 | CORE `confidence.score` is not passed to the UI; agreement is shown only as "k of n" | Prevents agreement being read as probability |

@@ -1,7 +1,9 @@
 // Home building blocks, all rendered from one CORE /dashboard response (no extra calls).
 import { ArrowRight, CircleCheck } from "lucide-react";
 import { useState } from "react";
-import { EventCard } from "../components/EventCard";
+import { DataQualityNotices } from "../components/DataQualityNotice";
+import { EventCard, type Audience } from "../components/EventCard";
+import { EventTimeline } from "../components/EventTimeline";
 import { v2 } from "../v2-api/client";
 import type { V2Events } from "../v2-api/types";
 import { core } from "../core-api/client";
@@ -57,18 +59,31 @@ export function CurrentWeather({ d }: { d: CoreDashboard }) {
  * 4 watch-level system assessments, 5 significant departures from normal. Every line is a CORE record;
  * no generated text. If nothing significant: "No significant weather event detected."
  */
-export function WhatToKnow({ limit = 3 }: { d?: CoreDashboard; limit?: number }) {
+export function useEvents() {
   const place = useApp((s) => s.place);
-  const ev = useCore<V2Events>(`events:${place.lat},${place.lon},${place.name}`, () => v2.events(place));
+  return useCore<V2Events>(`events:${place.lat},${place.lon},${place.name}`, () => v2.events(place));
+}
+
+export function WhatToKnow({ limit = 3, audience = "citizen" }: { d?: CoreDashboard; limit?: number; audience?: Audience }) {
+  const ev = useEvents();
   return (
     <div data-testid="what-to-know">
-      <Load s={ev} lines={3}>{(d) => <WhatToKnowBody d={d} limit={limit} />}</Load>
+      <Load s={ev} lines={3}>{(d) => <WhatToKnowBody d={d} limit={limit} audience={audience} />}</Load>
       {ev.state === "error" && <p className="mt-2 text-[12px] text-muted">The V2 event service is unavailable. CORE's own risk list is still under Risks &amp; alerts.</p>}
     </div>
   );
 }
 
-function WhatToKnowBody({ d, limit }: { d: V2Events; limit: number }) {
+/** WHEN — system events on a 7-day axis (same /api/v2/events record). */
+export function EventsWhen() {
+  const ev = useEvents();
+  if (ev.state !== "ok") return null;
+  const sys = ev.data.events.filter((e) => e.classification === "system");
+  if (!sys.length) return <p className="text-[13px] text-muted" data-testid="event-timeline-none">No system event at Watch level or above in the next 7 days.</p>;
+  return <EventTimeline events={sys} />;
+}
+
+function WhatToKnowBody({ d, limit, audience }: { d: V2Events; limit: number; audience: Audience }) {
   const [more, setMore] = useState(false);
   const byId = new Map(d.events.map((e) => [e.id, e]));
   const official = d.official_alerts;
@@ -76,8 +91,13 @@ function WhatToKnowBody({ d, limit }: { d: V2Events; limit: number }) {
   const system = d.what_to_know.items.filter((i) => i.kind === "event").map((i) => byId.get(i.ref)!).filter(Boolean);
   const anomalies = d.anomalies;
   const n = more ? 99 : limit;
+  const bySev = [3, 2, 1].map((l) => system.filter((e) => e.severity.level === l).length);
   return (
     <div className="space-y-3">
+      <p className="text-[12.5px] text-muted" data-testid="wtk-summary">
+        <span className="text-text">{d.location.name}:</span> {official.length} official alert{official.length === 1 ? "" : "s"} · {system.length} system assessment{system.length === 1 ? "" : "s"} at Watch or above
+        {system.length > 0 && ` (${["Severe", "Alert", "Watch"].map((n, i) => bySev[i] ? `${bySev[i]} ${n}` : "").filter(Boolean).join(", ")})`} · next 7 days
+      </p>
       {d.what_to_know.message && (
         <div className="flex items-start gap-2.5 rounded-lg border border-line bg-surface px-3 py-3 text-[14px]" data-testid="wtk-none">
           <CircleCheck size={18} className="mt-0.5 shrink-0 text-emerald-400" />
@@ -90,15 +110,15 @@ function WhatToKnowBody({ d, limit }: { d: V2Events; limit: number }) {
       {(official.length > 0 || officialEvents.length > 0) && (
         <div className="space-y-2" data-testid="wtk-official">
           <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-red-200">Official alert</div>
-          {official.slice(0, n).map((w) => <OfficialAlert key={w.id} w={w} compact />)}
-          {officialEvents.map((e) => <EventCard key={e.id} e={e} />)}
-          {official.length > n && <button onClick={() => navigate({ screen: "risks" })} className="text-[12.5px] text-accent">+{official.length - n} more official alerts</button>}
+          {official.slice(0, limit).map((w) => <OfficialAlert key={w.id} w={w} compact />)}
+          {officialEvents.map((e) => <EventCard key={e.id} e={e} audience={audience} />)}
+          {official.length > limit && <button onClick={() => navigate({ screen: "risks" })} className="text-[12.5px] text-accent">+{official.length - limit} more official alerts</button>}
         </div>
       )}
       {system.length > 0 && (
         <div className="space-y-2" data-testid="wtk-system">
           <div className="flex items-center gap-2"><SystemLabel /><span className="text-[12px] text-muted">CORE risk rules · next 7 days · not official warnings</span></div>
-          {system.slice(0, n).map((e) => <EventCard key={e.id} e={e} />)}
+          {system.slice(0, n).map((e) => <EventCard key={e.id} e={e} audience={audience} />)}
           {system.length > n && <button onClick={() => setMore(true)} className="text-[12.5px] text-accent">Show {system.length - n} more system assessments</button>}
         </div>
       )}
@@ -113,6 +133,7 @@ function WhatToKnowBody({ d, limit }: { d: V2Events; limit: number }) {
           <p className="text-[11px] text-muted">Normal: NASA POWER 1991–2020 (MERRA-2 reanalysis), indicative — not IMD normals.</p>
         </div>
       )}
+      <DataQualityNotices list={d.data_quality} />
     </div>
   );
 }

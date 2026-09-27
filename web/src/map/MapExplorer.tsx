@@ -113,7 +113,7 @@ export default function MapExplorer({ compact = false, className = "" }: { compa
                 <div className="mt-1 grid grid-cols-2 gap-x-3">
                   {Object.entries(riskPick.levels).map(([k, lv]) => <span key={k} className="inline-flex items-center gap-1.5"><LevelDot level={lv} />{k}: {LEVEL[lv].name}</span>)}
                 </div>
-                <div className="text-muted">When: next 7 days (open evidence for the dates) · representative point</div>
+                <div className="text-muted">When: next 7 days (open evidence for the dates) · representative point — conditions may vary within the district{riskPick.terrain === "hills" ? "; hill terrain" : ""}</div>
               </div>
               <button onClick={() => setRiskPick(null)} aria-label="Close"><X size={15} className="text-muted" /></button>
             </div>
@@ -192,7 +192,7 @@ export default function MapExplorer({ compact = false, className = "" }: { compa
               <div className="flex flex-wrap gap-x-3">{[1, 2, 3].map((l) => <span key={l} className="inline-flex items-center gap-1"><span className="h-2 w-2 rounded-sm" style={{ background: LEVEL_FILL[l] }} />{LEVEL[l].name}</span>)}</div>
               {risks.state === "loading" && <p>Loading district counts (up to a minute on first use)…</p>}
               {risks.state === "error" && <p className="text-red-300">Unavailable: {risks.message}</p>}
-              {risks.state === "ok" && <p data-testid="risk-layer-count" data-count={Object.keys(riskFill ?? {}).length}><TriangleAlert size={11} className="inline" /> {Object.keys(riskFill ?? {}).length} districts at Watch or above. CORE level at each district's representative point; official alerts shown as dashed outline. Click a coloured district for evidence.</p>}
+              {risks.state === "ok" && <p data-testid="risk-layer-count" data-count={Object.keys(riskFill ?? {}).length}><TriangleAlert size={11} className="inline" /> {Object.keys(riskFill ?? {}).length} districts with system-assessed risk at their representative forecast point. Conditions may vary within a district. Official alerts: dashed outline. Click a coloured district for evidence.</p>}
             </div>
           )}
           <div className="mt-3 text-[11.5px] uppercase tracking-wide text-muted">Official</div>

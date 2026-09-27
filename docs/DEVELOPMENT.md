@@ -58,3 +58,6 @@ With `api-v2` on :8702, `npm run dev` in `web/` proxies `/api/v2` to it (overrid
 | `REGION_CONCURRENCY` | 6 | Parallel CORE state requests |
 
 Acceptance test: `PLAYWRIGHT_CHROMIUM=/opt/pw-browsers/chromium node tools/m2-acceptance/acceptance.mjs <site> <api-v2 base> <CORE api base> --json out.json`.
+
+M3 acceptance: `PLAYWRIGHT_CHROMIUM=/opt/pw-browsers/chromium node tools/m3-acceptance/acceptance.mjs <site> <api-v2 base> <CORE api base> --json out.json`
+(run together with the M1 `tools/compare` and M2 `tools/m2-acceptance` regressions).

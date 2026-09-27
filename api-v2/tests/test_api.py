@@ -193,6 +193,8 @@ def test_india_failed_state_reported(client):
     assert d["coverage"]["complete"] is False
     assert [s["state_slug"] for s in d["coverage"]["states_failed"]] == ["sikkim"]
     assert d["coverage"]["districts_received"] == 15
+    inc = d["data_quality"][0]
+    assert inc["id"] == "incomplete_coverage" and "Sikkim" in inc["text"] and inc["states"] == ["sikkim"]
 
 
 def test_india_no_taluka_and_not_counted_listed(client):

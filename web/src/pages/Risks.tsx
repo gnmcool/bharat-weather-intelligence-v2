@@ -5,10 +5,12 @@ import { OfficialAlert, Provenance, SystemLabel, SystemRisk } from "../component
 import { AGREEMENT_EXPLAINER, sevRank } from "../lib/present";
 import type { Mode } from "../lib/store";
 import { useCore } from "../lib/useCore";
-import { Load, RunLine, Section, useDashboard } from "./blocks";
+import { DataQualityNotices } from "../components/DataQualityNotice";
+import { Load, RunLine, Section, useDashboard, useEvents } from "./blocks";
 
 export default function RisksPage({ mode }: { mode: Mode }) {
   const dash = useDashboard();
+  const events = useEvents();
   const national = useCore<CoreOfficialWarning[]>("warnings", core.warnings);
   const localFirst = mode !== "government";
 
@@ -28,6 +30,7 @@ export default function RisksPage({ mode }: { mode: Mode }) {
               Bharat Weather Intelligence analysis from CORE's documented rules (IMD criteria where they exist; system indicators marked experimental).
               These are not official warnings. {AGREEMENT_EXPLAINER}
             </p>
+            {events.state === "ok" && <DataQualityNotices list={events.data.data_quality} className="mb-3" />}
             <div className="grid gap-2 lg:grid-cols-2" data-testid="risk-list">
               {[...d.risks].sort((a, b) => b.level - a.level).map((r) => <SystemRisk key={r.id} r={r} />)}
             </div>

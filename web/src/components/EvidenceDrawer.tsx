@@ -6,6 +6,8 @@ import { useApp } from "../lib/store";
 import { useCore } from "../lib/useCore";
 import { v2 } from "../v2-api/client";
 import type { V2Evidence } from "../v2-api/types";
+import { useRoute } from "../lib/router";
+import { DataQualityNotices } from "./DataQualityNotice";
 import { LevelDot, Load, OfficialAlert, SystemLabel } from "./ui";
 
 /**
@@ -62,12 +64,14 @@ const Small = ({ children }: { children: ReactNode }) => <p className="text-[11.
 const Unavailable = ({ children }: { children: ReactNode }) => <p className="text-[12.5px] text-muted" data-testid="ev-unavailable">Not available — {children}</p>;
 
 function Body({ d }: { d: V2Evidence }) {
+  const mode = useRoute().mode;
   const s = d.sections;
   const lv = LEVEL[s.detected.severity.level] ?? LEVEL[0];
   const fr = s.forecast_range, nd = s.normal_departure, e2s = s.earth2studio;
   const win = s.when.evidence_window;
   return (
     <div>
+      <DataQualityNotices list={d.data_quality} className="mb-2" />
       <S n={1} k="detected" title="What was detected">
         <div className="flex flex-wrap items-center gap-2">
           {s.detected.classification === "system" ? <SystemLabel /> : (
@@ -78,8 +82,14 @@ function Body({ d }: { d: V2Evidence }) {
         <div className="flex items-center gap-2"><LevelDot level={s.detected.severity.level} /><span className="font-medium">{s.detected.title}</span>
           <span className={`font-medium ${lv.text}`} data-testid="ev-level" data-level={s.detected.severity.level}>{s.detected.severity.status}</span></div>
         <Plain>{s.detected.headline}</Plain>
-        <Small>{s.detected.explanation}</Small>
+        <p className="text-[11.5px] text-muted" data-core-text><span className="font-medium">CORE explanation:</span> {s.detected.explanation}</p>
         <Small>{s.detected.classification_label}. Location: {d.location.name}{d.location.district ? `, ${d.location.district} district` : ""} — point forecast.</Small>
+        {d.context && (
+          <p className="border-l-2 border-line pl-2 text-[12.5px]" data-testid="impact-context">
+            <span className="text-[10.5px] font-semibold uppercase tracking-wide text-muted">Potential relevance · context</span><br />
+            {d.context[mode]} <span className="text-[11px] text-muted">({d.context.label}.)</span>
+          </p>
+        )}
       </S>
 
       <S n={2} k="when" title="When">

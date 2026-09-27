@@ -57,11 +57,18 @@ class CoreClient:
 
     async def _get(self, path: str, params: dict | None = None, timeout: float = 60.0) -> Any:
         params = {k: v for k, v in (params or {}).items() if v is not None}
-        try:
-            async with httpx.AsyncClient(timeout=timeout, transport=self._transport, headers={"user-agent": "bwi-api-v2"}) as c:
-                r = await c.get(f"{self.base}{path}", params=params)
-        except httpx.HTTPError as e:  # network / timeout
-            raise CoreError(path, None, f"{type(e).__name__}: {e}") from e
+        r = None
+        for attempt in (1, 2):  # one retry on a transport error (connection reset/refused, timeout); never on an HTTP error
+            try:
+                async with httpx.AsyncClient(timeout=timeout, transport=self._transport, headers={"user-agent": "bwi-api-v2"}) as c:
+                    r = await c.get(f"{self.base}{path}", params=params)
+                break
+            except httpx.TransportError as e:
+                if attempt == 2:
+                    raise CoreError(path, None, f"{type(e).__name__}: {e}") from e
+                await asyncio.sleep(1.0)
+            except httpx.HTTPError as e:
+                raise CoreError(path, None, f"{type(e).__name__}: {e}") from e
         if r.status_code != 200:
             raise CoreError(path, r.status_code, r.text[:300])
         return r.json()

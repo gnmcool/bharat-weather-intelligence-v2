@@ -10,9 +10,45 @@ import re
 from typing import Any
 from urllib.parse import urlencode
 
-from .catalogue import AGREEMENT_NOTE, LEVEL_NAME, NORMAL_CATEGORIES, TITLE
+from .catalogue import AGREEMENT_NOTE, CONTEXT, CONTEXT_LABEL, GOV_TERM, LEVEL_NAME, NORMAL_CATEGORIES, NOTICES, TITLE
 
 _AGREE = re.compile(r"(\d+) of (\d+) models?")
+
+
+def notice(nid: str, **extra) -> dict:
+    return {"id": nid, **NOTICES[nid], **extra}
+
+
+def impact_context(risk_id: str) -> dict | None:
+    """General potential-relevance text for an event (docs/IMPACT_CONTEXT.md). None for official-only risks."""
+    if risk_id not in CONTEXT:
+        return None
+    citizen, farmer = CONTEXT[risk_id]
+    return {"label": CONTEXT_LABEL, "citizen": citizen, "farmer": farmer,
+            "government": f"Districts or locations with system-assessed {GOV_TERM[risk_id]} risk.",
+            "source": "V2 context catalogue (docs/IMPACT_CONTEXT.md)"}
+
+
+def core_inconsistencies(dash: dict) -> list[dict]:
+    """CORE risks at No risk whose own model check says every independent model shows an event.
+    A consistency check between two CORE fields — not a weather threshold."""
+    out = []
+    for r in dash.get("risks") or []:
+        m = _AGREE_NO_EVENT.search((r.get("confidence") or {}).get("basis") or "")
+        if r.get("level", 0) == 0 and m and int(m.group(1)) == 0:
+            out.append(notice("core_inconsistency", risk=r["id"], core_level=r.get("status"), core_basis=r["confidence"]["basis"],
+                              core_explanation=r.get("explanation")))
+    return out
+
+
+def location_notices(dash: dict) -> list[dict]:
+    out = []
+    if (dash.get("current") or {}).get("terrain") == "hills":
+        out.append(notice("elevation", elevation_m=dash["location"].get("elevation_m"), terrain="hills"))
+    return out + core_inconsistencies(dash)
+
+
+_AGREE_NO_EVENT = re.compile(r"(\d+) of (\d+) models?.*show no event")
 
 
 def model_agreement(risk: dict) -> dict:
@@ -71,6 +107,7 @@ def build_event(risk: dict, dash: dict) -> dict:
         "model_agreement": model_agreement(risk),
         "sources": risk.get("sources") or [],
         "evidence": evidence_ref(loc, risk["id"]),
+        "context": impact_context(risk["id"]) if not official else None,
     }
 
 
@@ -131,6 +168,8 @@ def build_events(dash: dict) -> dict[str, Any]:
             "rule": "Priority: 1 official alerts, 2 severe, 3 alert-level, 4 watch-level system assessments, 5 significant departures from normal (CORE category outside its normal band). A weather event is significant when it is an official alert or a CORE risk at Watch level or above.",
         },
         "not_flagged": [r["id"] for r in risks if r.get("level", 0) == 0],
+        "terrain": (dash.get("current") or {}).get("terrain"),
+        "data_quality": location_notices(dash),
         "sources": dash.get("sources") or [],
         "notices": dash.get("notices") or [],
     }

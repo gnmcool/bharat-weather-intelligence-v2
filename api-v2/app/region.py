@@ -12,7 +12,7 @@ import asyncio
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
 
-from .catalogue import LEVEL_NAME, TITLE
+from .catalogue import GOV_TERM, LEVEL_NAME, NOTICES, TITLE
 from .config import settings
 from .core_client import CoreClient, CoreError
 
@@ -77,7 +77,11 @@ async def build_india_risks(client: CoreClient) -> dict:
                 by_state[d["state"]][d["levels"][h]] += 1
         conc = sorted(({"state": st, "districts": sum(c.values()), "watch": c[1], "alert": c[2], "severe": c[3]}
                        for st, c in by_state.items()), key=lambda x: (-x["districts"], x["state"]))
+        hills = sum(1 for d in districts if d["levels"][h] >= 1 and d.get("terrain") == "hills")
         hazards.append({"id": h, "title": TITLE[h], "watch": by_level[1], "alert": by_level[2], "severe": by_level[3],
+                        "count_label": f"districts with system-assessed {GOV_TERM[h]} risk",
+                        "count_basis": "at the district's representative forecast point",
+                        "hills_districts": hills,
                         "districts": by_level[1] + by_level[2] + by_level[3], "states": len(conc), "by_state": conc,
                         "rule": "CORE district levels (IMD heat/cold/rain criteria; Beaufort gusts), representative point, next 7 days."})
 
@@ -97,7 +101,17 @@ async def build_india_risks(client: CoreClient) -> dict:
         "method": "Count of districts whose CORE level at the district's representative interior point is Watch or above, per hazard, from CORE /api/v1/region/state for every state and UT.",
         "levels": LEVEL_NAME,
         "hazards": hazards,
-        "not_counted": [{"id": k, "title": TITLE[k], "reason": v} for k, v in NOT_COUNTED.items()],
+        "not_counted": [{"id": k, "title": TITLE[k], "status": "Not currently included in district count", "reason": v} for k, v in NOT_COUNTED.items()],
+        "statement": NOTICES["representative_point"]["text"],
+        "data_quality": ([{"id": "incomplete_coverage", "title": "Counts are incomplete",
+                           "text": f"{len(failed)} state(s)/UT(s) could not be loaded from CORE ({', '.join(f['state'] for f in failed)}); "
+                                   f"their {sum(f.get('expected_districts') or 0 for f in failed)} districts are not in any count. Totals are lower bounds until they load.",
+                           "states": [f["state_slug"] for f in failed]}] if failed else [])
+                        + [{"id": "representative_point", **NOTICES["representative_point"]},
+                         {"id": "incomplete_hazards", **NOTICES["incomplete_hazards"]}]
+                        + ([{"id": "elevation_districts", **NOTICES["elevation_districts"],
+                             "by_hazard": {h["id"]: h["hills_districts"] for h in hazards if h["hills_districts"]}}]
+                           if any(h["hills_districts"] for h in hazards) else []),
         "official": {
             "classification": "official",
             "districts_with_alerts": len(off_districts),

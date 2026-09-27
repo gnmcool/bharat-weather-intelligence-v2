@@ -136,3 +136,63 @@ NORMAL_CATEGORIES = {None, "", "Near normal", "Normal"}
 AGREEMENT_NOTE = ("Number of independent models (ECMWF, GFS, ICON) that CORE found reaching the same risk level "
                   "within ±1 day. It is agreement between models, not a probability. Earth2Studio GFS and "
                   "FourCastNet (initialised from GFS) are not counted as additional models.")
+
+# ---------------------------------------------------------------------------------------------
+# M3 — data-quality notices. Each is triggered by a CORE field, never by a new threshold
+# (docs/DATA_QUALITY.md). Factual and short.
+NOTICES = {
+    "representative_point": {
+        "title": "District counts use one forecast point per district",
+        "text": "District risk counts are based on the representative forecast point for each district. Conditions may vary within a district.",
+    },
+    "elevation": {
+        "title": "Mountain terrain",
+        "text": "In mountainous areas, elevation differences can make a single forecast point less representative of nearby places. CORE classifies this location as hill terrain.",
+    },
+    "elevation_districts": {
+        "title": "Mountain districts in this count",
+        "text": "Some counted districts are in hill terrain (CORE classification). Their representative point can be much higher or lower than towns in the district, so the level may not describe conditions across the whole district.",
+    },
+    "grid_vs_point": {
+        "title": "Grid value, not a point value",
+        "text": "The Earth2Studio GFS value represents a ~27 km grid cell, not this exact point. In mountainous or coastal terrain it can differ materially from the point forecasts.",
+    },
+    "incomplete_hazards": {
+        "title": "Not every hazard is counted by district",
+        "text": "Only heat, cold, heavy rain and strong wind have a district-count method. Other hazards are assessed at individual locations only.",
+    },
+    "core_inconsistency": {
+        "title": "CORE output inconsistency",
+        "text": "For this risk, all independent models in CORE's model check show an event while CORE's level is No risk. V2 shows CORE's level unchanged; the case is recorded for investigation (docs/CORE_ISSUES.md, CORE-2).",
+    },
+}
+
+# ---------------------------------------------------------------------------------------------
+# M3 — potential-relevance context. Shown only next to a CORE event at Watch or above.
+# General, conditional wording ("may"); never an instruction; never a claim that impact occurred.
+# Source: V2 context catalogue (docs/IMPACT_CONTEXT.md). Cyclone: official alert text only.
+CONTEXT = {
+    "heat": ("High temperatures may affect people working or travelling outdoors, especially in the afternoon.",
+             "Heat during this period may be relevant to field work and to crops at heat-sensitive stages."),
+    "cold": ("Low temperatures may affect people outdoors, especially at night and in the early morning.",
+             "Low night temperatures during this period may be relevant to crops at cold-sensitive stages."),
+    "rain": ("Heavy rain may affect travel and low-lying areas.",
+             "Rain during this period may affect field operations."),
+    "wind": ("Strong gusts may affect travel, trees and loose structures.",
+             "Strong wind during this period may affect field operations and tall standing crops."),
+    "thunderstorm": ("If thunderstorms develop, they may bring sudden heavy rain, gusts and lightning.",
+                     "If thunderstorms develop, they may interrupt field operations."),
+    "lightning": ("Lightning potential is most relevant to people in open areas.",
+                  "Lightning potential is most relevant to people working in open fields."),
+    "flood": ("Accumulated rain may affect low-lying and poorly drained areas.",
+              "Accumulated rain may be relevant to waterlogging in low-lying fields."),
+    "fog": ("Low visibility may affect road, rail and air travel.",
+            "Low visibility may affect early-morning field work and transport."),
+    "fire": ("Hot, dry and windy conditions may be relevant to the spread of fires.",
+             "Hot, dry and windy conditions may be relevant to fire in dry fields and crop residue."),
+    "drought": ("A rainfall deficit may be relevant to local water availability.",
+                "A rainfall deficit during this period may be relevant to soil moisture and irrigation."),
+}
+GOV_TERM = {"heat": "heat", "cold": "cold", "rain": "heavy-rain", "wind": "strong-wind", "thunderstorm": "thunderstorm-potential",
+            "lightning": "lightning-potential", "flood": "flood-related", "fog": "fog", "fire": "fire-weather", "drought": "dry-spell"}
+CONTEXT_LABEL = "Potential relevance — general context, not an impact forecast"

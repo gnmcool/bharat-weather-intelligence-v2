@@ -12,7 +12,7 @@ from typing import Any
 from .catalogue import (ANOMALY_ITEMS, E2S_EVIDENCE, INDEPENDENT_MODELS, LEVEL_NAME, MODEL_EVIDENCE,
                         MODEL_EVIDENCE_UNAVAILABLE, NORMAL_EVIDENCE, OFFICIAL_KEYWORDS, SATELLITE,
                         SATELLITE_LABEL, TITLE)
-from .events import location_of, model_agreement, official_alert
+from .events import core_inconsistencies, impact_context, location_of, model_agreement, notice, official_alert
 
 IST = timezone(timedelta(hours=5, minutes=30))
 SECTION_ORDER = ["detected", "when", "model_agreement", "forecast_range", "normal_departure",
@@ -208,4 +208,11 @@ def build_evidence(risk_id: str, dash: dict, gp: dict | None, gp_err: str | None
                  "note": "Rule and level are CORE's existing risk rules, unchanged by V2."},
         "provenance": provenance(dash, gp, win),
     }
-    return {"risk": risk_id, "location": location_of(dash), "section_order": SECTION_ORDER, "sections": sections}
+    dq = []
+    if (dash.get("current") or {}).get("terrain") == "hills":
+        dq.append(notice("elevation", elevation_m=dash["location"].get("elevation_m"), terrain="hills"))
+    if sections["earth2studio"].get("available"):
+        dq.append(notice("grid_vs_point"))
+    dq += [n for n in core_inconsistencies(dash) if n["risk"] == risk_id]
+    return {"risk": risk_id, "location": location_of(dash), "section_order": SECTION_ORDER, "sections": sections,
+            "data_quality": dq, "context": impact_context(risk_id) if level >= 1 and not risk.get("official") else None}

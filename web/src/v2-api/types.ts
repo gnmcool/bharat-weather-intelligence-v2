@@ -3,6 +3,9 @@ import type { CoreAnomalyItem, CoreOfficialWarning, CoreProvenance } from "../co
 
 export interface V2Location { name: string; lat: number; lon: number; district: string | null; district_id: string | null; state: string | null; taluka: string | null; elevation_m: number | null }
 
+export interface V2Notice { id: string; title: string; text: string; [k: string]: unknown }
+export interface V2Context { label: string; citizen: string; farmer: string; government: string; source: string }
+
 export interface V2Agreement { assessed: boolean; agreeing: number | null; of: number | null; models?: string[]; text: string; basis: string | null; note: string }
 
 export interface V2Event {
@@ -16,6 +19,7 @@ export interface V2Event {
   model_agreement: V2Agreement;
   sources: string[];
   evidence: string;
+  context: V2Context | null;
 }
 
 export type V2OfficialAlert = CoreOfficialWarning & { classification: "official" };
@@ -28,11 +32,12 @@ export interface V2Events {
   official_alerts: V2OfficialAlert[]; events: V2Event[]; anomalies: V2Anomaly[];
   what_to_know: { items: V2WhatToKnowItem[]; message: string | null; rule: string };
   not_flagged: string[]; sources: CoreProvenance[]; notices: string[];
+  terrain: string | null; data_quality: V2Notice[];
 }
 
 export interface V2ModelValue { value: number | null; days: number }
 export interface V2Evidence {
-  risk: string; location: V2Location; section_order: string[];
+  risk: string; location: V2Location; section_order: string[]; data_quality: V2Notice[]; context: V2Context | null;
   sections: {
     detected: { title: string; core_label: string; severity: { level: number; status: string }; headline: string; explanation: string; classification: "system" | "official"; classification_label: string; experimental: boolean };
     when: { start: string | null; end: string | null; timing_note: string | null; evidence_window: { start: string | null; end: string | null; dates: string[]; basis: string } };
@@ -55,6 +60,7 @@ export interface V2Evidence {
 
 export interface V2HazardCount {
   id: string; title: string; watch: number; alert: number; severe: number; districts: number; states: number;
+  count_label: string; count_basis: string; hills_districts: number;
   by_state: { state: string; districts: number; watch: number; alert: number; severe: number }[]; rule: string;
 }
 export interface V2District {
@@ -65,7 +71,8 @@ export interface V2IndiaRisks {
   generated_at: string; core_generated_at: { oldest: string | null; newest: string | null };
   unit: "district"; window: string; classification: "system"; classification_label: string; method: string; levels: string[];
   hazards: V2HazardCount[];
-  not_counted: { id: string; title: string; reason: string }[];
+  not_counted: { id: string; title: string; status: string; reason: string }[];
+  statement: string; data_quality: V2Notice[];
   official: { classification: "official"; districts_with_alerts: number; alerts: number; alerts_without_district: number; by_event: { event: string; districts: number }[]; source: string; error: string | null };
   coverage: { states: number; states_failed: { state: string; state_slug: string; expected_districts: number; error: string }[]; districts_expected: number; districts_received: number; complete: boolean };
   districts: V2District[]; limitations: string[]; sources: { provider: string; source: string; note?: string }[];

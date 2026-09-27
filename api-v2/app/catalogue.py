@@ -163,7 +163,7 @@ NOTICES = {
     },
     "core_inconsistency": {
         "title": "CORE output inconsistency",
-        "text": "For this risk, all independent models in CORE's model check show an event while CORE's level is No risk. V2 shows CORE's level unchanged; the case is recorded for investigation (docs/CORE_ISSUES.md, CORE-2).",
+        "text": "A CORE risk is at No risk while CORE's own model check says every independent model shows an event. V2 shows CORE's level unchanged; recorded for investigation (CORE-2).",
     },
 }
 

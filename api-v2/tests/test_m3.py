@@ -42,6 +42,7 @@ def test_chennai_core_inconsistency_recorded_not_corrected(client):
     inc = [n for n in d["data_quality"] if n["id"] == "core_inconsistency"]
     assert [n["risk"] for n in inc] == ["heat"]
     assert inc[0]["core_level"] == "No risk"
+    assert inc[0]["title"].endswith("Heat") and inc[0]["text"].startswith("Heat: CORE's level is No risk")
     assert "heat" not in [e["type"] for e in d["events"]]  # CORE level kept: no heat event invented
     ev = client.get("/api/v2/evidence", params={**CHENNAI, "risk": "heat"}).json()
     assert ev["sections"]["detected"]["severity"]["level"] == 0

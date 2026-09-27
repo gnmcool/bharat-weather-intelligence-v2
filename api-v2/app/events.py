@@ -36,8 +36,13 @@ def core_inconsistencies(dash: dict) -> list[dict]:
     for r in dash.get("risks") or []:
         m = _AGREE_NO_EVENT.search((r.get("confidence") or {}).get("basis") or "")
         if r.get("level", 0) == 0 and m and int(m.group(1)) == 0:
-            out.append(notice("core_inconsistency", risk=r["id"], core_level=r.get("status"), core_basis=r["confidence"]["basis"],
-                              core_explanation=r.get("explanation")))
+            name = TITLE.get(r["id"], r.get("label"))
+            n = notice("core_inconsistency", risk=r["id"], core_level=r.get("status"), core_basis=r["confidence"]["basis"],
+                       core_explanation=r.get("explanation"))
+            n["title"] = f"CORE output inconsistency — {name}"
+            n["text"] = (f"{name}: CORE's level is {r.get('status')}, while CORE's model check reads \"{r['confidence']['basis']}\" "
+                         "(every independent model shows an event). V2 shows CORE's level unchanged; the case is recorded for investigation (CORE-2).")
+            out.append(n)
     return out
 
 

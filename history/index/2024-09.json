@@ -1,0 +1,1222 @@
+{
+ "checks": {
+  "checksums": {
+   "forecasts_history-2024-09.parquet": {
+    "downloaded": "5124f109f266046a223cbb6a7f495531782da44c28048dfe7c6e73f736aaf95d",
+    "manifest": "5124f109f266046a223cbb6a7f495531782da44c28048dfe7c6e73f736aaf95d",
+    "match": true
+   },
+   "gap_report_history-2024-09.json": {
+    "match": true
+   },
+   "manifest_history-2024-09.json": {
+    "match": true
+   },
+   "matched_history-2024-09.parquet": {
+    "downloaded": "f2694e4465121f8e5ffb202fc375f23814edcc1c19d7d57fcef1c46631282a32",
+    "manifest": "f2694e4465121f8e5ffb202fc375f23814edcc1c19d7d57fcef1c46631282a32",
+    "match": true
+   },
+   "metar_pairing_history-2024-09.json": {
+    "downloaded": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965",
+    "manifest": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965",
+    "match": true
+   },
+   "reference_history-2024-09.parquet": {
+    "downloaded": "16add51fc3f4b609b56ec8934bef0bb4b9fc1dd0299c941118867459f45a46df",
+    "manifest": "16add51fc3f4b609b56ec8934bef0bb4b9fc1dd0299c941118867459f45a46df",
+    "match": true
+   }
+  },
+  "immutability": {
+   "add_new_asset": {
+    "message": "HTTP 422: Cannot upload assets to an immutable release. (https://uploads.github.com/repos/gnmcool/bharat-weather-intelligence-v2/releases/398029308/assets?label=&name=immutability_probe.txt)",
+    "rejected": true
+   },
+   "delete_asset": {
+    "message": "HTTP 422: Validation Failed (https://api.github.com/repos/gnmcool/bharat-weather-intelligence-v2/releases/assets/594800436)\nCannot delete asset from an immutable release",
+    "rejected": true
+   },
+   "draft": false,
+   "github_immutable_flag": true,
+   "overwrite_asset": {
+    "message": "HTTP 422: Validation Failed (https://api.github.com/repos/gnmcool/bharat-weather-intelligence-v2/releases/assets/594800436)\nCannot delete asset from an immutable release",
+    "rejected": true
+   },
+   "unchanged_after_attempts": true
+  },
+  "ok": true,
+  "published": true,
+  "tag": "history-2024-09"
+ },
+ "gap_report_sha256": "0fe4a409ce16a647f3b6de004c2ca4ad246a05a4d0727b32f68ce4723183295c",
+ "manifest": {
+  "anomalies": [],
+  "build_secs": 388,
+  "code_commit": "578174121d851942ef48e3f0d846a7722eed40a0",
+  "created_utc": "2026-09-28 07:29:21+00:00",
+  "dataset": "historical_backfill",
+  "expected": {
+   "days": [
+    "2024-09-01",
+    "2024-09-02",
+    "2024-09-03",
+    "2024-09-04",
+    "2024-09-05",
+    "2024-09-06",
+    "2024-09-07",
+    "2024-09-08",
+    "2024-09-09",
+    "2024-09-10",
+    "2024-09-11",
+    "2024-09-12",
+    "2024-09-13",
+    "2024-09-14",
+    "2024-09-15",
+    "2024-09-16",
+    "2024-09-17",
+    "2024-09-18",
+    "2024-09-19",
+    "2024-09-20",
+    "2024-09-21",
+    "2024-09-22",
+    "2024-09-23",
+    "2024-09-24",
+    "2024-09-25",
+    "2024-09-26",
+    "2024-09-27",
+    "2024-09-28",
+    "2024-09-29",
+    "2024-09-30"
+   ],
+   "models": [
+    "ecmwf_ifs025",
+    "gfs_global",
+    "icon_global"
+   ],
+   "nominal_leads": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "points": [
+    "IN-35-640",
+    "IN-37-548",
+    "IN-12-779",
+    "IN-18-305",
+    "IN-10-221",
+    "IN-04-055",
+    "IN-22-410",
+    "IN-26-495",
+    "IN-07-delhi",
+    "IN-30-586",
+    "IN-24-474",
+    "IN-06-082",
+    "IN-02-027",
+    "IN-01-015",
+    "IN-20-361",
+    "IN-29-566",
+    "IN-32-594",
+    "IN-38-004",
+    "IN-31-587",
+    "IN-23-446",
+    "IN-27-514",
+    "IN-14-277",
+    "IN-17-296",
+    "IN-15-268",
+    "IN-13-263",
+    "IN-21-385",
+    "IN-34-635",
+    "IN-03-042",
+    "IN-08-119",
+    "IN-11-243",
+    "IN-33-614",
+    "IN-36-741",
+    "IN-16-708",
+    "IN-09-156",
+    "IN-05-064",
+    "IN-19-333"
+   ],
+   "values": 113400,
+   "variables": [
+    "tmax",
+    "tmin",
+    "precip",
+    "precip_0830",
+    "gust_max"
+   ]
+  },
+  "files": [
+   {
+    "bytes": 155560,
+    "kind": "forecasts",
+    "name": "forecasts_history-2024-09.parquet",
+    "rows": 113400,
+    "sha256": "5124f109f266046a223cbb6a7f495531782da44c28048dfe7c6e73f736aaf95d"
+   },
+   {
+    "bytes": 32923,
+    "kind": "reference",
+    "name": "reference_history-2024-09.parquet",
+    "rows": 7920,
+    "sha256": "16add51fc3f4b609b56ec8934bef0bb4b9fc1dd0299c941118867459f45a46df"
+   },
+   {
+    "bytes": 289980,
+    "kind": "matched",
+    "name": "matched_history-2024-09.parquet",
+    "rows": 204120,
+    "sha256": "f2694e4465121f8e5ffb202fc375f23814edcc1c19d7d57fcef1c46631282a32"
+   },
+   {
+    "bytes": 14333,
+    "kind": "metar_pairing",
+    "name": "metar_pairing_history-2024-09.json",
+    "rows": null,
+    "sha256": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965"
+   }
+  ],
+  "http": {
+   "bytes": 144644348,
+   "http_errors": 0,
+   "network_errors": 2,
+   "om_requests": 32,
+   "om_weighted_calls": 4861.8,
+   "rate_limited": 22,
+   "requests": 115,
+   "retries": 24,
+   "slept_for_limits_s": 1565.0
+  },
+  "match_map": {
+   "gust_max": [
+    [
+     "era5",
+     "gust_max"
+    ],
+    [
+     "metar",
+     null
+    ]
+   ],
+   "precip": [
+    [
+     "era5",
+     "precip"
+    ]
+   ],
+   "precip_0830": [
+    [
+     "imd_rf025",
+     "precip_0830"
+    ],
+    [
+     "era5",
+     "precip_0830"
+    ]
+   ],
+   "tmax": [
+    [
+     "era5",
+     "tmax"
+    ],
+    [
+     "metar",
+     "tmax"
+    ]
+   ],
+   "tmin": [
+    [
+     "era5",
+     "tmin"
+    ],
+    [
+     "metar",
+     "tmin"
+    ]
+   ]
+  },
+  "missing_reference_reasons": {
+   "era5": "ERA5 not retrieved"
+  },
+  "month": "2024-09",
+  "period_ist": [
+   "2024-09-01",
+   "2024-09-30"
+  ],
+  "points_file_sha256": "4919f87259fd22a83a6050e01497f3be86711ce0e10e28aecbb9af324b65d49e",
+  "processing_version": "m4.3-1",
+  "retrieval_errors": [],
+  "schema_version": 2,
+  "sources": {
+   "ecmwf_ifs025": {
+    "api": "https://previous-runs-api.open-meteo.com/v1/forecast",
+    "grid_distance_km_max": 19.0,
+    "hourly": [
+     "temperature_2m_previous_day1..7",
+     "precipitation_previous_day1..7",
+     "wind_gusts_10m_previous_day1..7"
+    ],
+    "om_model": "ecmwf_ifs025",
+    "request_utc_dates": [
+     "2024-08-31",
+     "2024-10-01"
+    ],
+    "timezone": "GMT"
+   },
+   "era5": {
+    "api": "https://archive-api.open-meteo.com/v1/archive",
+    "grid_distance_km_max": 20.4,
+    "label": "ERA5 reanalysis",
+    "request_utc_dates": [
+     "2024-08-31",
+     "2024-10-01"
+    ]
+   },
+   "gfs_global": {
+    "api": "https://previous-runs-api.open-meteo.com/v1/forecast",
+    "grid_distance_km_max": 7.9,
+    "hourly": [
+     "temperature_2m_previous_day1..7",
+     "precipitation_previous_day1..7",
+     "wind_gusts_10m_previous_day1..7"
+    ],
+    "om_model": "gfs_global",
+    "request_utc_dates": [
+     "2024-08-31",
+     "2024-10-01"
+    ],
+    "timezone": "GMT"
+   },
+   "icon_global": {
+    "api": "https://previous-runs-api.open-meteo.com/v1/forecast",
+    "grid_distance_km_max": 13.7,
+    "hourly": [
+     "temperature_2m_previous_day1..7",
+     "precipitation_previous_day1..7",
+     "wind_gusts_10m_previous_day1..7"
+    ],
+    "om_model": "icon_global",
+    "request_utc_dates": [
+     "2024-08-31",
+     "2024-10-01"
+    ],
+    "timezone": "GMT"
+   },
+   "imd_rf025": {
+    "api": "https://imdpune.gov.in/cmpg/Griddata/RF25.php",
+    "date_convention": "file date D = 24 h ending 08:30 IST on D; stored at D - 1",
+    "files": [
+     {
+      "release": "history-imd-raw-2024",
+      "sha256": "1ef02aeba5694dbb57a6cca23a3c2cc11740affb185137c1eacbeab59893228a",
+      "year": 2024
+     }
+    ],
+    "max_km": 30.0
+   },
+   "metar": {
+    "api": "https://mesonet.agron.iastate.edu/cgi-bin/request/asos.py",
+    "fields": [
+     "tmpc",
+     "sknt",
+     "gust",
+     "vsby",
+     "wxcodes"
+    ],
+    "rain": "never requested",
+    "stations": [
+     "VEIM",
+     "VERP",
+     "VICG",
+     "VIDP",
+     "VOPC",
+     "VOTR"
+    ]
+   }
+  },
+  "statement": "Historical reconstruction from Open-Meteo's Previous Runs API. run_time_known = false; the model run is not identified by the source and no run time is invented. Lead = nominal previous_dayN (each hourly value predicted at least N x 24 h before). Not an exact forecast-run archive; never pool with the prospective archive."
+ },
+ "manifest_sha256": "89403dbcb5692be58f43ba388be9c1d12ce306af48af596f8377569cd377fb0d",
+ "month": "2024-09",
+ "quality": {
+  "anomalies": [],
+  "dataset": "historical_backfill",
+  "expected_values": 113400,
+  "imd_alignment": {
+   "anomaly": false,
+   "best_lag": "+0",
+   "note": "IMD vs ERA5 08:30 IST rain; data-alignment diagnostic only, not verification. Dry months give weak or no correlation (inconclusive, not an anomaly).",
+   "results": {
+    "+0": {
+     "pairs": 1020,
+     "pearson_r": 0.666
+    },
+    "+1": {
+     "pairs": 986,
+     "pearson_r": 0.36
+    },
+    "-1": {
+     "pairs": 986,
+     "pearson_r": 0.399
+    }
+   }
+  },
+  "imd_by_point": {
+   "IN-01-015": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 13.9
+   },
+   "IN-02-027": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 13.7
+   },
+   "IN-03-042": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 9.5
+   },
+   "IN-04-055": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 4.1
+   },
+   "IN-05-064": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 7.9
+   },
+   "IN-06-082": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 12.0
+   },
+   "IN-07-delhi": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 16.5
+   },
+   "IN-08-119": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 13.4
+   },
+   "IN-09-156": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 14.9
+   },
+   "IN-10-221": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 6.1
+   },
+   "IN-11-243": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 14.6
+   },
+   "IN-12-779": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 7.4
+   },
+   "IN-13-263": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 5.4
+   },
+   "IN-14-277": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 12.0
+   },
+   "IN-15-268": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 12.3
+   },
+   "IN-16-708": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 12.2
+   },
+   "IN-17-296": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 9.1
+   },
+   "IN-18-305": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 9.3
+   },
+   "IN-19-333": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 12.1
+   },
+   "IN-20-361": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 6.6
+   },
+   "IN-21-385": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 5.7
+   },
+   "IN-22-410": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 8.1
+   },
+   "IN-23-446": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 6.4
+   },
+   "IN-24-474": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 6.5
+   },
+   "IN-26-495": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 13.9
+   },
+   "IN-27-514": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 15.2
+   },
+   "IN-29-566": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 6.6
+   },
+   "IN-30-586": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 12.4
+   },
+   "IN-31-587": {
+    "available": 0,
+    "days": 30,
+    "distance_km": 369.2
+   },
+   "IN-32-594": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 6.8
+   },
+   "IN-33-614": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 13.4
+   },
+   "IN-34-635": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 9.7
+   },
+   "IN-35-640": {
+    "available": 0,
+    "days": 30,
+    "distance_km": 1228.0
+   },
+   "IN-36-741": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 11.0
+   },
+   "IN-37-548": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 7.0
+   },
+   "IN-38-004": {
+    "available": 30,
+    "days": 30,
+    "distance_km": 6.0
+   }
+  },
+  "matched_rows": 204120,
+  "metar_by_point": {
+   "IN-01-015": {
+    "days": 30,
+    "days_available": 0,
+    "distance_km": 42.0,
+    "elev_diff_m": -1274.0,
+    "matched": false,
+    "reason_not_matched": "nearest station 42 km > 25 km; elevation difference -1274 m exceeds \u00b1100 m",
+    "station": "VISR"
+   },
+   "IN-02-027": {
+    "days": 30,
+    "days_available": 0,
+    "distance_km": 27.5,
+    "elev_diff_m": -663.3,
+    "matched": false,
+    "reason_not_matched": "nearest station 27 km > 25 km; elevation difference -663 m exceeds \u00b1100 m",
+    "station": "VIBR"
+   },
+   "IN-03-042": {
+    "days": 30,
+    "days_available": 0,
+    "distance_km": 76.8,
+    "elev_diff_m": 35.7,
+    "matched": false,
+    "reason_not_matched": "nearest station 77 km > 25 km",
+    "station": "VILD"
+   },
+   "IN-04-055": {
+    "days": 30,
+    "days_available": 0,
+    "distance_km": 5.3,
+    "elev_diff_m": -24.6,
+    "matched": true,
+    "reason_not_matched": null,
+    "station": "VICG"
+   },
+   "IN-05-064": {
+    "days": 30,
+    "days_available": 0,
+    "distance_km": 75.0,
+    "elev_diff_m": -903.0,
+    "matched": false,
+    "reason_not_matched": "nearest station 75 km > 25 km; elevation difference -903 m exceeds \u00b1100 m",
+    "station": "VIPT"
+   },
+   "IN-06-082": {
+    "days": 30,
+    "days_available": 0,
+    "distance_km": 66.4,
+    "elev_diff_m": 12.0,
+    "matched": false,
+    "reason_not_matched": "nearest station 66 km > 25 km",
+    "station": "VIDP"
+   },
+   "IN-07-delhi": {
+    "days": 30,
+    "days_available": 30,
+    "distance_km": 7.9,
+    "elev_diff_m": 14.0,
+    "matched": true,
+    "reason_not_matched": null,
+    "station": "VIDP"
+   },
+   "IN-08-119": {
+    "days": 30,
+    "days_available": 0,
+    "distance_km": 28.1,
+    "elev_diff_m": -23.1,
+    "matched": false,
+    "reason_not_matched": "nearest station 28 km > 25 km",
+    "station": "VIKG"
+   },
+   "IN-09-156": {
+    "days": 30,
+    "days_available": 0,
+    "distance_km": 33.6,
+    "elev_diff_m": 6.0,
+    "matched": false,
+    "reason_not_matched": "nearest station 34 km > 25 km",
+    "station": "VILK"
+   },
+   "IN-10-221": {
+    "days": 30,
+    "days_available": 0,
+    "distance_km": 77.8,
+    "elev_diff_m": 88.0,
+    "matched": false,
+    "reason_not_matched": "nearest station 78 km > 25 km",
+    "station": "VEDG"
+   },
+   "IN-11-243": {
+    "days": 30,
+    "days_available": 0,
+    "distance_km": 23.3,
+    "elev_diff_m": -1055.0,
+    "matched": false,
+    "reason_not_matched": "elevation difference -1055 m exceeds \u00b1100 m",
+    "station": "VEPY"
+   },
+   "IN-12-779": {
+    "days": 30,
+    "days_available": 0,
+    "distance_km": 56.9,
+    "elev_diff_m": -492.0,
+    "matched": false,
+    "reason_not_matched": "nearest station 57 km > 25 km; elevation difference -492 m exceeds \u00b1100 m",
+    "station": "VEMN"
+   },
+   "IN-13-263": {
+    "days": 30,
+    "days_available": 0,
+    "distance_km": 69.2,
+    "elev_diff_m": -601.7,
+    "matched": false,
+    "reason_not_matched": "nearest station 69 km > 25 km; elevation difference -602 m exceeds \u00b1100 m",
+    "station": "VEMR"
+   },
+   "IN-14-277": {
+    "days": 30,
+    "days_available": 13,
+    "distance_km": 4.1,
+    "elev_diff_m": 6.0,
+    "matched": true,
+    "reason_not_matched": null,
+    "station": "VEIM"
+   },
+   "IN-15-268": {
+    "days": 30,
+    "days_available": 0,
+    "distance_km": 68.2,
+    "elev_diff_m": -414.4,
+    "matched": false,
+    "reason_not_matched": "nearest station 68 km > 25 km; elevation difference -414 m exceeds \u00b1100 m",
+    "station": "VELP"
+   },
+   "IN-16-708": {
+    "days": 30,
+    "days_available": 0,
+    "distance_km": 41.5,
+    "elev_diff_m": -41.0,
+    "matched": false,
+    "reason_not_matched": "nearest station 41 km > 25 km",
+    "station": "VEAT"
+   },
+   "IN-17-296": {
+    "days": 30,
+    "days_available": 0,
+    "distance_km": 66.5,
+    "elev_diff_m": -1312.0,
+    "matched": false,
+    "reason_not_matched": "nearest station 66 km > 25 km; elevation difference -1312 m exceeds \u00b1100 m",
+    "station": "VEGT"
+   },
+   "IN-18-305": {
+    "days": 30,
+    "days_available": 0,
+    "distance_km": 41.8,
+    "elev_diff_m": 19.9,
+    "matched": false,
+    "reason_not_matched": "nearest station 42 km > 25 km",
+    "station": "VETZ"
+   },
+   "IN-19-333": {
+    "days": 30,
+    "days_available": 0,
+    "distance_km": 169.3,
+    "elev_diff_m": 221.0,
+    "matched": false,
+    "reason_not_matched": "nearest station 169 km > 25 km; elevation difference +221 m exceeds \u00b1100 m",
+    "station": "VEDO"
+   },
+   "IN-20-361": {
+    "days": 30,
+    "days_available": 0,
+    "distance_km": 46.9,
+    "elev_diff_m": 277.0,
+    "matched": false,
+    "reason_not_matched": "nearest station 47 km > 25 km; elevation difference +277 m exceeds \u00b1100 m",
+    "station": "VERC"
+   },
+   "IN-21-385": {
+    "days": 30,
+    "days_available": 0,
+    "distance_km": 79.7,
+    "elev_diff_m": -107.0,
+    "matched": false,
+    "reason_not_matched": "nearest station 80 km > 25 km; elevation difference -107 m exceeds \u00b1100 m",
+    "station": "VEBS"
+   },
+   "IN-22-410": {
+    "days": 30,
+    "days_available": 0,
+    "distance_km": 13.9,
+    "elev_diff_m": 35.0,
+    "matched": true,
+    "reason_not_matched": null,
+    "station": "VERP"
+   },
+   "IN-23-446": {
+    "days": 30,
+    "days_available": 0,
+    "distance_km": 87.5,
+    "elev_diff_m": 2.7,
+    "matched": false,
+    "reason_not_matched": "nearest station 88 km > 25 km",
+    "station": "VABP"
+   },
+   "IN-24-474": {
+    "days": 30,
+    "days_available": 0,
+    "distance_km": 54.7,
+    "elev_diff_m": 41.0,
+    "matched": false,
+    "reason_not_matched": "nearest station 55 km > 25 km",
+    "station": "VAAH"
+   },
+   "IN-26-495": {
+    "days": 30,
+    "days_available": 0,
+    "distance_km": 78.9,
+    "elev_diff_m": 4.6,
+    "matched": false,
+    "reason_not_matched": "nearest station 79 km > 25 km",
+    "station": "VASU"
+   },
+   "IN-27-514": {
+    "days": 30,
+    "days_available": 0,
+    "distance_km": 49.2,
+    "elev_diff_m": 51.3,
+    "matched": false,
+    "reason_not_matched": "nearest station 49 km > 25 km",
+    "station": "VAAU"
+   },
+   "IN-29-566": {
+    "days": 30,
+    "days_available": 0,
+    "distance_km": 99.1,
+    "elev_diff_m": -150.0,
+    "matched": false,
+    "reason_not_matched": "nearest station 99 km > 25 km; elevation difference -150 m exceeds \u00b1100 m",
+    "station": "VOJV"
+   },
+   "IN-30-586": {
+    "days": 30,
+    "days_available": 0,
+    "distance_km": 35.5,
+    "elev_diff_m": -148.3,
+    "matched": false,
+    "reason_not_matched": "nearest station 35 km > 25 km; elevation difference -148 m exceeds \u00b1100 m",
+    "station": "VOGO"
+   },
+   "IN-31-587": {
+    "days": 30,
+    "days_available": 0,
+    "distance_km": 299.6,
+    "elev_diff_m": -15.0,
+    "matched": false,
+    "reason_not_matched": "nearest station 300 km > 25 km",
+    "station": "VOAT"
+   },
+   "IN-32-594": {
+    "days": 30,
+    "days_available": 0,
+    "distance_km": 36.3,
+    "elev_diff_m": -19.0,
+    "matched": false,
+    "reason_not_matched": "nearest station 36 km > 25 km",
+    "station": "VOCI"
+   },
+   "IN-33-614": {
+    "days": 30,
+    "days_available": 30,
+    "distance_km": 12.0,
+    "elev_diff_m": 23.0,
+    "matched": true,
+    "reason_not_matched": null,
+    "station": "VOTR"
+   },
+   "IN-34-635": {
+    "days": 30,
+    "days_available": 0,
+    "distance_km": 6.5,
+    "elev_diff_m": 33.0,
+    "matched": true,
+    "reason_not_matched": null,
+    "station": "VOPC"
+   },
+   "IN-35-640": {
+    "days": 30,
+    "days_available": 0,
+    "distance_km": 104.5,
+    "elev_diff_m": -79.1,
+    "matched": false,
+    "reason_not_matched": "nearest station 105 km > 25 km",
+    "station": "VOPB"
+   },
+   "IN-36-741": {
+    "days": 30,
+    "days_available": 0,
+    "distance_km": 81.2,
+    "elev_diff_m": 49.0,
+    "matched": false,
+    "reason_not_matched": "nearest station 81 km > 25 km",
+    "station": "VOHY"
+   },
+   "IN-37-548": {
+    "days": 30,
+    "days_available": 0,
+    "distance_km": 72.1,
+    "elev_diff_m": -19.0,
+    "matched": false,
+    "reason_not_matched": "nearest station 72 km > 25 km",
+    "station": "VOBZ"
+   },
+   "IN-38-004": {
+    "days": 30,
+    "days_available": 0,
+    "distance_km": 105.5,
+    "elev_diff_m": -1725.2,
+    "matched": false,
+    "reason_not_matched": "nearest station 106 km > 25 km; elevation difference -1725 m exceeds \u00b1100 m",
+    "station": "VILH"
+   }
+  },
+  "missing_by_lead": {
+   "1": {
+    "available": 15120,
+    "expected": 16200,
+    "missing": 1080
+   },
+   "2": {
+    "available": 15120,
+    "expected": 16200,
+    "missing": 1080
+   },
+   "3": {
+    "available": 15120,
+    "expected": 16200,
+    "missing": 1080
+   },
+   "4": {
+    "available": 15120,
+    "expected": 16200,
+    "missing": 1080
+   },
+   "5": {
+    "available": 15120,
+    "expected": 16200,
+    "missing": 1080
+   },
+   "6": {
+    "available": 15120,
+    "expected": 16200,
+    "missing": 1080
+   },
+   "7": {
+    "available": 9720,
+    "expected": 16200,
+    "missing": 6480
+   }
+  },
+  "missing_by_location": {
+   "IN-01-015": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-02-027": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-03-042": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-04-055": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-05-064": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-06-082": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-07-delhi": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-08-119": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-09-156": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-10-221": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-11-243": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-12-779": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-13-263": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-14-277": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-15-268": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-16-708": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-17-296": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-18-305": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-19-333": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-20-361": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-21-385": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-22-410": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-23-446": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-24-474": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-26-495": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-27-514": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-29-566": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-30-586": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-31-587": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-32-594": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-33-614": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-34-635": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-35-640": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-36-741": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-37-548": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   },
+   "IN-38-004": {
+    "available": 2790,
+    "expected": 3150,
+    "missing": 360
+   }
+  },
+  "missing_by_model": {
+   "ecmwf_ifs025": {
+    "available": 30240,
+    "expected": 37800,
+    "missing": 7560
+   },
+   "gfs_global": {
+    "available": 37800,
+    "expected": 37800,
+    "missing": 0
+   },
+   "icon_global": {
+    "available": 32400,
+    "expected": 37800,
+    "missing": 5400
+   }
+  },
+  "missing_by_reason": {
+   "not provided by source (structural)": 12960
+  },
+  "missing_by_variable": {
+   "gust_max": {
+    "available": 14040,
+    "expected": 22680,
+    "missing": 8640
+   },
+   "precip": {
+    "available": 21600,
+    "expected": 22680,
+    "missing": 1080
+   },
+   "precip_0830": {
+    "available": 21600,
+    "expected": 22680,
+    "missing": 1080
+   },
+   "tmax": {
+    "available": 21600,
+    "expected": 22680,
+    "missing": 1080
+   },
+   "tmin": {
+    "available": 21600,
+    "expected": 22680,
+    "missing": 1080
+   }
+  },
+  "month": "2024-09",
+  "problems": [],
+  "publishable": true,
+  "reference_coverage": {
+   "era5:gust_max": {
+    "available": 1080,
+    "expected": 1080,
+    "reasons": {},
+    "unavailable": 0
+   },
+   "era5:precip": {
+    "available": 1080,
+    "expected": 1080,
+    "reasons": {},
+    "unavailable": 0
+   },
+   "era5:precip_0830": {
+    "available": 1080,
+    "expected": 1080,
+    "reasons": {},
+    "unavailable": 0
+   },
+   "era5:tmax": {
+    "available": 1080,
+    "expected": 1080,
+    "reasons": {},
+    "unavailable": 0
+   },
+   "era5:tmin": {
+    "available": 1080,
+    "expected": 1080,
+    "reasons": {},
+    "unavailable": 0
+   },
+   "imd_rf025:precip_0830": {
+    "available": 1020,
+    "expected": 1080,
+    "reasons": {
+     "no IMD cell within 30 km": 60
+    },
+    "unavailable": 60
+   },
+   "metar:gust_max": {
+    "available": 0,
+    "expected": 1080,
+    "reasons": {
+     "METAR reports a gust group only when gusts occur and sustained wind is not a gus": 1080
+    },
+    "unavailable": 1080
+   },
+   "metar:tmax": {
+    "available": 73,
+    "expected": 1080,
+    "reasons": {
+     "incomplete reporting coverage": 107,
+     "no METAR match": 900
+    },
+    "unavailable": 1007
+   },
+   "metar:tmin": {
+    "available": 73,
+    "expected": 1080,
+    "reasons": {
+     "incomplete reporting coverage": 107,
+     "no METAR match": 900
+    },
+    "unavailable": 1007
+   }
+  },
+  "reference_rows": 7920,
+  "rows_stored": 113400,
+  "status": "partial",
+  "values_available": 100440,
+  "values_missing": 12960
+ },
+ "release_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/releases/tag/history-2024-09",
+ "run_id": "36385048708",
+ "status": "published",
+ "tag": "history-2024-09"
+}

@@ -53,11 +53,18 @@ def fake_previous_runs(points, model, hourly, leads, u1, u2):
     return res, "https://previous-runs-api.open-meteo.com/v1/forecast?x"
 
 
+def g(d):  # synthetic daily rain signal for the 08:30->08:30 IST window starting on IST day d
+    return float(d.day % 5)
+
+
 def fake_era5(points, hourly, u1, u2):
     ts = _times(u1, u2)
+    # hourly total ending at t belongs to the IMD window starting on the UTC date of (t - 4 h)
+    rain = [g((t - timedelta(hours=4)).date()) / 24 for t in ts]
     return [{"latitude": p["lat"], "longitude": p["lon"], "elevation": 50.0,
              "hourly": {"time": [t.strftime("%Y-%m-%dT%H:%M") for t in ts],
-                        **{v: [1.0] * len(ts) for v in hourly}}} for p in points], "https://archive-api.open-meteo.com/v1/archive?x"
+                        **{v: (rain if v == "precipitation" else [1.0] * len(ts)) for v in hourly}}}
+            for p in points], "https://archive-api.open-meteo.com/v1/archive?x"
 
 
 def fake_stations():
@@ -83,7 +90,8 @@ def fake_imd(year):
     a = np.full((len(t), len(lats), len(lons)), np.nan, dtype="float32")
     li = np.where((lats > 8) & (lats < 35))[0]
     lj = np.where((lons > 68) & (lons < 90))[0]
-    a[:, li[:, None], lj[None, :]] = 2.0
+    for k, ft in enumerate(t):   # IMD file date F holds the window that STARTED on F - 1
+        a[k, li[:, None], lj[None, :]] = g((ft - pd.Timedelta(days=1)).date())
     ds = xr.Dataset({"RAINFALL": (("TIME", "LATITUDE", "LONGITUDE"), a)},
                     coords={"TIME": t, "LATITUDE": lats, "LONGITUDE": lons})
     with tempfile.NamedTemporaryFile(suffix=".nc") as f:
@@ -134,3 +142,16 @@ def test_probe_end_to_end(monkeypatch, tmp_path):
     years = {y["year"]: y for y in R["steps"]["imd"]["years"]}
     assert years[2024]["ok"] and years[2026]["ok"] is False
     assert R["projection_full_backfill"]["previous_runs_weighted_calls"] > 0
+    assert R["imd_date_convention_check"]["best"] == "era5_shifted_+0_day"
+    imd = ref[(ref.reference == "imd_rf025") & ref.value.notna()]
+    assert all(v == g(d) for v, d in zip(imd.value, imd.valid_date_ist))   # stored date = window start
+
+
+def test_probe_flags_missing_required_imd_year(monkeypatch, tmp_path):
+    monkeypatch.setattr(sources, "era5", fake_era5)
+    monkeypatch.setattr(sources, "imd_year", lambda y: (_ for _ in ()).throw(HistoryError("Connection timed out")))
+    monkeypatch.setattr(probe, "SAMPLE_MONTHS", [(date(2025, 1, 1), date(2025, 1, 3))])
+    monkeypatch.setattr(sys, "argv", ["probe", "--out", str(tmp_path), "--skip", "matrix,sample,metar"])
+    assert probe.main() != 0
+    R = json.loads((tmp_path / "probe_report.json").read_text())
+    assert any("IMD years [2024, 2025]" in p for p in R["problems"])

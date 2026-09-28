@@ -7,7 +7,7 @@ name: History probe (M4.2, manual)
 on:
   push:                     # review branch only; reruns only when the probe code itself changes
     branches: ["m4-history"]
-    paths: ["history/probe.py", "history/sources.py", ".github/workflows/history-probe.yml"]
+    paths: ["history/probe.py", "history/sources.py", "history/build.py", "history/probe_skip.txt", ".github/workflows/history-probe.yml"]
   workflow_dispatch:
     inputs:
       skip:
@@ -40,7 +40,11 @@ jobs:
         id: probe
         run: |
           set +e
-          python history/probe.py --out "$RUNNER_TEMP/probe" --skip "${{ inputs.skip }}"
+          SKIP="${{ inputs.skip }}"
+          # push-triggered runs take the steps to skip from the committed file history/probe_skip.txt (auditable)
+          if [ "${{ github.event_name }}" = "push" ]; then SKIP=$(tr -d ' \n' < history/probe_skip.txt 2>/dev/null || true); fi
+          echo "skipping: ${SKIP:-nothing}"
+          python history/probe.py --out "$RUNNER_TEMP/probe" --skip "$SKIP"
           echo "exit=$?" >> "$GITHUB_OUTPUT"
       - name: Commit probe outputs to archive-index
         if: always()

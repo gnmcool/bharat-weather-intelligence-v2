@@ -234,6 +234,8 @@ def test_imd_extraction_rules():
     df = pa.Table.from_pylist(rows, schema=REF_SCHEMA).to_pandas()
     assert df[df.point_id == "AN"].value.isna().all()
     assert df[df.point_id == "P2"].value.tolist() == [5.0, 6.0, 7.0]
+    # file dates 15..17 Jul hold the 24 h ENDING 08:30 IST that day -> stored as window start 14..16 Jul
+    assert sorted(set(df.valid_date_ist)) == [date(2024, 7, 14), date(2024, 7, 15), date(2024, 7, 16)]
     assert (df.variable == "precip_0830").all()
     assert validate_reference_rows(df) == []
     assert meta["valid_cells_all_days"] == 2

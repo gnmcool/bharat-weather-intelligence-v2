@@ -200,7 +200,10 @@ def imd_rows(ds, points: list[dict], max_km: float, url: str, file_sha: str, ret
                      "label": ("own grid cell" if own_valid else "nearby grid cell") if usable
                      else f"IMD rainfall unavailable (nearest valid cell {dist:.0f} km > {max_km:.0f} km)"})
         site = f"{float(lats[best[0]]):.2f},{float(lons[best[1]]):.2f}"
-        for k, d in enumerate(times):
+        for k, fd in enumerate(times):
+            # IMD file date = the day the 24 h ends (08:30 IST). Probe run 36373096319: IMD vs ERA5 r = 0.67 with
+            # this alignment, 0.22 with the file date taken as the window start. Stored date = window START.
+            d = fd - timedelta(days=1)
             if days_wanted is not None and d not in days_wanted:
                 continue
             v = a[k, best[0], best[1]] if usable else np.nan
@@ -208,11 +211,11 @@ def imd_rows(ds, points: list[dict], max_km: float, url: str, file_sha: str, ret
             out.append(_ref("imd_rf025", "gridded_gauge_analysis", p, site if usable else "none",
                             float(lats[best[0]]) if usable else None, float(lons[best[1]]) if usable else None,
                             dist, None, d, "precip_0830", float(v) if ok else None, "mm", 1 if ok else 0, ok,
-                            "IMD 0.25 deg gridded daily rainfall (rain-gauge analysis), 24 h ending 08:30 IST; file date "
-                            "taken as the START of the window (IMD convention, to be confirmed: see date check)",
+                            "IMD 0.25 deg gridded daily rainfall (rain-gauge analysis): 24 h from 08:30 IST on valid_date_ist to "
+                            "08:30 IST the next day (IMD file date = next day, the end of the window)",
                             url + f" (file sha256 {file_sha})", retrieved,
                             ("own cell" if own_valid else f"nearby grid cell {dist:.0f} km") if usable
                             else f"unavailable: nearest valid IMD cell {dist:.0f} km away (limit {max_km:.0f} km)"))
     meta = {"valid_cells_all_days": int(valid_all.sum()), "valid_cells_any_day": int(valid_any.sum()),
-            "days": len(times), "first_day": str(times[0]), "last_day": str(times[-1])}
+            "days": len(times), "first_file_day": str(times[0]), "last_file_day": str(times[-1])}
     return out, info, meta

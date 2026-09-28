@@ -47,6 +47,7 @@ BACKFILL_MODELS = {"ecmwf_ifs025": ["ecmwf_ifs025"], "gfs_global": ["gfs_global"
                    "icon_global": ["icon_global", "icon_seamless"]}
 SAMPLE_MONTHS = [(date(2024, 7, 1), date(2024, 7, 31)), (date(2025, 1, 1), date(2025, 1, 31))]
 IMD_YEARS = [2024, 2025, 2026]
+IMD_REQUIRED = {2024, 2025}          # a failure here is a problem; 2026 not yet published is a finding
 IMD_MAX_KM = 30.0                       # decision B4
 METAR_PAIR_KM, METAR_PAIR_DELEV = 25.0, 100.0   # PROPOSED pairing rule (needs approval)
 METAR_FETCH_KM = 50.0                   # probe fetches a superset so the effect of the rule is visible
@@ -164,7 +165,7 @@ def write_table(rows, schema, path):
 
 def corr(a, b):
     m = np.isfinite(a) & np.isfinite(b)
-    if m.sum() < 30:
+    if m.sum() < 30 or np.std(a[m]) == 0 or np.std(b[m]) == 0:
         return None, int(m.sum())
     return round(float(np.corrcoef(a[m], b[m])[0, 1]), 3), int(m.sum())
 
@@ -346,6 +347,9 @@ def main() -> int:
             log(f"IMD {y}: {rec.get('ok')}")
         ctx["imd_rows"] = rows
         R["steps"]["imd"] = {"years": years, "rows": len(rows)}
+        failed = sorted(y["year"] for y in years if y["year"] in IMD_REQUIRED and not y.get("ok"))
+        if failed:   # never a silent partial: the sample months need these files
+            R["problems"].append(f"IMD years {failed} could not be obtained; IMD reference incomplete for those years")
 
     step("imd", do_imd)
 
@@ -376,8 +380,11 @@ def main() -> int:
                 mm = i.merge(e2, on=["point_id", "valid_date_ist"], suffixes=("_imd", "_era5"))
                 c, nn = corr(mm["value_imd"].to_numpy(float), mm["value_era5"].to_numpy(float))
                 diag[f"era5_shifted_{lag:+d}_day"] = {"pearson_r": c, "pairs": nn}
+            best = max((k for k in diag if diag[k]["pearson_r"] is not None), key=lambda k: diag[k]["pearson_r"], default=None)
+            if best != "era5_shifted_+0_day":
+                R["problems"].append(f"IMD date alignment check: best match is {best}, expected +0 after alignment")
             R["imd_date_convention_check"] = {
-                "what": "Correlation of IMD daily rain (file date D) with ERA5 08:30->08:30 IST rain starting on D+lag, "
+                "best": best, "what": "Correlation of IMD daily rain (stored valid date D, after alignment) with ERA5 08:30->08:30 IST rain starting on D+lag, "
                         "36 points, sample months. The lag with the highest r shows how IMD file dates align. "
                         "A data-alignment diagnostic only; NOT forecast verification.",
                 "results": diag, "pairs_same_day": len(m)}

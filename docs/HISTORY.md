@@ -41,7 +41,11 @@ The two are never merged into one table. Any verification that uses both must re
    read** (the `p01m` field is a 0.00 placeholder in the Indian feed).
 5. **IMD 0.25° gridded rainfall**, yearly files 2024 and 2025: daily rainfall at the nearest valid cell
    within **30 km** (decision B4), distance stored; beyond 30 km = unavailable (islands). IMD is the
-   primary rainfall reference; ERA5 rainfall only secondary.
+   primary rainfall reference; ERA5 rainfall only secondary. **Date convention (measured, probe run
+   36373096319):** an IMD file date D holds the 24 h *ending* 08:30 IST on D (IMD vs ERA5 r = 0.67 with
+   this alignment, 0.22 without). It is stored under the window's start date D − 1, the same date as
+   the model and ERA5 `precip_0830` for that window. Every probe re-checks this alignment and reports a
+   problem if the best match is not at zero shift.
 6. **IMERG** stays deferred (needs an Earthdata login; decision B6).
 7. **Probe report**: request count and weighted Open-Meteo calls, rate-limit responses, bytes per row,
    projections for the full backfill, free-tier sufficiency, assumptions needing approval.

@@ -143,4 +143,4 @@ def iem_metar(station: str, start: date, end: date) -> tuple[list[dict], str]:
 
 
 def imd_year(year: int) -> bytes:
-    return http(IMD_RF25, data=urllib.parse.urlencode({"RF25": year}).encode(), timeout=600)
+    return http(IMD_RF25, data=urllib.parse.urlencode({"RF25": year}).encode(), timeout=600, tries=6)

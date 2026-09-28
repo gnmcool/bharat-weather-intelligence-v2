@@ -1,0 +1,50 @@
+{
+ "budget_counted_calls": 6000.0,
+ "dry_run": false,
+ "finished_utc": "2026-09-28 07:36:45+00:00",
+ "http": {
+  "bytes": 156508687,
+  "http_errors": 0,
+  "network_errors": 2,
+  "om_requests": 36,
+  "om_weighted_calls": 5481.257142857143,
+  "rate_limited": 26,
+  "requests": 130,
+  "retries": 28,
+  "slept_for_limits_s": 1565.0
+ },
+ "imd": [
+  {
+   "release": "history-imd-raw-2024",
+   "status": "published",
+   "year": 2024
+  },
+  {
+   "release": "history-imd-raw-2025",
+   "status": "published",
+   "year": 2025
+  },
+  {
+   "bytes": 0,
+   "checked_utc": "2026-09-28 06:16:32+00:00",
+   "reason": "source did not return a readable NetCDF (0 bytes): did not find a match in any of xarray's currently installed IO backends ['netcdf4']. Consider explicitly selecting one o",
+   "status": "unavailable",
+   "year": 2026
+  }
+ ],
+ "months": {
+  "2024-02": "published (partial, 90288/109620)",
+  "2024-03": "published (partial, 103788/117180)",
+  "2024-04": "published (partial, 100440/113400)",
+  "2024-05": "published (partial, 103788/117180)",
+  "2024-06": "published (partial, 100440/113400)",
+  "2024-07": "published (partial, 103788/117180)",
+  "2024-08": "published (partial, 103788/117180)",
+  "2024-09": "published (partial, 100440/113400)",
+  "2024-10": "published (partial, 103788/117180)",
+  "2024-11": "deferred: run budget (6000 counted calls) reached"
+ },
+ "run_id": "36385048708",
+ "started_utc": "2026-09-28 06:10:47+00:00",
+ "stopped": "budget"
+}

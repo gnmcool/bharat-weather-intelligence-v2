@@ -133,8 +133,8 @@ def test_month_build_and_validate(fakes, imd_dir, tmp_path):
     days = 29
     assert q["expected_values"] == 36 * 3 * 5 * 7 * days
     assert q["status"] == "partial"                     # ECMWF gusts and ICON lead 7 are not provided
-    assert "not provided by source (structural)" in q["missing_by_reason"]
-    assert q["missing_by_reason"]["source hours missing"] >= 1
+    assert q["missing_by_category"]["A"] == 36 * 7 * 29 + 36 * 5 * 29   # ECMWF gusts + ICON lead 7
+    assert q["missing_by_category"]["C"] >= 1
     F = pq.read_table(tmp_path / "forecasts_history-2024-02.parquet").to_pandas()
     assert (~F.run_time_known).all() and F.run_time_utc.isna().all()
     miss = F[~F.complete]
@@ -143,7 +143,7 @@ def test_month_build_and_validate(fakes, imd_dir, tmp_path):
     assert g.value.isna().all() and g.reason.str.startswith("not provided by source").all()
     one = F[(F.point_id == DROP_POINT) & (F.model == "gfs_global") & (F.variable == "tmax") & (F.nominal_lead_day == 1)
             & ~F.complete]
-    assert len(one) == 1 and one.hours_missing.iloc[0] == 1 and one.reason.iloc[0].startswith("source hours missing: 1")
+    assert len(one) == 1 and one.hours_missing.iloc[0] == 1 and one.reason.iloc[0].startswith("source outage: 1 of 24 hours missing (retrieval succeeded")
 
     M = pq.read_table(tmp_path / "matched_history-2024-02.parquet").to_pandas()
     assert (M.reference_label[M.reference == "era5"] == "ERA5 reanalysis").all()
@@ -308,3 +308,141 @@ def test_dry_run_publishes_nothing(fakes, imd_dir, tmp_path, monkeypatch):
     assert s["months"]["2024-02"] == "dry run: would publish"
     assert (tmp_path / "idx" / "history" / "dryrun" / "d1" / "2024-02.json").exists()
     assert not (tmp_path / "idx" / "history" / "index").exists()
+
+
+# ---------------------------------------------------------------- M4.3 source-availability classification
+from common import CATEGORIES, archive_start, classify_reason  # noqa: E402
+
+ECMWF_START = {"temperature_2m": datetime(2024, 2, 4, 0, tzinfo=timezone.utc),
+               "precipitation": datetime(2024, 2, 3, 22, tzinfo=timezone.utc)}
+
+
+def fake_prev_ecmwf_archive_start(points, model, hourly, leads, u1, u2):
+    """ECMWF as observed in release history-2024-02: nothing before the first archived run (lead N starts N-1 days
+    after lead 1); plus, for GFS, a genuine mid-record outage of 30 hours at every point."""
+    res, url = fake_previous_runs(points, model, hourly, leads, u1, u2)
+    ts = _times(u1, u2)
+    for r in res:
+        for v in hourly:
+            for n in leads:
+                col = r["hourly"][f"{v}_previous_day{n}"]
+                for i, t in enumerate(ts):
+                    if model == "ecmwf_ifs025" and v in ECMWF_START and t < ECMWF_START[v] + timedelta(days=n - 1):
+                        col[i] = None
+                    if model == "gfs_global" and v == "precipitation" and n == 2 and \
+                            datetime(2024, 2, 20, 6, tzinfo=timezone.utc) <= t < datetime(2024, 2, 21, 12, tzinfo=timezone.utc):
+                        col[i] = None
+    return res, url
+
+
+def test_archive_start_table_matches_audit():
+    assert archive_start("ecmwf_ifs025", "temperature_2m", 1) == datetime(2024, 2, 4, 0, tzinfo=timezone.utc)
+    assert archive_start("ecmwf_ifs025", "precipitation", 7) == datetime(2024, 2, 9, 22, tzinfo=timezone.utc)
+    assert archive_start("gfs_global", "temperature_2m", 1) is None
+
+
+def test_february_archive_start_rows_classify_as_B_exactly(fakes, imd_dir, tmp_path, monkeypatch):
+    """Reproduces the audited 6,804 rows of history-2024-02 (36 points x 4 variables x leads 1-7) as category B,
+    including the boundary days with 19 / 21 / 6 hours present; a real outage stays C; gusts stay A."""
+    monkeypatch.setattr(sources, "previous_runs", fake_prev_ecmwf_archive_start)
+    B.build_month("2024-02", tmp_path, imd_dir)
+    q = B.validate_month(tmp_path)
+    assert q["publishable"], q["problems"]
+    F = pq.read_table(tmp_path / "forecasts_history-2024-02.parquet").to_pandas()
+    F["cat"] = F.reason.map(classify_reason)
+    b = F[F.cat == "B"]
+    assert len(b) == 6804
+    assert set(b.model) == {"ecmwf_ifs025"} and set(b.variable) == {"tmax", "tmin", "precip", "precip_0830"}
+    assert b.valid_date_ist.min() == date(2024, 2, 1) and b.valid_date_ist.max() == date(2024, 2, 10)
+    assert sorted(b.hours_present.unique()) == [0, 6, 19, 21]          # the audited boundary pattern
+    assert b.reason.str.startswith("before source archive start").all()
+    # after the start, ECMWF (temperature, rain) is complete: no B/C rows later
+    assert not F[(F.model == "ecmwf_ifs025") & (F.cat == "C")].shape[0]
+    # genuine mid-record outage (GFS rain lead 2, 20-21 Feb) -> C, not B
+    c = F[F.cat == "C"]
+    assert set(c.model) == {"gfs_global"}
+    planted = c[(c.point_id == DROP_POINT) & (c.nominal_lead_day == 1) & c.variable.isin(["tmax", "tmin"])]
+    assert len(planted) == 2                                   # the fixture's one-hour gap (tmax and tmin)
+    outage = c.drop(planted.index)
+    assert set(outage.nominal_lead_day) == {2} and set(outage.variable) == {"precip", "precip_0830"}
+    assert outage.point_id.nunique() == 36
+    assert c.reason.str.contains("source outage").all() and c.reason.str.contains("retrieval succeeded").all()
+    # structural gaps remain A and distinct
+    a = F[F.cat == "A"]
+    assert set(a.model) == {"ecmwf_ifs025", "icon_global"} and a.reason.str.startswith("not provided by source").all()
+    assert q["missing_by_category"]["B"] == 6804
+
+
+def test_outage_straddling_archive_start_is_not_hidden_as_B(fakes, imd_dir, tmp_path, monkeypatch):
+    def prev(points, model, hourly, leads, u1, u2):
+        res, url = fake_prev_ecmwf_archive_start(points, model, hourly, leads, u1, u2)
+        if model == "ecmwf_ifs025":
+            ts = _times(u1, u2)
+            for r in res:   # an extra missing hour AFTER the start on the boundary day -> must be C (conservative)
+                r["hourly"]["temperature_2m_previous_day1"][ts.index(datetime(2024, 2, 4, 10, tzinfo=timezone.utc))] = None
+        return res, url
+    monkeypatch.setattr(sources, "previous_runs", prev)
+    B.build_month("2024-02", tmp_path, imd_dir)
+    F = pq.read_table(tmp_path / "forecasts_history-2024-02.parquet").to_pandas()
+    r = F[(F.model == "ecmwf_ifs025") & (F.variable == "tmax") & (F.nominal_lead_day == 1)
+          & (F.valid_date_ist == date(2024, 2, 4))].reason
+    assert r.str.startswith("source outage: 6 of 24").all()
+
+
+def test_classifier_covers_all_categories_and_batch1_wording():
+    cases = {
+        "not provided by source: ecmwf_ifs025 has no wind_gusts_10m at nominal lead 1": "A",
+        "METAR reports a gust group only when gusts occur": "A",
+        "before source archive start: 5 of 24 hours precede ...": "B",
+        "source outage: 3 of 24 hours missing (retrieval succeeded; no interpolation, no substitution)": "C",
+        "source hours missing: 24 of 24 (no interpolation, no substitution)": "C",      # m4.3-1 wording (batch 1)
+        "source retrieval failed: open-meteo previous-runs icon_global: HTTP 500": "D",
+        "IMD 2026 rainfall file not published by the source (checked ...); no substitute used": "E",
+        "no METAR reports retrieved for this IST day": "E",
+        "incomplete reporting coverage: 0 reports < 20 required; no report in IST 6-h block(s) 00-06h": "E",
+        "incomplete reporting coverage: no report in IST 6-h block(s) 00-06h": "F",
+        "ERA5 hours missing: 2 of 24": "F",
+        "no METAR match: nearest station 55 km > 25 km": "G",
+        "no IMD cell within 30 km (nearest valid cell 369 km)": "G",
+    }
+    for text, cat in cases.items():
+        assert classify_reason(text) == cat, text
+    assert classify_reason(None) is None
+    assert set(CATEGORIES) == set("ABCDEFG")
+
+
+def test_request_failure_still_refuses_month(fakes, imd_dir, tmp_path, monkeypatch):
+    def boom(points, model, *a):
+        if model == "ecmwf_ifs025":
+            raise HistoryError("previous-runs failed: HTTP 502")
+        return fake_previous_runs(points, model, *a)
+    monkeypatch.setattr(sources, "previous_runs", boom)
+    B.build_month("2024-02", tmp_path, imd_dir)
+    q = B.validate_month(tmp_path)
+    assert not q["publishable"]
+    assert any(p.startswith("source retrieval failed") for p in q["problems"])
+    assert all(classify_reason(p) == "D" for p in q["problems"] if p.startswith("source retrieval failed"))
+
+
+def test_aggregate_applies_annotation_only_with_matching_manifest_hash(tmp_path):
+    idx = tmp_path / "idx"
+    (idx / "history" / "index").mkdir(parents=True)
+    (idx / "history" / "annotations").mkdir(parents=True)
+    q = {"expected_values": 100, "values_available": 60, "rows_stored": 100, "matched_rows": 0, "reference_rows": 0,
+         "missing_by_reason": {"not provided by source (structural)": 30, "source hours missing": 10},   # batch-1 labels
+         "missing_by_model": {}, "missing_by_variable": {}, "missing_by_lead": {}, "missing_by_location": {},
+         "reference_coverage": {}, "metar_by_point": {}, "imd_by_point": {},
+         "imd_alignment": {"best_lag": "+0", "results": {}}, "anomalies": []}
+    write_json(idx / "history" / "index" / "2024-02.json", {"month": "2024-02", "tag": "history-2024-02", "release_url": "u",
+                                                            "manifest_sha256": "abc", "quality": q,
+                                                            "manifest": {"files": []}})
+    ann = {"id": "a1", "release": "history-2024-02", "manifest_sha256": "abc",
+           "reclassify": {"from": "C", "to": "B", "rows": 10}}
+    write_json(idx / "history" / "annotations" / "a1.json", ann)
+    rep = B.aggregate(idx, ["2024-02"])
+    assert rep["missing_by_category"] == {"A": 30, "B": 10}
+    assert rep["annotations_applied"][0]["applied"] is True
+    write_json(idx / "history" / "annotations" / "a1.json", dict(ann, manifest_sha256="WRONG"))
+    rep = B.aggregate(idx, ["2024-02"])
+    assert rep["missing_by_category"] == {"A": 30, "C": 10}
+    assert rep["annotations_applied"][0]["applied"] is False

@@ -36,7 +36,7 @@ import pyarrow.parquet as pq
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import sources as S  # noqa: E402
 from build import build_matched, imd_rows, metar_daily, pair_stations, rows_from_era5, rows_from_previous_runs  # noqa: E402
-from common import (BACKFILL_HOURLY, HIST_SCHEMA, HOURLY, LEADS, MATCH_MAP, MATCHED_SCHEMA, POINTS_FILE,  # noqa: E402
+from common import (BACKFILL_HOURLY, CATEGORIES, HIST_SCHEMA, classify_reason, HOURLY, LEADS, MATCH_MAP, MATCHED_SCHEMA, POINTS_FILE,  # noqa: E402
                     PROCESSING_VERSION, REF_SCHEMA, SCHEMA_VERSION, HistoryError, date_range, haversine_km,
                     load_points, om_weight, sha256_file, utc_request_range, validate_history_rows,
                     validate_reference_rows, write_json)
@@ -323,15 +323,8 @@ def _missing_breakdown(F: pd.DataFrame, col: str) -> dict:
 
 
 def reason_class(r: str | None) -> str:
-    if r is None or (isinstance(r, float) and np.isnan(r)):
-        return "available"
-    if r.startswith("not provided by source"):
-        return "not provided by source (structural)"
-    if r.startswith("source hours missing"):
-        return "source hours missing"
-    if "unexpected" in r:
-        return "source returned nothing (unexpected)"
-    return "other"
+    c = classify_reason(r)
+    return "available" if c is None else f"{c}: {CATEGORIES[c]}"
 
 
 def quality(F, R, M, exp, pairing, man) -> dict:
@@ -341,8 +334,10 @@ def quality(F, R, M, exp, pairing, man) -> dict:
     for (ref, var), g in M.drop_duplicates(["point_id", "valid_date_ist", "variable", "reference"]).groupby(
             ["reference", "variable"]):
         reasons = Counter(g.reference_reason.dropna().map(lambda s: s.split(":")[0].split("(")[0].strip()[:80]))
+        cats = Counter(g.reference_reason.dropna().map(classify_reason))
         refcov[f"{ref}:{var}"] = {"expected": len(g), "available": int(g.reference_available.sum()),
-                                  "unavailable": int((~g.reference_available).sum()), "reasons": dict(reasons)}
+                                  "unavailable": int((~g.reference_available).sum()), "reasons": dict(reasons),
+                                  "categories": dict(cats)}
     metar_pts = {}
     mt = M[(M.reference == "metar") & (M.variable == "tmax")].drop_duplicates(["point_id", "valid_date_ist"])
     for pid, g in mt.groupby("point_id"):
@@ -358,6 +353,8 @@ def quality(F, R, M, exp, pairing, man) -> dict:
         "expected_values": n_exp, "rows_stored": len(F), "values_available": avail, "values_missing": n_exp - avail,
         "status": "complete" if avail == n_exp else "partial",
         "missing_by_reason": dict(Counter(map(reason_class, F.reason[~F.complete]))),
+        "missing_by_category": dict(Counter(map(classify_reason, F.reason[~F.complete]))),
+        "category_legend": CATEGORIES,
         "missing_by_model": _missing_breakdown(F, "model"), "missing_by_variable": _missing_breakdown(F, "variable"),
         "missing_by_lead": _missing_breakdown(F, "nominal_lead_day"),
         "missing_by_location": _missing_breakdown(F, "point_id"),
@@ -584,8 +581,42 @@ def batch(months: list[str], idx: pathlib.Path, work: pathlib.Path, budget: floa
 
 
 # ================================================================== aggregate quality report
+OLD_LABEL_CATEGORY = {   # m4.3-1 gap-report labels (batch 1) -> category, before annotations
+    "not provided by source (structural)": "A", "source hours missing": "C", "source returned nothing (unexpected)": "C"}
+
+
+def month_categories(rec: dict, annotations: list[dict]) -> tuple[dict, list]:
+    """Forecast missing-value counts by category A-G for one published month, with annotations applied.
+    Annotations only relabel counts; they never change data. A hash mismatch is reported, not applied."""
+    q = rec["quality"]
+    if "missing_by_category" in q:
+        cats = Counter({k: v for k, v in q["missing_by_category"].items()})
+    else:
+        cats = Counter()
+        for label, n in q["missing_by_reason"].items():
+            cats[OLD_LABEL_CATEGORY.get(label, "C")] += n
+    notes = []
+    for a in annotations:
+        if a["release"] != rec["tag"]:
+            continue
+        if a["manifest_sha256"] != rec["manifest_sha256"]:
+            notes.append({"annotation": a["id"], "applied": False, "problem": "manifest SHA-256 differs from index record"})
+            continue
+        r = a["reclassify"]
+        if cats[r["from"]] < r["rows"]:
+            notes.append({"annotation": a["id"], "applied": False, "problem": "more rows than the source category holds"})
+            continue
+        cats[r["from"]] -= r["rows"]
+        cats[r["to"]] += r["rows"]
+        notes.append({"annotation": a["id"], "applied": True, "rows": r["rows"], "from": r["from"], "to": r["to"]})
+    return {k: v for k, v in sorted(cats.items()) if v}, notes
+
+
 def aggregate(idx: pathlib.Path, months_scope: list[str]) -> dict:
     recs = {p.stem: json.loads(p.read_text()) for p in sorted((idx / "history" / "index").glob("*.json"))}
+    ann_dir = idx / "history" / "annotations"
+    annotations = [json.loads(p.read_text()) for p in sorted(ann_dir.glob("*.json"))] if ann_dir.exists() else []
+    by_cat, cat_by_month, ann_notes = Counter(), {}, []
     refused = [p.name for p in sorted((idx / "history" / "refused").glob("*.json"))] if (idx / "history" / "refused").exists() else []
     tot = Counter()
     by = {k: defaultdict(Counter) for k in ("missing_by_model", "missing_by_variable", "missing_by_lead", "missing_by_location")}
@@ -596,6 +627,10 @@ def aggregate(idx: pathlib.Path, months_scope: list[str]) -> dict:
         failures.append({"attempt": p.stem, "problems": r["quality"].get("problems", [])})
     for m, r in recs.items():
         q, man = r["quality"], r["manifest"]
+        mc, notes = month_categories(r, annotations)
+        cat_by_month[m] = mc
+        by_cat.update(mc)
+        ann_notes += [{"month": m, **n} for n in notes]
         tot.update({"expected": q["expected_values"], "available": q["values_available"], "rows": q["rows_stored"],
                     "matched_rows": q["matched_rows"], "reference_rows": q["reference_rows"]})
         for k in by:
@@ -630,6 +665,8 @@ def aggregate(idx: pathlib.Path, months_scope: list[str]) -> dict:
                                "is available; the job finishing does not make it complete"),
         "expected_values": exp_all, "rows_stored": tot["rows"], "values_available": tot["available"],
         "values_missing": exp_all - tot["available"], "missing_by_reason": dict(reasons),
+        "missing_by_category": dict(sorted(by_cat.items())), "missing_by_category_by_month": cat_by_month,
+        "category_legend": CATEGORIES, "annotations_applied": ann_notes,
         **{k: {kk: dict(vv) for kk, vv in v.items()} for k, v in by.items()},
         "reference_coverage": {k: dict(v) for k, v in refcov.items()}, "metar_by_point": metar,
         "imd_by_point": {k: dict(v) for k, v in imd.items()}, "anomalies": anomalies, "imd_alignment_by_month": align, "refused_attempt_problems": failures,

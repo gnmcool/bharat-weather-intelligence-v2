@@ -134,3 +134,27 @@ and manifest state what was wrong, which records are affected, why the new versi
 `history-YYYY-MM`; the index records both.
 
 No skill scores, rankings or verdicts are computed in M4.3.
+
+### Missing-value categories (processing version m4.3-2, owner-approved 28 Sep 2026)
+
+Every unavailable value carries expected / present / missing counts and a reason; `classify_reason()` maps each
+reason to one category. Categories are never merged.
+
+| Category | Meaning | Reason text (starts with) |
+| --- | --- | --- |
+| A | source structurally unavailable (model / variable / lead does not exist) | `not provided by source` · `METAR reports a gust group…` (not comparable) |
+| B | source archive not yet started | `before source archive start` |
+| C | source outage / partial availability, retrieval succeeded | `source outage: N of 24 hours missing (retrieval succeeded…)` (m4.3-1 wording: `source hours missing`) |
+| D | request/download failure — the month is refused and never published | `source retrieval failed` (refusal records only) |
+| E | reference unavailable | IMD year not published · no METAR reports that day · value missing in source file |
+| F | temporal incompleteness of a reference | `incomplete reporting coverage` (METAR 6-h blocks / < 20 reports) · `ERA5 hours missing` |
+| G | spatial pairing failure | `no METAR match` (> 25 km or \|Δelev\| > 100 m) · `no IMD cell within 30 km` |
+
+Source archive starts (`SOURCE_ARCHIVE_START`): ECMWF IFS 0.25 — first lead-1 value 2024-02-04 00 UTC (temperature),
+2024-02-03 22 UTC (precipitation); lead N starts N − 1 days later. A day is B only if **every** missing hour precedes
+the start; otherwise C. GFS and ICON have no start inside the M4.3 scope.
+
+**Batch 1 (m4.3-1) wording.** Releases `history-2024-02` … `history-2024-10` use `source hours missing` (→ C by
+default). The append-only annotation `archive-index:history/annotations/2024-02-ecmwf-archive-start.json`
+reclassifies the 6,804 ECMWF rows of 1–10 Feb 2024 to B, bound to the release's manifest SHA-256; the quality report
+applies it only if the hash matches. No released value or file was changed.

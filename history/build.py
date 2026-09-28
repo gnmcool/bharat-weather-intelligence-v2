@@ -10,8 +10,8 @@ from datetime import date, datetime, timedelta, timezone
 
 import numpy as np
 
-from common import (AGG_TEXT, HOURLY, LEAD_BASIS, MATCH_MAP, NOT_COMPARABLE, REF_LABEL, aggregate_daily, haversine_km,
-                    known_not_provided, parse_hourly_times)
+from common import (AGG_TEXT, HOURLY, LEAD_BASIS, MATCH_MAP, NOT_COMPARABLE, REF_LABEL, aggregate_daily, archive_start,
+                    haversine_km, known_not_provided, parse_hourly_times, window_instants)
 
 IST = timezone(timedelta(hours=5, minutes=30))
 KT_TO_KMH = 1.852
@@ -39,17 +39,29 @@ def rows_from_previous_runs(resp: list[dict], points: list[dict], model: str, om
                 vals = h.get(f"{var}_previous_day{n}")
                 if vals is None:
                     vals = [None] * len(times)   # source returned no such column: every day absent
-                if col_empty[(var, n)]:
-                    why = (f"not provided by source: {model} has no {var} at nominal lead {n} (M4.2 coverage matrix)"
-                           if known_not_provided(model, var, n) else
-                           f"source returned no {var} at nominal lead {n} for any point in the whole request period "
-                           f"(unexpected; listed as an anomaly)")
+                start = archive_start(model, var, n)
+                if col_empty[(var, n)] and known_not_provided(model, var, n):
+                    why = f"not provided by source: {model} has no {var} at nominal lead {n} (M4.2 coverage matrix)"
+                elif col_empty[(var, n)] and not (start and all(t < start for t in times)):
+                    why = (f"source outage: {var} at nominal lead {n} missing for every point in the whole request "
+                           f"period (retrieval succeeded; unexpected; listed as an anomaly)")
                 else:
                     why = None
+                present = {t for t, x in zip(times, vals) if x is not None}
                 for dv, unit, how, window in HOURLY[var]:
                     for d, v, npres in aggregate_daily(times, vals, how, window, days):
-                        reason = None if v is not None else (
-                            why or f"source hours missing: {24 - npres} of 24 (no interpolation, no substitution)")
+                        if v is not None:
+                            reason = None
+                        elif why:
+                            reason = why
+                        else:
+                            missing = [t for t in window_instants(d, window) if t not in present]
+                            if start is not None and all(t < start for t in missing):
+                                reason = (f"before source archive start: {len(missing)} of 24 hours precede the first "
+                                          f"archived {model} {var} at nominal lead {n} ({start:%Y-%m-%d %H:%M} UTC)")
+                            else:
+                                reason = (f"source outage: {len(missing)} of 24 hours missing (retrieval succeeded; "
+                                          f"no interpolation, no substitution)")
                         out.append({
                             "dataset": "historical_backfill", "point_id": p["id"], "lat": p["lat"], "lon": p["lon"],
                             "model": model, "om_model": om_model, "source": "open-meteo previous-runs api",

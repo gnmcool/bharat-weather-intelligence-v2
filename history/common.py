@@ -18,7 +18,7 @@ from datetime import date, datetime, timedelta, timezone
 import pyarrow as pa
 
 SCHEMA_VERSION = 2
-PROCESSING_VERSION = "m4.3-1"   # bump when processing changes; recorded in every manifest
+PROCESSING_VERSION = "m4.3-2"   # m4.3-2: explicit source-availability reasons (owner-approved 28 Sep 2026)   # bump when processing changes; recorded in every manifest
 HERE = pathlib.Path(__file__).resolve().parent
 POINTS_FILE = HERE.parent / "archive" / "points.json"   # the same 36 fixed points as the prospective archive
 LEADS = list(range(1, 8))                                # previous_day1 .. previous_day7
@@ -127,6 +127,57 @@ NOT_COMPARABLE = {("metar", "gust_max"): "METAR reports a gust group only when g
 # (model, hourly variable, lead or None=all) that the source never provides (M4.2 coverage matrix)
 KNOWN_NOT_PROVIDED = {("ecmwf_ifs025", "wind_gusts_10m", None), ("ecmwf_ifs025", "cape", None),
                       ("icon_global", "cape", None), ("icon_global", None, 7)}
+
+
+# First hourly instant (UTC) the Open-Meteo Previous Runs archive holds at nominal lead 1; lead N starts N - 1 days
+# later. Evidence: M4.2 coverage matrix (probe run 36373096319) and the audit of release history-2024-02 (every one of
+# 36 points, 7 leads and 4 variables consistent with the 3 Feb 2024 00 UTC ECMWF run being the first archived run;
+# precipitation starts 2 h earlier because the first 3-hourly total is spread over the hours 22, 23 and 00 UTC).
+# Models without an entry have no archive start inside the M4.3 scope (GFS and ICON start 20 Jan 2024).
+SOURCE_ARCHIVE_START = {
+    ("ecmwf_ifs025", "temperature_2m"): datetime(2024, 2, 4, 0, tzinfo=timezone.utc),
+    ("ecmwf_ifs025", "precipitation"): datetime(2024, 2, 3, 22, tzinfo=timezone.utc),
+}
+
+
+def archive_start(model: str, var: str, lead: int):
+    base = SOURCE_ARCHIVE_START.get((model, var))
+    return None if base is None else base + timedelta(days=lead - 1)
+
+
+# ---- missing-value categories (owner-approved taxonomy; never collapsed) ----
+CATEGORIES = {
+    "A": "source structurally unavailable (model/variable/lead does not exist)",
+    "B": "source archive not yet started",
+    "C": "source outage / partial source availability (retrieval succeeded)",
+    "D": "request/download failure (the month is refused, never published)",
+    "E": "reference unavailable",
+    "F": "temporal incompleteness (reference reporting coverage)",
+    "G": "spatial pairing failure",
+}
+
+
+def classify_reason(reason) -> str | None:
+    """Map a stored reason to category A-G (None = value available). Covers the m4.3-1 wording of batch-1 releases:
+    'source hours missing' there = C unless an archive-index annotation reclassifies the rows (e.g. to B)."""
+    if reason is None or (isinstance(reason, float) and reason != reason):
+        return None
+    r = reason.lower()
+    if r.startswith("not provided by source") or r.startswith("metar reports a gust group"):
+        return "A"
+    if r.startswith("before source archive start"):
+        return "B"
+    if r.startswith(("source outage", "source hours missing", "source returned no")):
+        return "C"
+    if r.startswith(("request/download failure", "source retrieval failed")):
+        return "D"
+    if r.startswith(("no metar match", "no imd cell within")):
+        return "G"
+    if r.startswith("incomplete reporting coverage: 0 reports"):
+        return "E"   # no METAR report at all that day: reference unavailable, not partial coverage
+    if r.startswith(("incomplete reporting coverage", "era5 hours missing", "temporal incompleteness")):
+        return "F"
+    return "E"   # reference unavailable: file not published, no reports retrieved, value missing in source file
 
 
 def known_not_provided(model: str, var: str, lead: int) -> bool:

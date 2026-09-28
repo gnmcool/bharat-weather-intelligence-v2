@@ -1,0 +1,61 @@
+# M4.2 historical/reference feasibility probe. Runs on push to the m4-history review branch (probe code changes only) or manually. SMALL: coverage matrix at one
+# point, two sample months for the 36 points, ERA5, METAR, IMD 2024-2026. No full backfill.
+# Outputs are committed to the append-only archive-index branch under history/probe/<run_id>/.
+# Never touches the prospective immutable archive (no releases are created) and never writes to CORE.
+name: History probe (M4.2, manual)
+
+on:
+  push:                     # review branch only; reruns only when the probe code itself changes
+    branches: ["m4-history"]
+    paths: ["history/probe.py", "history/sources.py", ".github/workflows/history-probe.yml"]
+  workflow_dispatch:
+    inputs:
+      skip:
+        description: "Steps to skip (comma list: matrix,sample,era5,metar,imd). Normally empty."
+        type: string
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: history-probe
+  cancel-in-progress: false
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: history/requirements.txt
+      - run: pip install -r history/requirements.txt pytest
+      - name: Offline tests
+        run: python -m pytest -q history/tests
+      - name: Probe
+        id: probe
+        run: |
+          set +e
+          python history/probe.py --out "$RUNNER_TEMP/probe" --skip "${{ inputs.skip }}"
+          echo "exit=$?" >> "$GITHUB_OUTPUT"
+      - name: Commit probe outputs to archive-index
+        if: always()
+        run: |
+          git config --global user.name "bwi-archive"
+          git config --global user.email "bwi-archive@users.noreply.github.com"
+          IDX="$RUNNER_TEMP/index"
+          git fetch -q origin archive-index
+          git worktree add -q "$IDX" origin/archive-index && git -C "$IDX" checkout -q -B archive-index
+          DEST="$IDX/history/probe/$GITHUB_RUN_ID"
+          mkdir -p "$DEST" && cp "$RUNNER_TEMP"/probe/* "$DEST"/
+          cd "$IDX" && git add history && git commit -qm "history: M4.2 probe run $GITHUB_RUN_ID (exit ${{ steps.probe.outputs.exit }})"
+          for i in 1 2 3 4 5; do git push -q origin archive-index && break; git pull -q --rebase origin archive-index; done
+          du -ch "$DEST"/* | tail -1 | sed 's/^/probe outputs: /' >> "$GITHUB_STEP_SUMMARY"
+      - name: Probe status
+        run: |
+          echo "probe exit code ${{ steps.probe.outputs.exit }} (0 = no problems, 2 = problems listed in probe_report.json)"
+          [ "${{ steps.probe.outputs.exit }}" = "0" ]

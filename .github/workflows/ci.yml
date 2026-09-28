@@ -39,6 +39,8 @@ jobs:
           cache-dependency-path: archive/requirements*.txt
       - run: pip install -r archive/requirements.txt -r archive/requirements-dev.txt
       - run: python -m pytest -q archive/tests
+      - name: History (M4.2) — offline tests
+        run: python -m pytest -q history/tests
 
   api-v2:
     name: API v2 — tests (offline, CORE fixtures)

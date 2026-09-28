@@ -84,6 +84,20 @@ lead-time verification.
 - Live: `workflow_dispatch` with `inject = checksum | missing_row | bad_lead` must end with
   "Nothing was published" and a refusal record in the index.
 
+## Validation evidence: three intentional failed runs (expected)
+
+On 28 Sep 2026 three `workflow_dispatch` runs were started **on purpose** with an injected fault to prove
+the refusal path. Each one was required to fail, and did. They are acceptance evidence, not product
+failures, and must stay in the Actions history.
+
+| Run | Injected fault | Result | Index record |
+| --- | --- | --- | --- |
+| 36347335335 | `checksum` (a file altered after its SHA-256 was recorded) | refused, nothing published | `index/refused/2026-09-28_36347335335.json` |
+| 36347404057 | `missing_row` (one expected forecast value removed) | refused, nothing published | `index/refused/2026-09-28_36347404057.json` |
+| 36347567385 | `bad_lead` (one `lead_day` made inconsistent with its run time) | refused, nothing published | `index/refused/2026-09-28_36347567385.json` |
+
+The real archive for that day, `archive-daily-2026-09-28`, was produced by a separate, uninjected run.
+
 ## Not in this milestone
 
 Backfill, the 109-station expansion, verification metrics, IMD normals, CAPE, IMERG.

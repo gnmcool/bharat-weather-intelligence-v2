@@ -4,6 +4,9 @@ Newest first. Each decision was approved by the owner unless marked *proposed*.
 
 | Date | Decision | Why |
 |---|---|---|
+| 2026-09-28 | Historical forecasts (M4.2) are a **separate dataset** (`history/`, `dataset = historical_backfill`): `run_time_known = false`, `run_time_utc` null, `nominal_lead_day` = N of Open-Meteo `previous_dayN`; daily values only from all 24 hourly values; never mixed with the prospective archive | Owner's M4.2 brief; the source does not identify the model run |
+| 2026-09-28 | Rain is aggregated twice: IST calendar day and 08:30→08:30 IST (IMD gauge day); IMD is the primary rain reference, ERA5 secondary; METAR rain never used | Step 1 findings; IMD day definition |
+| 2026-09-28 | *Proposed:* METAR pairing = nearest station ≤ 25 km and \|Δ elevation\| ≤ 100 m; METAR day complete = ≥ 20 reports and one in each 6-h IST block | Needs owner approval after the probe |
 | 2026-09-28 | Forecast archive = one **immutable** GitHub release per IST day (`archive-daily-YYYY-MM-DD`), draft → verified → published; manifest + checks committed to the append-only `archive-index` branch; refusal on any incomplete data | M4 B2; Step 1 found monthly appends incompatible with immutability |
 | 2026-09-28 | Archive models `ecmwf_ifs025`, `gfs_global`, `icon_global` with exact run times from Open-Meteo run metadata (checked before and after; GFS on both grids). `gfs025` rejected: no temperature or rain | Step 1 probe |
 | 2026-09-28 | Only the 36 fixed points; no backfill, no 109-station expansion until the prospective archive is proven | Owner's instruction (B3 not approved) |

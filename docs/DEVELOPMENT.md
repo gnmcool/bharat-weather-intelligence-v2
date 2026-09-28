@@ -36,6 +36,12 @@ No secrets are needed in M0. An Earthdata token (for IMERG, in M4) will be a rep
 
 Each milestone needs your explicit approval before it starts.
 
+## Known test-quality limitations (to fix in a later stage; not forecast issues)
+
+| Test | Limitation | Status |
+|---|---|---|
+| M1 `tools/compare/compare.mjs` | Around **02:00 IST** (an hour boundary) V2 and CORE can be fetched a few seconds apart on either side of the hour, and the check read a stale CORE page location, so an item compared "current hour" values from two different hours and failed. A re-run passed 111/111. This is a test-timing weakness in the comparison harness, not a scientific or forecast problem in CORE or V2. | Recorded 28 Sep 2026 (owner: do not change now) |
+
 ## api-v2 (M2)
 
 ```bash

@@ -1,0 +1,7 @@
+{
+ "bytes": 0,
+ "checked_utc": "2026-09-28 06:16:32+00:00",
+ "reason": "source did not return a readable NetCDF (0 bytes): did not find a match in any of xarray's currently installed IO backends ['netcdf4']. Consider explicitly selecting one o",
+ "status": "unavailable",
+ "year": 2026
+}

@@ -1,0 +1,329 @@
+{
+ "max_km": 30.0,
+ "points": [
+  {
+   "cell_lat": 20.0,
+   "cell_lon": 86.25,
+   "distance_km": 1228.0,
+   "label": "IMD rainfall unavailable (nearest valid cell 1228 km > 30 km)",
+   "own_cell_valid": false,
+   "point_id": "IN-35-640",
+   "usable": false
+  },
+  {
+   "cell_lat": 16.25,
+   "cell_lon": 80.25,
+   "distance_km": 7.0,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-37-548",
+   "usable": true
+  },
+  {
+   "cell_lat": 27.75,
+   "cell_lon": 94.5,
+   "distance_km": 7.4,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-12-779",
+   "usable": true
+  },
+  {
+   "cell_lat": 26.25,
+   "cell_lon": 92.75,
+   "distance_km": 9.3,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-18-305",
+   "usable": true
+  },
+  {
+   "cell_lat": 25.75,
+   "cell_lon": 86.0,
+   "distance_km": 6.1,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-10-221",
+   "usable": true
+  },
+  {
+   "cell_lat": 30.75,
+   "cell_lon": 76.75,
+   "distance_km": 4.1,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-04-055",
+   "usable": true
+  },
+  {
+   "cell_lat": 21.25,
+   "cell_lon": 81.75,
+   "distance_km": 8.1,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-22-410",
+   "usable": true
+  },
+  {
+   "cell_lat": 20.5,
+   "cell_lon": 72.75,
+   "distance_km": 13.9,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-26-495",
+   "usable": true
+  },
+  {
+   "cell_lat": 28.75,
+   "cell_lon": 77.0,
+   "distance_km": 16.5,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-07-delhi",
+   "usable": true
+  },
+  {
+   "cell_lat": 15.25,
+   "cell_lon": 74.0,
+   "distance_km": 12.4,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-30-586",
+   "usable": true
+  },
+  {
+   "cell_lat": 22.75,
+   "cell_lon": 72.25,
+   "distance_km": 6.5,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-24-474",
+   "usable": true
+  },
+  {
+   "cell_lat": 29.0,
+   "cell_lon": 76.5,
+   "distance_km": 12.0,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-06-082",
+   "usable": true
+  },
+  {
+   "cell_lat": 31.5,
+   "cell_lon": 77.0,
+   "distance_km": 13.7,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-02-027",
+   "usable": true
+  },
+  {
+   "cell_lat": 33.5,
+   "cell_lon": 74.75,
+   "distance_km": 13.9,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-01-015",
+   "usable": true
+  },
+  {
+   "cell_lat": 23.75,
+   "cell_lon": 85.5,
+   "distance_km": 6.6,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-20-361",
+   "usable": true
+  },
+  {
+   "cell_lat": 14.25,
+   "cell_lon": 76.5,
+   "distance_km": 6.6,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-29-566",
+   "usable": true
+  },
+  {
+   "cell_lat": 10.5,
+   "cell_lon": 76.25,
+   "distance_km": 6.8,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-32-594",
+   "usable": true
+  },
+  {
+   "cell_lat": 33.75,
+   "cell_lon": 76.5,
+   "distance_km": 6.0,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-38-004",
+   "usable": true
+  },
+  {
+   "cell_lat": 9.25,
+   "cell_lon": 76.25,
+   "distance_km": 369.2,
+   "label": "IMD rainfall unavailable (nearest valid cell 369 km > 30 km)",
+   "own_cell_valid": false,
+   "point_id": "IN-31-587",
+   "usable": false
+  },
+  {
+   "cell_lat": 23.25,
+   "cell_lon": 78.25,
+   "distance_km": 6.4,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-23-446",
+   "usable": true
+  },
+  {
+   "cell_lat": 20.0,
+   "cell_lon": 75.75,
+   "distance_km": 15.2,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-27-514",
+   "usable": true
+  },
+  {
+   "cell_lat": 24.75,
+   "cell_lon": 93.75,
+   "distance_km": 12.0,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-14-277",
+   "usable": true
+  },
+  {
+   "cell_lat": 25.5,
+   "cell_lon": 91.25,
+   "distance_km": 9.1,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-17-296",
+   "usable": true
+  },
+  {
+   "cell_lat": 23.25,
+   "cell_lon": 92.75,
+   "distance_km": 12.3,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-15-268",
+   "usable": true
+  },
+  {
+   "cell_lat": 26.0,
+   "cell_lon": 94.5,
+   "distance_km": 5.4,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-13-263",
+   "usable": true
+  },
+  {
+   "cell_lat": 20.25,
+   "cell_lon": 85.0,
+   "distance_km": 5.7,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-21-385",
+   "usable": true
+  },
+  {
+   "cell_lat": 12.0,
+   "cell_lon": 79.75,
+   "distance_km": 9.7,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-34-635",
+   "usable": true
+  },
+  {
+   "cell_lat": 30.75,
+   "cell_lon": 75.25,
+   "distance_km": 9.5,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-03-042",
+   "usable": true
+  },
+  {
+   "cell_lat": 26.25,
+   "cell_lon": 74.75,
+   "distance_km": 13.4,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-08-119",
+   "usable": true
+  },
+  {
+   "cell_lat": 27.25,
+   "cell_lon": 88.25,
+   "distance_km": 14.6,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-11-243",
+   "usable": true
+  },
+  {
+   "cell_lat": 10.75,
+   "cell_lon": 78.75,
+   "distance_km": 13.4,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-33-614",
+   "usable": true
+  },
+  {
+   "cell_lat": 18.0,
+   "cell_lon": 79.0,
+   "distance_km": 11.0,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-36-741",
+   "usable": true
+  },
+  {
+   "cell_lat": 24.0,
+   "cell_lon": 91.75,
+   "distance_km": 12.2,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-16-708",
+   "usable": true
+  },
+  {
+   "cell_lat": 26.5,
+   "cell_lon": 80.5,
+   "distance_km": 14.9,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-09-156",
+   "usable": true
+  },
+  {
+   "cell_lat": 29.75,
+   "cell_lon": 79.5,
+   "distance_km": 7.9,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-05-064",
+   "usable": true
+  },
+  {
+   "cell_lat": 24.25,
+   "cell_lon": 88.25,
+   "distance_km": 12.1,
+   "label": "own grid cell",
+   "own_cell_valid": true,
+   "point_id": "IN-19-333",
+   "usable": true
+  }
+ ]
+}

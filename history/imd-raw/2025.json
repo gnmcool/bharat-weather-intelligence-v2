@@ -1,0 +1,72 @@
+{
+ "checks": {
+  "checksums": {
+   "RF25_ind2025_rfp25.nc": {
+    "downloaded": "7d03cd397ebb1d7209ffae947d3965113643e1f30023cca657f0aa2c800af035",
+    "manifest": "7d03cd397ebb1d7209ffae947d3965113643e1f30023cca657f0aa2c800af035",
+    "match": true
+   },
+   "gap_report_imd-raw-2025.json": {
+    "match": true
+   },
+   "imd_raw_2025.json": {
+    "downloaded": "e7272ab39a236d2e87fa4d37b26af29621aa9e2f785701d82574227c0fd8af1d",
+    "manifest": "e7272ab39a236d2e87fa4d37b26af29621aa9e2f785701d82574227c0fd8af1d",
+    "match": true
+   },
+   "manifest_imd-raw-2025.json": {
+    "match": true
+   }
+  },
+  "immutability": {
+   "add_new_asset": {
+    "message": "HTTP 422: Cannot upload assets to an immutable release. (https://uploads.github.com/repos/gnmcool/bharat-weather-intelligence-v2/releases/397991767/assets?label=&name=immutability_probe.txt)",
+    "rejected": true
+   },
+   "delete_asset": {
+    "message": "HTTP 422: Validation Failed (https://api.github.com/repos/gnmcool/bharat-weather-intelligence-v2/releases/assets/594672260)\nCannot delete asset from an immutable release",
+    "rejected": true
+   },
+   "draft": false,
+   "github_immutable_flag": true,
+   "overwrite_asset": {
+    "message": "HTTP 422: Validation Failed (https://api.github.com/repos/gnmcool/bharat-weather-intelligence-v2/releases/assets/594672260)\nCannot delete asset from an immutable release",
+    "rejected": true
+   },
+   "unchanged_after_attempts": true
+  },
+  "ok": true,
+  "published": true,
+  "tag": "history-imd-raw-2025"
+ },
+ "meta": {
+  "bytes": 25431832,
+  "code_commit": "578174121d851942ef48e3f0d846a7722eed40a0",
+  "download_utc": "2026-09-28 06:15:33+00:00",
+  "format_check": {
+   "dims": [
+    "TIME",
+    "LATITUDE",
+    "LONGITUDE"
+   ],
+   "first_file_day": "2025-01-01",
+   "last_file_day": "2025-12-31",
+   "shape": [
+    365,
+    129,
+    135
+   ],
+   "valid_cells_all_days": 4964,
+   "variable": "RAINFALL"
+  },
+  "licence_note": "IMD Pune gridded rainfall; cite IMD (Pai et al. 2014). Raw file kept unmodified.",
+  "processing_version": "m4.3-1",
+  "release_tag": "history-imd-raw-2025",
+  "request": "POST form RF25=2025",
+  "sha256": "7d03cd397ebb1d7209ffae947d3965113643e1f30023cca657f0aa2c800af035",
+  "source_url": "https://imdpune.gov.in/cmpg/Griddata/RF25.php",
+  "status": "available",
+  "year": 2025
+ },
+ "run_id": "36385048708"
+}

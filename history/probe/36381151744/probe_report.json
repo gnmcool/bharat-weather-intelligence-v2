@@ -1,0 +1,128 @@
+{
+ "counters": {
+  "bytes": 52886912,
+  "http_errors": 0,
+  "network_errors": 3,
+  "om_requests": 2,
+  "om_weighted_calls": 169.71428571428572,
+  "rate_limited": 0,
+  "requests": 8,
+  "retries": 3,
+  "slept_for_limits_s": 0.0
+ },
+ "files": [
+  {
+   "bytes": 6538,
+   "name": "imd_point_cells.json",
+   "sha256": "f75dd43e80cca05eec6627b1d8ae0c100d6a4b088821ce734a57a3d2b546c326"
+  },
+  {
+   "bytes": 468,
+   "name": "reference_completeness.csv",
+   "sha256": "6147c64efcd05c68708d9f7cf42b2379d4443ca1a479d2745ed874ed82054933"
+  },
+  {
+   "bytes": 29968,
+   "name": "reference_sample.parquet",
+   "sha256": "99ac68b1ac50f615d9032016ab93af4737dc90b3617ced4f156f842753787691"
+  }
+ ],
+ "finished_utc": "2026-09-28 05:22:14+00:00",
+ "imd_date_convention_check": {
+  "best": "era5_shifted_+0_day",
+  "pairs_same_day": 2232,
+  "results": {
+   "era5_shifted_+0_day": {
+    "pairs": 2108,
+    "pearson_r": 0.575
+   },
+   "era5_shifted_+1_day": {
+    "pairs": 2040,
+    "pearson_r": 0.391
+   },
+   "era5_shifted_-1_day": {
+    "pairs": 2040,
+    "pearson_r": 0.503
+   }
+  },
+  "what": "Correlation of IMD daily rain (stored valid date D, after alignment) with ERA5 08:30->08:30 IST rain starting on D+lag, 36 points, sample months. The lag with the highest r shows how IMD file dates align. A data-alignment diagnostic only; NOT forecast verification."
+ },
+ "kind": "M4.2 historical/reference feasibility probe (small)",
+ "problems": [],
+ "reference": {
+  "bytes": 29968,
+  "rows": 13392,
+  "validation_problems": []
+ },
+ "schema_version": 1,
+ "secs": 355,
+ "started_utc": "2026-09-28 05:16:19+00:00",
+ "steps": {
+  "era5": {
+   "bytes_downloaded": 1953548,
+   "complete": 11160,
+   "ok": true,
+   "om_requests": 2,
+   "om_weighted_calls": 169.7,
+   "rate_limited": 0,
+   "requests": 2,
+   "rows": 11160,
+   "secs": 3
+  },
+  "imd": {
+   "bytes_downloaded": 50933364,
+   "ok": true,
+   "om_requests": 0,
+   "om_weighted_calls": 0.0,
+   "rate_limited": 0,
+   "requests": 6,
+   "rows": 2232,
+   "secs": 352,
+   "years": [
+    {
+     "bytes": 25501532,
+     "days": 366,
+     "first_file_day": "2024-01-01",
+     "last_file_day": "2024-12-31",
+     "ok": true,
+     "secs": 23,
+     "sha256": "1ef02aeba5694dbb57a6cca23a3c2cc11740affb185137c1eacbeab59893228a",
+     "valid_cells_all_days": 4964,
+     "valid_cells_any_day": 4964,
+     "year": 2024
+    },
+    {
+     "bytes": 25431832,
+     "days": 365,
+     "first_file_day": "2025-01-01",
+     "last_file_day": "2025-12-31",
+     "ok": true,
+     "secs": 208,
+     "sha256": "7d03cd397ebb1d7209ffae947d3965113643e1f30023cca657f0aa2c800af035",
+     "valid_cells_all_days": 4964,
+     "valid_cells_any_day": 4964,
+     "year": 2025
+    },
+    {
+     "bytes": 0,
+     "head": "",
+     "ok": false,
+     "reason": "not a readable IMD NetCDF: did not find a match in any of xarray's currently installed IO backends ['netcdf4']. Consider explicitly selecting one of the installed engines via the ``engine`` parameter, or installing additional I",
+     "secs": 120,
+     "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "year": 2026
+    }
+   ]
+  },
+  "matrix": {
+   "skipped": true
+  },
+  "metar": {
+   "skipped": true
+  },
+  "sample": {
+   "skipped": true
+  }
+ },
+ "summary_matrix": null
+}

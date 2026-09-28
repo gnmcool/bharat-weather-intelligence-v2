@@ -1,4 +1,6 @@
-"""Pure functions (no network) that turn source responses into historical / reference rows (M4.2)."""
+"""Pure functions (no network) that turn source responses into historical / reference / matched rows (M4.2-M4.3).
+
+Every unavailable value carries a reason and expected / present / missing counts. Nothing is filled."""
 from __future__ import annotations
 
 import math
@@ -8,7 +10,8 @@ from datetime import date, datetime, timedelta, timezone
 
 import numpy as np
 
-from common import (AGG_TEXT, HOURLY, LEAD_BASIS, aggregate_daily, haversine_km, parse_hourly_times)
+from common import (AGG_TEXT, HOURLY, LEAD_BASIS, MATCH_MAP, NOT_COMPARABLE, REF_LABEL, aggregate_daily, haversine_km,
+                    known_not_provided, parse_hourly_times)
 
 IST = timezone(timedelta(hours=5, minutes=30))
 KT_TO_KMH = 1.852
@@ -25,6 +28,9 @@ def rows_from_previous_runs(resp: list[dict], points: list[dict], model: str, om
     if len(resp) != len(points):
         raise ValueError(f"{len(resp)} responses for {len(points)} points")
     out = []
+    # a (variable, lead) column empty at every point and hour of the request = the source does not provide it
+    col_empty = {(var, n): all(all(v is None for v in ((r.get("hourly") or {}).get(f"{var}_previous_day{n}") or []))
+                                for r in resp) for var in hourly for n in leads}
     for p, r in zip(points, resp):
         h = r.get("hourly") or {}
         times = parse_hourly_times(h.get("time", []))
@@ -33,15 +39,25 @@ def rows_from_previous_runs(resp: list[dict], points: list[dict], model: str, om
                 vals = h.get(f"{var}_previous_day{n}")
                 if vals is None:
                     vals = [None] * len(times)   # source returned no such column: every day absent
+                if col_empty[(var, n)]:
+                    why = (f"not provided by source: {model} has no {var} at nominal lead {n} (M4.2 coverage matrix)"
+                           if known_not_provided(model, var, n) else
+                           f"source returned no {var} at nominal lead {n} for any point in the whole request period "
+                           f"(unexpected; listed as an anomaly)")
+                else:
+                    why = None
                 for dv, unit, how, window in HOURLY[var]:
                     for d, v, npres in aggregate_daily(times, vals, how, window, days):
+                        reason = None if v is not None else (
+                            why or f"source hours missing: {24 - npres} of 24 (no interpolation, no substitution)")
                         out.append({
                             "dataset": "historical_backfill", "point_id": p["id"], "lat": p["lat"], "lon": p["lon"],
                             "model": model, "om_model": om_model, "source": "open-meteo previous-runs api",
                             "source_url": url.split("?")[0] + f"?models={om_model}&hourly={var}_previous_day{n}",
                             "run_time_utc": None, "run_time_known": False, "nominal_lead_day": n,
                             "lead_basis": LEAD_BASIS.format(n=n), "valid_date_ist": d, "variable": dv, "value": v,
-                            "unit": unit, "hours_expected": 24, "hours_present": npres, "complete": v is not None,
+                            "unit": unit, "hours_expected": 24, "hours_present": npres, "hours_missing": 24 - npres,
+                            "complete": v is not None, "reason": reason,
                             "aggregation": _agg_text(how, window), "retrieved_at_utc": retrieved})
     return out
 
@@ -65,17 +81,22 @@ def rows_from_era5(resp: list[dict], points: list[dict], hourly: list[str], days
             for dv, unit, how, window in HOURLY[var]:
                 for d, v, npres in aggregate_daily(times, vals, how, window, days):
                     out.append(_ref("era5", "reanalysis", p, "era5_grid", glat, glon, dist, None, d, dv, v, unit,
-                                    npres, v is not None, _agg_text(how, window), url.split("?")[0] + "?models=era5",
+                                    npres, 24, v is not None,
+                                    None if v is not None else f"ERA5 hours missing: {24 - npres} of 24",
+                                    _agg_text(how, window), url.split("?")[0] + "?models=era5",
                                     retrieved, "ERA5 reanalysis: a model-based estimate constrained by observations, "
                                               "not an observation; ~6-day availability lag"))
     return out
 
 
-def _ref(ref, rtype, p, site, slat, slon, dist, delev, d, var, val, unit, nobs, complete, agg, url, retrieved, note):
-    return {"dataset": "reference", "reference": ref, "reference_type": rtype, "point_id": p["id"], "site_id": site,
-            "site_lat": slat, "site_lon": slon, "distance_km": dist, "elev_diff_m": delev, "valid_date_ist": d,
-            "variable": var, "value": val if complete else None, "unit": unit, "n_obs": nobs, "complete": complete,
-            "aggregation": agg, "source_url": url, "retrieved_at_utc": retrieved, "note": note}
+def _ref(ref, rtype, p, site, slat, slon, dist, delev, d, var, val, unit, nobs, nexp, complete, reason, agg, url,
+         retrieved, note):
+    return {"dataset": "reference", "reference": ref, "reference_type": rtype, "reference_label": REF_LABEL[ref],
+            "point_id": p["id"], "site_id": site, "site_lat": slat, "site_lon": slon, "distance_km": dist,
+            "elev_diff_m": delev, "valid_date_ist": d, "variable": var, "value": val if complete else None, "unit": unit,
+            "n_obs": nobs, "n_expected": nexp, "n_missing": max(0, nexp - nobs), "complete": complete,
+            "reason": None if complete else (reason or "unavailable"), "aggregation": agg, "source_url": url,
+            "retrieved_at_utc": retrieved, "note": note}
 
 
 # ------------------------------------------------------------------ METAR station pairing
@@ -127,9 +148,20 @@ def metar_daily(obs: list[dict], pair: dict, point: dict, days: list[date], url:
     site = (pair["station"], pair["station_lat"], pair["station_lon"], pair["distance_km"], pair["elev_diff_m"])
     note = "METAR at the nearest airport; point observation, may not represent the district; integer degC"
 
-    def add(d, var, val, unit, nobs, complete, agg, extra=""):
-        out.append(_ref("metar", "station_observation", point, *site, d, var, val, unit, nobs, complete, agg, url,
-                        retrieved, note + extra))
+    def add(d, var, val, unit, nobs, complete, reason, agg, extra=""):
+        out.append(_ref("metar", "station_observation", point, *site, d, var, val, unit, nobs, min_obs, complete,
+                        reason, agg, url, retrieved, note + extra))
+
+    def coverage(blocks_n):
+        n, blocks = blocks_n
+        ok = n >= min_obs and blocks == {0, 1, 2, 3}
+        why = []
+        if n < min_obs:
+            why.append(f"{n} reports < {min_obs} required")
+        miss = sorted({0, 1, 2, 3} - blocks)
+        if miss:
+            why.append("no report in IST 6-h block(s) " + ", ".join(f"{b * 6:02d}-{b * 6 + 6:02d}h" for b in miss))
+        return ok, ("incomplete reporting coverage: " + "; ".join(why)) if why else None
 
     for d in days:
         recs = by_day.get(d, [])
@@ -137,30 +169,30 @@ def metar_daily(obs: list[dict], pair: dict, point: dict, days: list[date], url:
         def field(name, conv=lambda v: v):
             vals = [(b, _num(o.get(name))) for b, o in recs]
             vals = [(b, conv(v)) for b, v in vals if v is not None]
-            ok = len(vals) >= min_obs and {b for b, _ in vals} == {0, 1, 2, 3}
-            return [v for _, v in vals], ok
+            ok, why = coverage((len(vals), {b for b, _ in vals}))
+            return [v for _, v in vals], ok, why
 
-        t, ok = field("tmpc")
-        add(d, "tmax", max(t) if ok else None, "degC", len(t), ok, "max of METAR temperatures in the IST day")
-        add(d, "tmin", min(t) if ok else None, "degC", len(t), ok, "min of METAR temperatures in the IST day")
-        w, ok = field("sknt", lambda v: v * KT_TO_KMH)
-        add(d, "wind_max", max(w) if ok else None, "km/h", len(w), ok,
+        t, ok, why = field("tmpc")
+        add(d, "tmax", max(t) if ok else None, "degC", len(t), ok, why, "max of METAR temperatures in the IST day")
+        add(d, "tmin", min(t) if ok else None, "degC", len(t), ok, why, "min of METAR temperatures in the IST day")
+        w, ok, why = field("sknt", lambda v: v * KT_TO_KMH)
+        add(d, "wind_max", max(w) if ok else None, "km/h", len(w), ok, why,
             "max sustained (10-min mean) wind reported in the IST day; not a gust")
         g = [v * KT_TO_KMH for v in (_num(o.get("gust")) for _, o in recs) if v is not None]
         gok = ok and bool(g)
         add(d, "gust_max_reported", max(g) if gok else None, "km/h", len(g), gok,
+            why or "no gust group reported (METAR reports gusts only when present; absence is not zero)",
             "max gust group reported in the IST day",
             "; METAR reports a gust only when present: no gust group does not mean zero gust")
-        vis, ok = field("vsby", lambda v: v * MILE_TO_KM)
-        add(d, "vis_min", min(vis) if ok else None, "km", len(vis), ok,
+        vis, ok, why = field("vsby", lambda v: v * MILE_TO_KM)
+        add(d, "vis_min", min(vis) if ok else None, "km", len(vis), ok, why,
             "min reported visibility in the IST day (METAR caps at ~10 km)")
         codes = [(o.get("wxcodes") or "") for _, o in recs]
         codes = ["" if c == "M" else c for c in codes]
-        n = len(recs)
-        rok = n >= min_obs and {b for b, _ in recs} == {0, 1, 2, 3}
+        rok, why = coverage((len(recs), {b for b, _ in recs}))
         for var, pat in (("ts_reports", r"TS"), ("fg_reports", r"FG"), ("ra_reports", r"RA|DZ")):
             cnt = sum(bool(re.search(pat, c)) for c in codes)
-            add(d, var, float(cnt) if rok else None, "reports", n, rok,
+            add(d, var, float(cnt) if rok else None, "reports", len(recs), rok, why,
                 f"number of METARs in the IST day whose weather group contains {pat.replace('|', ' or ')}",
                 "; occurrence only — METAR rain amounts are never used")
     return out
@@ -208,9 +240,11 @@ def imd_rows(ds, points: list[dict], max_km: float, url: str, file_sha: str, ret
                 continue
             v = a[k, best[0], best[1]] if usable else np.nan
             ok = usable and bool(np.isfinite(v))
+            reason = None if ok else (f"no IMD cell within {max_km:.0f} km (nearest valid cell {dist:.0f} km)"
+                                      if not usable else "IMD value missing in the source file")
             out.append(_ref("imd_rf025", "gridded_gauge_analysis", p, site if usable else "none",
                             float(lats[best[0]]) if usable else None, float(lons[best[1]]) if usable else None,
-                            dist, None, d, "precip_0830", float(v) if ok else None, "mm", 1 if ok else 0, ok,
+                            dist, None, d, "precip_0830", float(v) if ok else None, "mm", 1 if ok else 0, 1, ok, reason,
                             "IMD 0.25 deg gridded daily rainfall (rain-gauge analysis): 24 h from 08:30 IST on valid_date_ist to "
                             "08:30 IST the next day (IMD file date = next day, the end of the window)",
                             url + f" (file sha256 {file_sha})", retrieved,
@@ -219,3 +253,58 @@ def imd_rows(ds, points: list[dict], max_km: float, url: str, file_sha: str, ret
     meta = {"valid_cells_all_days": int(valid_all.sum()), "valid_cells_any_day": int(valid_any.sum()),
             "days": len(times), "first_file_day": str(times[0]), "last_file_day": str(times[-1])}
     return out, info, meta
+
+
+# ------------------------------------------------------------------ matched forecast/reference rows (M4.3)
+def build_matched(F, R, pairing: dict, missing_ref_reason: dict):
+    """One row per historical forecast value x applicable reference (MATCH_MAP). No values are changed or filled.
+
+    F: forecast rows (HIST_SCHEMA DataFrame); R: reference rows (REF_SCHEMA DataFrame);
+    pairing: point_id -> METAR pairing record; missing_ref_reason: reference -> reason when a row is absent
+    (e.g. the IMD year file is not published). Unavailable references never mark a forecast as failed."""
+    import pandas as pd
+    parts = []
+    key = ["point_id", "valid_date_ist"]
+    for var, refs in MATCH_MAP.items():
+        f = F[F["variable"] == var]
+        if f.empty:
+            continue
+        base = pd.DataFrame({
+            "dataset": "matched_historical", "point_id": f["point_id"].values, "model": f["model"].values,
+            "run_time_known": False, "nominal_lead_day": f["nominal_lead_day"].values,
+            "lead_basis": [f"nominal previous_day{n}" for n in f["nominal_lead_day"].values],
+            "valid_date_ist": f["valid_date_ist"].values, "variable": var,
+            "window": "imd_0830" if var == "precip_0830" else "ist_day", "unit": f["unit"].values,
+            "forecast_value": f["value"].values, "forecast_available": f["complete"].values,
+            "forecast_reason": f["reason"].values})
+        for ref, rvar in refs:
+            m = base.copy()
+            m["reference"], m["reference_label"], m["reference_variable"] = ref, REF_LABEL[ref], rvar
+            if rvar is None:
+                m["reference_value"], m["reference_available"] = None, False
+                m["reference_reason"] = NOT_COMPARABLE[(ref, var)]
+                m["ref_site_id"], m["ref_distance_km"], m["ref_elev_diff_m"] = None, None, None
+                parts.append(m)
+                continue
+            r = R[(R["reference"] == ref) & (R["variable"] == rvar)][
+                key + ["value", "complete", "reason", "site_id", "distance_km", "elev_diff_m"]]
+            m = m.merge(r, on=key, how="left", validate="many_to_one")
+            absent = m["complete"].isna()
+            m["reference_value"] = m.pop("value")
+            m["reference_available"] = m.pop("complete").fillna(False).astype(bool)
+            reason = m.pop("reason").astype(object)
+            if ref == "metar":
+                unpaired = m["point_id"].map(lambda pid: not pairing[pid]["paired"])
+                reason[absent & unpaired] = m.loc[absent & unpaired, "point_id"].map(
+                    lambda pid: "no METAR match: " + pairing[pid]["reason_not_paired"])
+                reason[absent & ~unpaired] = "no METAR reports retrieved for this IST day"
+                m = m.astype({"site_id": object, "distance_km": "float64", "elev_diff_m": "float64"})
+                for col, src in (("site_id", "station"), ("distance_km", "distance_km"), ("elev_diff_m", "elev_diff_m")):
+                    m.loc[absent, col] = m.loc[absent, "point_id"].map(lambda pid, s=src: pairing[pid][s])
+            else:
+                reason[absent] = missing_ref_reason.get(ref, f"{REF_LABEL[ref]} not available for this day")
+            m["reference_reason"] = reason.where(~m["reference_available"], None)
+            m = m.rename(columns={"site_id": "ref_site_id", "distance_km": "ref_distance_km",
+                                  "elev_diff_m": "ref_elev_diff_m"})
+            parts.append(m)
+    return pd.concat(parts, ignore_index=True) if parts else pd.DataFrame()

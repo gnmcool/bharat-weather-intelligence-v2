@@ -1,0 +1,70 @@
+# M4.3 historical backfill (owner-approved): monthly immutable history-YYYY-MM releases (1 Feb 2024 -> 31 Aug 2026)
+# and immutable raw IMD releases history-imd-raw-YYYY. Runs when history/backfill_request.json changes on the
+# m4-history review branch (each change = one batch within the Open-Meteo free-tier budget), or manually.
+# Published months are never rebuilt or overwritten. Failed sources -> month refused and recorded, never published.
+# Never touches the prospective archive-daily releases and never writes to CORE.
+name: History backfill (M4.3)
+
+on:
+  push:
+    branches: ["m4-history"]
+    paths: ["history/backfill_request.json"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: history-backfill
+  cancel-in-progress: false
+
+env:
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: history/requirements.txt
+      - run: pip install -r history/requirements.txt pytest
+      - name: Tests (history + archive)
+        run: python -m pytest -q history/tests && python -m pytest -q archive/tests
+      - name: Index branch checkout
+        run: |
+          git config --global user.name "bwi-archive"
+          git config --global user.email "bwi-archive@users.noreply.github.com"
+          IDX="$RUNNER_TEMP/index"
+          git fetch -q origin archive-index
+          git worktree add -q "$IDX" origin/archive-index && git -C "$IDX" checkout -q -B archive-index
+          echo "IDX=$IDX" >> "$GITHUB_ENV"
+      - name: Backfill batch
+        id: batch
+        run: |
+          REQ=history/backfill_request.json
+          BUDGET=$(python -c "import json;print(json.load(open('$REQ'))['budget'])")
+          MODE=$(python -c "import json;print(json.load(open('$REQ')).get('mode','publish'))")
+          ONLY=$(python -c "import json;print(','.join(json.load(open('$REQ')).get('only_months',[])))")
+          DRY=""; [ "$MODE" = "dry-run" ] && DRY="--dry-run"
+          echo "mode=$MODE budget=$BUDGET only=${ONLY:-all}"
+          set +e
+          python history/backfill.py batch --months-file history/backfill_months.json --index "$IDX" \
+            --work "$RUNNER_TEMP/work" --budget "$BUDGET" --run-id "$GITHUB_RUN_ID" $DRY --only "$ONLY" | tee "$RUNNER_TEMP/batch.json"
+          echo "exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+      - name: Quality report (all published months)
+        if: always()
+        run: |
+          mkdir -p "$IDX/history/quality"
+          python history/backfill.py quality --index "$IDX" --months-file history/backfill_months.json \
+            --out "$IDX/history/quality/quality_$GITHUB_RUN_ID.json"
+          cd "$IDX" && git add -A && (git diff --cached --quiet || git commit -qm "history: quality report (run $GITHUB_RUN_ID)")
+          for i in 1 2 3 4 5; do git push -q origin archive-index && break; git pull -q --rebase origin archive-index; done
+      - name: Batch status
+        run: |
+          echo "batch exit ${{ steps.batch.outputs.exit }} (0 = no refused month in this batch)"
+          [ "${{ steps.batch.outputs.exit }}" = "0" ]

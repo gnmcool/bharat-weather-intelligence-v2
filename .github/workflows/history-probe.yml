@@ -7,7 +7,7 @@ name: History probe (M4.2, manual)
 on:
   push:                     # review branch only; reruns only when the probe code itself changes
     branches: ["m4-history"]
-    paths: ["history/probe.py", "history/sources.py", "history/build.py", "history/probe_skip.txt", ".github/workflows/history-probe.yml"]
+    paths: ["history/probe.py", "history/probe_skip.txt", ".github/workflows/history-probe.yml"]
   workflow_dispatch:
     inputs:
       skip:

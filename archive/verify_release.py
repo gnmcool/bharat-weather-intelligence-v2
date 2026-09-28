@@ -26,6 +26,7 @@ def main() -> int:
     ap.add_argument("--stage", required=True)
     ap.add_argument("--out", required=True)
     ap.add_argument("--published", action="store_true")
+    ap.add_argument("--target-kind", default="forecasts", help="manifest file kind used for the tamper attempts")
     a = ap.parse_args()
     stage = pathlib.Path(a.stage)
     man = json.loads(next(stage.glob("manifest_*.json")).read_text())
@@ -53,7 +54,7 @@ def main() -> int:
         ok &= info.get("immutable") is True
         probe = pathlib.Path(tempfile.gettempdir()) / "immutability_probe.txt"
         probe.write_text("this upload must be rejected\n")
-        target = next(f["name"] for f in man["files"] if f["kind"] == "forecasts")
+        target = next(f["name"] for f in man["files"] if f["kind"] == a.target_kind)
         tampered = pathlib.Path(tempfile.gettempdir()) / target
         tampered.write_bytes(b"tampered")
         attempts = {

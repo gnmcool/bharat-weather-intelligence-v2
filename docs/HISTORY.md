@@ -107,3 +107,30 @@ visibility, observation count) match IEM exactly.
 ~19,300 Open-Meteo counted calls (previous runs ~16,600 + ERA5 ~2,600): about 2 days of the free daily
 limit, 6 % of the monthly limit. ~3.6 M rows, ~5 MB Parquet. METAR ~544 IEM requests (throttled at ~1
 per 30 s; several hours). IMD: 2 files, 25 MB each.
+
+## M4.3 matched historical dataset (owner-approved 28 Sep 2026)
+
+Scope: **1 Feb 2024 → 31 Aug 2026**, the 36 points, ECMWF IFS 0.25° / GFS / ICON, tmax, tmin, rain (IST day and
+08:30 IST day), max gust, nominal leads 1–7. September 2026 is outside M4.3 (added later as a complete month).
+
+| Release | Content |
+| --- | --- |
+| `history-YYYY-MM` (31, immutable) | `forecasts_history-*.parquet` (reconstruction, `run_time_known = false`), `reference_history-*.parquet` (ERA5 reanalysis, IMD, METAR), `matched_history-*.parquet` (each forecast value × each applicable reference), `metar_pairing_history-*.json`, `manifest_history-*.json` (SHA-256, rows, sources, processing version, code commit), `gap_report_history-*.json` (quality: expected / present / missing with reasons) |
+| `history-imd-raw-2024`, `-2025` (immutable) | unmodified IMD yearly NetCDF, source metadata, download time, SHA-256, format check |
+| `archive-index` branch `history/` | `index/<month>.json`, `refused/`, `imd-raw/`, `runs/`, `dryrun/`, `quality/`, `INDEX.csv` (append-only) |
+
+Rules enforced by `history/backfill.py validate` (a month that fails is recorded under `refused/` and never published):
+every expected (point, model, variable, lead, day) row present exactly once; every unavailable value has expected /
+present / missing counts and a reason; any failed source retrieval refuses the month; METAR only for points meeting
+≤ 25 km, |Δ elevation| ≤ 100 m and full-day coverage (no substitution); IMD ≤ 30 km; ERA5 labelled "ERA5 reanalysis";
+matched values identical to the source tables. IMD 2026 unpublished → reference unavailable with that reason (no
+substitute). Batches stop cleanly at the Open-Meteo free-tier budget or quota; a published month is never rebuilt.
+
+Match map: tmax/tmin → ERA5, METAR; rain (IST day) → ERA5; rain (08:30 IST) → IMD, ERA5; gust → ERA5 (METAR gust is
+not comparable: reported only when present). An unavailable reference never marks a forecast as failed.
+
+**Corrections.** A published release is never modified. A correction is a new release `history-YYYY-MM-v2` whose notes
+and manifest state what was wrong, which records are affected, why the new version differs, and that it supersedes
+`history-YYYY-MM`; the index records both.
+
+No skill scores, rankings or verdicts are computed in M4.3.

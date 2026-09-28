@@ -17,7 +17,8 @@ from datetime import date, datetime, timedelta, timezone
 
 import pyarrow as pa
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
+PROCESSING_VERSION = "m4.3-1"   # bump when processing changes; recorded in every manifest
 HERE = pathlib.Path(__file__).resolve().parent
 POINTS_FILE = HERE.parent / "archive" / "points.json"   # the same 36 fixed points as the prospective archive
 LEADS = list(range(1, 8))                                # previous_day1 .. previous_day7
@@ -52,7 +53,9 @@ HIST_SCHEMA = pa.schema([
     ("unit", pa.string()),
     ("hours_expected", pa.int8()),
     ("hours_present", pa.int8()),
+    ("hours_missing", pa.int8()),
     ("complete", pa.bool_()),
+    ("reason", pa.string()),                           # why the value is unavailable (null when complete)
     ("aggregation", pa.string()),
     ("retrieved_at_utc", pa.timestamp("ms", tz="UTC")),
 ])
@@ -61,6 +64,7 @@ REF_SCHEMA = pa.schema([
     ("dataset", pa.string()),                          # always "reference"
     ("reference", pa.string()),                        # era5 | metar | imd_rf025
     ("reference_type", pa.string()),                   # reanalysis | station_observation | gridded_gauge_analysis
+    ("reference_label", pa.string()),                  # "ERA5 reanalysis" | "IMD gridded rain-gauge analysis" | "METAR station observation"
     ("point_id", pa.string()),
     ("site_id", pa.string()),                          # METAR ICAO, IMD cell "lat,lon", ERA5 "grid"
     ("site_lat", pa.float32()),
@@ -71,13 +75,63 @@ REF_SCHEMA = pa.schema([
     ("variable", pa.string()),
     ("value", pa.float32()),                           # null unless complete
     ("unit", pa.string()),
-    ("n_obs", pa.int16()),
+    ("n_obs", pa.int16()),                             # values / reports present
+    ("n_expected", pa.int16()),                        # 24 hours (ERA5) | 1 (IMD) | minimum 20 reports (METAR)
+    ("n_missing", pa.int16()),
     ("complete", pa.bool_()),
+    ("reason", pa.string()),                           # why unavailable (null when complete)
     ("aggregation", pa.string()),
     ("source_url", pa.string()),
     ("retrieved_at_utc", pa.timestamp("ms", tz="UTC")),
     ("note", pa.string()),
 ])
+
+REF_LABEL = {"era5": "ERA5 reanalysis", "imd_rf025": "IMD gridded rain-gauge analysis (0.25 deg)",
+             "metar": "METAR station observation"}
+
+# Matched forecast/reference dataset (M4.3): one row per historical forecast value x applicable reference.
+MATCHED_SCHEMA = pa.schema([
+    ("dataset", pa.string()),                          # always "matched_historical"
+    ("point_id", pa.string()),
+    ("model", pa.string()),
+    ("run_time_known", pa.bool_()),                    # always false (historical reconstruction)
+    ("nominal_lead_day", pa.int16()),
+    ("lead_basis", pa.string()),                       # "nominal previous_dayN"
+    ("valid_date_ist", pa.date32()),
+    ("variable", pa.string()),
+    ("window", pa.string()),                           # ist_day | imd_0830
+    ("unit", pa.string()),
+    ("forecast_value", pa.float32()),
+    ("forecast_available", pa.bool_()),
+    ("forecast_reason", pa.string()),
+    ("reference", pa.string()),                        # era5 | imd_rf025 | metar
+    ("reference_label", pa.string()),
+    ("reference_variable", pa.string()),
+    ("reference_value", pa.float32()),
+    ("reference_available", pa.bool_()),
+    ("reference_reason", pa.string()),
+    ("ref_site_id", pa.string()),
+    ("ref_distance_km", pa.float32()),
+    ("ref_elev_diff_m", pa.float32()),
+])
+# forecast variable -> [(reference, reference variable or None when not comparable)]
+MATCH_MAP = {
+    "tmax": [("era5", "tmax"), ("metar", "tmax")],
+    "tmin": [("era5", "tmin"), ("metar", "tmin")],
+    "precip": [("era5", "precip")],
+    "precip_0830": [("imd_rf025", "precip_0830"), ("era5", "precip_0830")],
+    "gust_max": [("era5", "gust_max"), ("metar", None)],
+}
+NOT_COMPARABLE = {("metar", "gust_max"): "METAR reports a gust group only when gusts occur and sustained wind is not a "
+                                         "gust: no daily-maximum gust reference from METAR"}
+# (model, hourly variable, lead or None=all) that the source never provides (M4.2 coverage matrix)
+KNOWN_NOT_PROVIDED = {("ecmwf_ifs025", "wind_gusts_10m", None), ("ecmwf_ifs025", "cape", None),
+                      ("icon_global", "cape", None), ("icon_global", None, 7)}
+
+
+def known_not_provided(model: str, var: str, lead: int) -> bool:
+    return any(m == model and v in (None, var) and l in (None, lead) for m, v, l in KNOWN_NOT_PROVIDED)
+
 
 LEAD_BASIS = ("Open-Meteo Previous Runs API previous_day{n}: each hourly value was predicted at least {n} x 24 h "
               "before its valid time; the model run (initialisation time) is not identified by the source")
@@ -185,6 +239,13 @@ def validate_history_rows(df) -> list[str]:
         p.append("nominal_lead_day outside 1..7")
     if (df["value"].notna() & ~df["complete"]).any():
         p.append("value present on an incomplete day (partial days must stay null)")
+    if "reason" in df:
+        if (~df["complete"] & df["reason"].isna()).any():
+            p.append("unavailable value without a reason")
+        if (df["complete"] & df["reason"].notna()).any():
+            p.append("complete value carries a reason")
+        if ((df["hours_present"] + df["hours_missing"]) != df["hours_expected"]).any():
+            p.append("hours_present + hours_missing != hours_expected")
     if (df["complete"] & (df["hours_present"] != df["hours_expected"])).any():
         p.append("complete flag inconsistent with hours_present")
     if (df["complete"] & df["value"].isna()).any():
@@ -212,6 +273,15 @@ def validate_reference_rows(df, imd_max_km: float = 30.0) -> list[str]:
         p.append(f"IMD values from a cell more than {imd_max_km} km away")
     if (df["value"].notna() & ~df["complete"]).any():
         p.append("value present on an incomplete day")
+    if "reason" in df and (~df["complete"] & df["reason"].isna()).any():
+        p.append("unavailable reference value without a reason")
+    if "reference_label" in df:
+        era = df[df["reference"] == "era5"]
+        if len(era) and (era["reference_label"] != "ERA5 reanalysis").any():
+            p.append("ERA5 must be labelled 'ERA5 reanalysis'")
+        bad = df[(df["reference"] != "metar") & df["reference_label"].str.contains("observ", case=False)]
+        if len(bad):
+            p.append("only METAR may be labelled an observation")
     dup = df.duplicated(["reference", "point_id", "site_id", "valid_date_ist", "variable"]).sum()
     if dup:
         p.append(f"{dup} duplicate rows")

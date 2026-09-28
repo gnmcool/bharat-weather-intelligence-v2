@@ -32,6 +32,10 @@ STATS = {"requests": 0, "retries": 0, "rate_limited": 0, "http_errors": 0, "netw
          "om_requests": 0, "om_weighted_calls": 0.0, "bytes": 0, "slept_for_limits_s": 0.0}
 
 
+class QuotaExhausted(HistoryError):
+    """Open-Meteo reports the daily (or monthly) free-tier limit as spent: stop the batch, retry another day."""
+
+
 class WeightLimiter:
     """Keeps Open-Meteo counted calls under a safety margin of the free-tier minute and hour limits
     (600/min, 5,000/h). Sleeps; never drops a request."""
@@ -71,6 +75,8 @@ def http(url: str, data: bytes | None = None, timeout: int = 120, tries: int = 4
             last = f"HTTP {e.code}: {body}"
             if e.code == 429 or "limit" in body.lower():
                 STATS["rate_limited"] += 1
+                if "daily" in body.lower() or "monthly" in body.lower():
+                    raise QuotaExhausted(f"{url.split('?')[0]}: {body}") from None
                 time.sleep(65)  # minute window; the limiter should normally prevent this
             else:
                 STATS["http_errors"] += 1
@@ -92,6 +98,8 @@ def _om(base: str, params: dict, n_loc: int, n_vars: int, n_days: int):
     url = base + "?" + urllib.parse.urlencode(params, safe=",")
     j = json.loads(http(url))
     if isinstance(j, dict) and j.get("error"):
+        if any(k in str(j.get("reason", "")).lower() for k in ("daily", "monthly")):
+            raise QuotaExhausted(f"Open-Meteo: {j.get('reason')}")
         raise HistoryError(f"Open-Meteo error: {j.get('reason')}")
     return (j if isinstance(j, list) else [j]), url
 

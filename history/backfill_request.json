@@ -1,0 +1,6 @@
+{
+ "mode": "dry-run",
+ "only_months": ["2024-12"],
+ "budget": 1000,
+ "note": "Workflow validation: dry run of Dec 2024 (year boundary: needs IMD 2024 and 2025). Publishes nothing."
+}

@@ -1,0 +1,41 @@
+{
+ "budget_counted_calls": 1000.0,
+ "dry_run": true,
+ "finished_utc": "2026-09-28 06:07:36+00:00",
+ "http": {
+  "bytes": 62776294,
+  "http_errors": 0,
+  "network_errors": 0,
+  "om_requests": 4,
+  "om_weighted_calls": 619.4571428571429,
+  "rate_limited": 3,
+  "requests": 16,
+  "retries": 3,
+  "slept_for_limits_s": 0.0
+ },
+ "imd": [
+  {
+   "bytes": 25501532,
+   "dry_run": true,
+   "error": null,
+   "reason": null,
+   "sha256": "1ef02aeba5694dbb57a6cca23a3c2cc11740affb185137c1eacbeab59893228a",
+   "status": "available",
+   "year": 2024
+  },
+  {
+   "bytes": 25431832,
+   "dry_run": true,
+   "error": null,
+   "reason": null,
+   "sha256": "7d03cd397ebb1d7209ffae947d3965113643e1f30023cca657f0aa2c800af035",
+   "status": "available",
+   "year": 2025
+  }
+ ],
+ "months": {
+  "2024-12": "dry run: would publish"
+ },
+ "run_id": "36384259571",
+ "started_utc": "2026-09-28 06:00:22+00:00"
+}

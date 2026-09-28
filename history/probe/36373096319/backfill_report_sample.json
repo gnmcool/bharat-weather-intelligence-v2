@@ -1,0 +1,2085 @@
+{
+ "cells": [
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 1,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 1,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 2,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 2,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 3,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 3,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 4,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 4,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 5,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 5,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 6,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 6,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 7,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 7,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 1,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 1,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 2,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 2,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 3,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 3,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 4,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 4,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 5,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 5,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 6,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 6,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 7,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 7,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 1,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 1,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 2,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 2,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 3,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 3,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 4,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 4,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 5,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 5,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 6,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 6,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 7,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 7,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 1,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 1,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 2,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 2,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 3,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 3,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 4,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 4,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 5,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 5,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 6,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 6,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 7,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 7,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 1,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "gust_max"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 2,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "gust_max"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 3,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "gust_max"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 4,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "gust_max"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 5,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "gust_max"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 6,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "gust_max"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 7,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "gust_max"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 1,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 1,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 2,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 2,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 3,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 3,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 4,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 4,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 5,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 5,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 6,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 6,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 1,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 1,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 2,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 2,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 3,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 3,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 4,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 4,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 5,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 5,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 6,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 6,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 1,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "gust_max"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 2,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "gust_max"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 3,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "gust_max"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 4,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "gust_max"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 5,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "gust_max"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 6,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "gust_max"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 1,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 1,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 2,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 2,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 3,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 3,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 4,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 4,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 5,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 5,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 6,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 6,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 7,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 7,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 1,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 1,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 2,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 2,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 3,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 3,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 4,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 4,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 5,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 5,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 6,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 6,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 7,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "ecmwf_ifs025",
+   "nominal_lead_day": 7,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 1,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 1,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 2,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 2,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 3,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 3,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 4,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 4,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 5,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 5,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 6,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 6,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 7,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 7,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 1,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 1,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 2,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 2,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 3,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 3,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 4,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 4,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 5,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 5,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 6,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 6,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 7,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 7,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 1,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "gust_max"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 2,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "gust_max"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 3,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "gust_max"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 4,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "gust_max"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 5,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "gust_max"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 6,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "gust_max"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "gfs_global",
+   "nominal_lead_day": 7,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "gust_max"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 1,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 1,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 2,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 2,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 3,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 3,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 4,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 4,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 5,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 5,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 6,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmax"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 6,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "tmin"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 1,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 1,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 2,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 2,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 3,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 3,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 4,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 4,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 5,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 5,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 6,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 6,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "precip_0830"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 1,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "gust_max"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 2,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "gust_max"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 3,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "gust_max"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 4,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "gust_max"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 5,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "gust_max"
+  },
+  {
+   "absent": 0,
+   "complete": 1116,
+   "expected": 1116,
+   "model": "icon_global",
+   "nominal_lead_day": 6,
+   "status": "complete",
+   "stored_incomplete": 0,
+   "variable": "gust_max"
+  }
+ ],
+ "complete_values": 207576,
+ "expected_values": 207576,
+ "missing_values": 0,
+ "model_choice": [
+  {
+   "model": "ecmwf_ifs025",
+   "om_model": "ecmwf_ifs025",
+   "period": "2024-07-01..2024-07-31",
+   "substituted": false,
+   "tried": [
+    {
+     "complete_days_at_matrix_point": 31,
+     "om_model": "ecmwf_ifs025"
+    }
+   ]
+  },
+  {
+   "model": "gfs_global",
+   "om_model": "gfs_global",
+   "period": "2024-07-01..2024-07-31",
+   "substituted": false,
+   "tried": [
+    {
+     "complete_days_at_matrix_point": 31,
+     "om_model": "gfs_global"
+    }
+   ]
+  },
+  {
+   "model": "icon_global",
+   "om_model": "icon_global",
+   "period": "2024-07-01..2024-07-31",
+   "substituted": false,
+   "tried": [
+    {
+     "complete_days_at_matrix_point": 31,
+     "om_model": "icon_global"
+    }
+   ]
+  },
+  {
+   "model": "ecmwf_ifs025",
+   "om_model": "ecmwf_ifs025",
+   "period": "2025-01-01..2025-01-31",
+   "substituted": false,
+   "tried": [
+    {
+     "complete_days_at_matrix_point": 31,
+     "om_model": "ecmwf_ifs025"
+    }
+   ]
+  },
+  {
+   "model": "gfs_global",
+   "om_model": "gfs_global",
+   "period": "2025-01-01..2025-01-31",
+   "substituted": false,
+   "tried": [
+    {
+     "complete_days_at_matrix_point": 31,
+     "om_model": "gfs_global"
+    }
+   ]
+  },
+  {
+   "model": "icon_global",
+   "om_model": "icon_global",
+   "period": "2025-01-01..2025-01-31",
+   "substituted": false,
+   "tried": [
+    {
+     "complete_days_at_matrix_point": 31,
+     "om_model": "icon_global"
+    }
+   ]
+  }
+ ],
+ "not_provided_by_source": [
+  {
+   "hourly_variable": "wind_gusts_10m",
+   "lead": 1,
+   "model": "ecmwf_ifs025",
+   "om_model": "ecmwf_ifs025",
+   "period": "2024-07-01..2024-07-31"
+  },
+  {
+   "hourly_variable": "wind_gusts_10m",
+   "lead": 2,
+   "model": "ecmwf_ifs025",
+   "om_model": "ecmwf_ifs025",
+   "period": "2024-07-01..2024-07-31"
+  },
+  {
+   "hourly_variable": "wind_gusts_10m",
+   "lead": 3,
+   "model": "ecmwf_ifs025",
+   "om_model": "ecmwf_ifs025",
+   "period": "2024-07-01..2024-07-31"
+  },
+  {
+   "hourly_variable": "wind_gusts_10m",
+   "lead": 4,
+   "model": "ecmwf_ifs025",
+   "om_model": "ecmwf_ifs025",
+   "period": "2024-07-01..2024-07-31"
+  },
+  {
+   "hourly_variable": "wind_gusts_10m",
+   "lead": 5,
+   "model": "ecmwf_ifs025",
+   "om_model": "ecmwf_ifs025",
+   "period": "2024-07-01..2024-07-31"
+  },
+  {
+   "hourly_variable": "wind_gusts_10m",
+   "lead": 6,
+   "model": "ecmwf_ifs025",
+   "om_model": "ecmwf_ifs025",
+   "period": "2024-07-01..2024-07-31"
+  },
+  {
+   "hourly_variable": "wind_gusts_10m",
+   "lead": 7,
+   "model": "ecmwf_ifs025",
+   "om_model": "ecmwf_ifs025",
+   "period": "2024-07-01..2024-07-31"
+  },
+  {
+   "hourly_variable": "temperature_2m",
+   "lead": 7,
+   "model": "icon_global",
+   "om_model": "icon_global",
+   "period": "2024-07-01..2024-07-31"
+  },
+  {
+   "hourly_variable": "precipitation",
+   "lead": 7,
+   "model": "icon_global",
+   "om_model": "icon_global",
+   "period": "2024-07-01..2024-07-31"
+  },
+  {
+   "hourly_variable": "wind_gusts_10m",
+   "lead": 7,
+   "model": "icon_global",
+   "om_model": "icon_global",
+   "period": "2024-07-01..2024-07-31"
+  },
+  {
+   "hourly_variable": "wind_gusts_10m",
+   "lead": 1,
+   "model": "ecmwf_ifs025",
+   "om_model": "ecmwf_ifs025",
+   "period": "2025-01-01..2025-01-31"
+  },
+  {
+   "hourly_variable": "wind_gusts_10m",
+   "lead": 2,
+   "model": "ecmwf_ifs025",
+   "om_model": "ecmwf_ifs025",
+   "period": "2025-01-01..2025-01-31"
+  },
+  {
+   "hourly_variable": "wind_gusts_10m",
+   "lead": 3,
+   "model": "ecmwf_ifs025",
+   "om_model": "ecmwf_ifs025",
+   "period": "2025-01-01..2025-01-31"
+  },
+  {
+   "hourly_variable": "wind_gusts_10m",
+   "lead": 4,
+   "model": "ecmwf_ifs025",
+   "om_model": "ecmwf_ifs025",
+   "period": "2025-01-01..2025-01-31"
+  },
+  {
+   "hourly_variable": "wind_gusts_10m",
+   "lead": 5,
+   "model": "ecmwf_ifs025",
+   "om_model": "ecmwf_ifs025",
+   "period": "2025-01-01..2025-01-31"
+  },
+  {
+   "hourly_variable": "wind_gusts_10m",
+   "lead": 6,
+   "model": "ecmwf_ifs025",
+   "om_model": "ecmwf_ifs025",
+   "period": "2025-01-01..2025-01-31"
+  },
+  {
+   "hourly_variable": "wind_gusts_10m",
+   "lead": 7,
+   "model": "ecmwf_ifs025",
+   "om_model": "ecmwf_ifs025",
+   "period": "2025-01-01..2025-01-31"
+  },
+  {
+   "hourly_variable": "temperature_2m",
+   "lead": 7,
+   "model": "icon_global",
+   "om_model": "icon_global",
+   "period": "2025-01-01..2025-01-31"
+  },
+  {
+   "hourly_variable": "precipitation",
+   "lead": 7,
+   "model": "icon_global",
+   "om_model": "icon_global",
+   "period": "2025-01-01..2025-01-31"
+  },
+  {
+   "hourly_variable": "wind_gusts_10m",
+   "lead": 7,
+   "model": "icon_global",
+   "om_model": "icon_global",
+   "period": "2025-01-01..2025-01-31"
+  }
+ ],
+ "status": "complete",
+ "validation_problems": []
+}

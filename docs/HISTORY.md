@@ -64,3 +64,46 @@ The two are never merged into one table. Any verification that uses both must re
 
 Skill scores, verification dashboards or UI, thresholds, risk rules, CAPE or IMERG products, CORE fixes,
 probabilities or confidence.
+
+## Probe results (28 Sep 2026)
+
+Runs: **36373096319** (all steps; 110 min) and **36381151744** (IMD + ERA5 re-run after two fixes, 6 min).
+Outputs: `archive-index` branch, `history/probe/<run>/`.
+
+### Coverage matrix (one point, every IST day 1 Jan 2024 → 20 Sep 2026; complete = 24 of 24 hours)
+
+| Model (archive name) | Temperature | Rain | Gusts | CAPE | Leads with data | Starts (lead 1) |
+| --- | --- | --- | --- | --- | --- | --- |
+| ECMWF IFS 0.25° (`ecmwf_ifs025`) | yes | yes | **never** | **never** | 1–7 | 5 Feb 2024 |
+| GFS (`gfs_global` = `gfs_seamless`) | yes | yes | yes | yes | 1–7 | 20 Jan 2024 (temperature alone from 25 Mar 2021, gap 30 Dec 2023 – 19 Jan 2024; not used) |
+| ICON (`icon_global` = `icon_seamless`) | yes | yes | yes | **never** | **1–6 (no lead 7)** | 20 Jan 2024 |
+
+Lead N starts N − 1 days after lead 1. Short source outages (stored incomplete, never filled):
+ECMWF rain leads 5 and 7, 17–23 Apr 2026; GFS CAPE leads 3 and 5, 18–19 Apr 2026; ICON leads 1–3,
+4–6 (temperature/rain), 10–13 Apr 2026. ECMWF 9 km was not tested for backfill (out of scope).
+
+**This corrects the Step 1 summary:** GFS and ICON start 20 Jan 2024, not March and July 2024 (Step 1
+sampled only a few dates).
+
+### Sample backfill (36 points × July 2024 + January 2025)
+
+207,576 of 207,576 expected daily values complete (status `complete`); 234,360 rows including the
+cells the source does not provide (ECMWF gusts, ICON lead 7), which are stored empty and listed as
+"not provided". Stored with `run_time_known = false`. 274 KB Parquet.
+
+### References (same points and months)
+
+| Reference | Result |
+| --- | --- |
+| ERA5 (reanalysis) | 11,160 / 11,160 daily values complete |
+| IMD 0.25° rain | 2024 and 2025 files obtained (4,964 valid cells, unchanged format); 34 / 36 points on their own cell; South Andaman (1,228 km) and Lakshadweep (369 km) unavailable. **2026 not published** (empty response) |
+| METAR (IEM) | 145 stations in the network; only **6 / 36** points meet the proposed pairing rule (≤ 25 km, ±100 m). Of those only Delhi (VIDP) and Tiruchirappalli (VOTR) give complete days in both months. IEM has **no** 2024–25 reports for Chandigarh, Srinagar, Tezpur, Kishangarh (they report today). Daytime-only airports fail the day rule |
+
+Spot checks against the sources: METAR VIDP 15 Jul 2024 and VOTR 10 Jan 2025 (Tmax, Tmin, minimum
+visibility, observation count) match IEM exactly.
+
+### Projection for the full backfill (1 Feb 2024 → latest, 36 points, 3 models, leads 1–7)
+
+~19,300 Open-Meteo counted calls (previous runs ~16,600 + ERA5 ~2,600): about 2 days of the free daily
+limit, 6 % of the monthly limit. ~3.6 M rows, ~5 MB Parquet. METAR ~544 IEM requests (throttled at ~1
+per 30 s; several hours). IMD: 2 files, 25 MB each.

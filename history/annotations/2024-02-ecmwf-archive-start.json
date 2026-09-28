@@ -1,0 +1,1949 @@
+{
+ "approved_by": "owner, 28 Sep 2026 (M4.3 batch 1 review)",
+ "created_utc": "2026-09-28T07:51:52+00:00",
+ "date_range_ist": [
+  "2024-02-01",
+  "2024-02-10"
+ ],
+ "explanation": {
+  "archive_start": "The Open-Meteo Previous Runs archive of ECMWF IFS 0.25 begins with the 3 Feb 2024 00 UTC run: the first value at nominal lead 1 is valid at 2024-02-04 00:00 UTC (temperature) and 2024-02-03 22:00 UTC (precipitation; the first 3-hourly total is spread over 22, 23 and 00 UTC). Lead N starts N - 1 days later. Consistent with the M4.2 coverage matrix (first complete lead-1 IST day 5 Feb 2024).",
+  "boundary_days": "An IST day spans 18:30 UTC to 18:30 UTC, so the day containing the start instant is partly covered: 19/24 hours for Tmax/Tmin (00-18 UTC), 21/24 for rain per IST day (22-18 UTC), 6/24 for rain per 08:30 IST day (22-03 UTC). These days are correctly withheld (value null).",
+  "evidence": "Pattern identical at all 36 points and 7 leads; no complete ECMWF day precedes a missing one; no complete row has fewer than 24 hours; the request covered 2024-01-31..2024-03-01 UTC. Start instants are inferred from hour counts (hourly source values are not stored); two independent rain windows agree (22:00 UTC).",
+  "not": "not a request/download failure (D), not a request-construction issue, not a spatial effect"
+ },
+ "forecasts_file": "forecasts_history-2024-02.parquet",
+ "forecasts_file_sha256": "b32887a2f405341df92bbdf0e3be5cf7ae6ec4c9436abf49f7596bdcac2a1a6d",
+ "groups": [
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 1,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-01",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 1,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-02",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 1,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-03",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    21
+   ],
+   "nominal_lead_day": 1,
+   "points": 36,
+   "stored_reason": "source hours missing: 3 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-04",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 2,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-01",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 2,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-02",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 2,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-03",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 2,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-04",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    21
+   ],
+   "nominal_lead_day": 2,
+   "points": 36,
+   "stored_reason": "source hours missing: 3 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-05",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 3,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-01",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 3,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-02",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 3,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-03",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 3,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-04",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 3,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-05",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    21
+   ],
+   "nominal_lead_day": 3,
+   "points": 36,
+   "stored_reason": "source hours missing: 3 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-06",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 4,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-01",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 4,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-02",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 4,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-03",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 4,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-04",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 4,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-05",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 4,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-06",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    21
+   ],
+   "nominal_lead_day": 4,
+   "points": 36,
+   "stored_reason": "source hours missing: 3 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-07",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 5,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-01",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 5,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-02",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 5,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-03",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 5,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-04",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 5,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-05",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 5,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-06",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 5,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-07",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    21
+   ],
+   "nominal_lead_day": 5,
+   "points": 36,
+   "stored_reason": "source hours missing: 3 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-08",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-01",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-02",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-03",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-04",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-05",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-06",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-07",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-08",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    21
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 3 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-09",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-01",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-02",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-03",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-04",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-05",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-06",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-07",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-08",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-09",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    21
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 3 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-10",
+   "variable": "precip"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 1,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-01",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 1,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-02",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    6
+   ],
+   "nominal_lead_day": 1,
+   "points": 36,
+   "stored_reason": "source hours missing: 18 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-03",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 2,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-01",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 2,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-02",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 2,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-03",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    6
+   ],
+   "nominal_lead_day": 2,
+   "points": 36,
+   "stored_reason": "source hours missing: 18 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-04",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 3,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-01",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 3,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-02",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 3,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-03",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 3,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-04",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    6
+   ],
+   "nominal_lead_day": 3,
+   "points": 36,
+   "stored_reason": "source hours missing: 18 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-05",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 4,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-01",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 4,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-02",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 4,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-03",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 4,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-04",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 4,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-05",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    6
+   ],
+   "nominal_lead_day": 4,
+   "points": 36,
+   "stored_reason": "source hours missing: 18 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-06",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 5,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-01",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 5,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-02",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 5,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-03",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 5,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-04",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 5,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-05",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 5,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-06",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    6
+   ],
+   "nominal_lead_day": 5,
+   "points": 36,
+   "stored_reason": "source hours missing: 18 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-07",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-01",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-02",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-03",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-04",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-05",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-06",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-07",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    6
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 18 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-08",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-01",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-02",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-03",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-04",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-05",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-06",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-07",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-08",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    6
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 18 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-09",
+   "variable": "precip_0830"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 1,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-01",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 1,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-02",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 1,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-03",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    19
+   ],
+   "nominal_lead_day": 1,
+   "points": 36,
+   "stored_reason": "source hours missing: 5 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-04",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 2,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-01",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 2,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-02",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 2,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-03",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 2,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-04",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    19
+   ],
+   "nominal_lead_day": 2,
+   "points": 36,
+   "stored_reason": "source hours missing: 5 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-05",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 3,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-01",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 3,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-02",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 3,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-03",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 3,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-04",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 3,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-05",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    19
+   ],
+   "nominal_lead_day": 3,
+   "points": 36,
+   "stored_reason": "source hours missing: 5 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-06",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 4,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-01",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 4,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-02",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 4,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-03",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 4,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-04",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 4,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-05",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 4,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-06",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    19
+   ],
+   "nominal_lead_day": 4,
+   "points": 36,
+   "stored_reason": "source hours missing: 5 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-07",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 5,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-01",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 5,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-02",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 5,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-03",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 5,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-04",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 5,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-05",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 5,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-06",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 5,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-07",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    19
+   ],
+   "nominal_lead_day": 5,
+   "points": 36,
+   "stored_reason": "source hours missing: 5 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-08",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-01",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-02",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-03",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-04",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-05",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-06",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-07",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-08",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    19
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 5 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-09",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-01",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-02",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-03",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-04",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-05",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-06",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-07",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-08",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-09",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    19
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 5 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-10",
+   "variable": "tmax"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 1,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-01",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 1,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-02",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 1,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-03",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    19
+   ],
+   "nominal_lead_day": 1,
+   "points": 36,
+   "stored_reason": "source hours missing: 5 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-04",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 2,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-01",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 2,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-02",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 2,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-03",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 2,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-04",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    19
+   ],
+   "nominal_lead_day": 2,
+   "points": 36,
+   "stored_reason": "source hours missing: 5 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-05",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 3,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-01",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 3,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-02",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 3,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-03",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 3,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-04",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 3,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-05",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    19
+   ],
+   "nominal_lead_day": 3,
+   "points": 36,
+   "stored_reason": "source hours missing: 5 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-06",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 4,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-01",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 4,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-02",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 4,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-03",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 4,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-04",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 4,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-05",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 4,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-06",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    19
+   ],
+   "nominal_lead_day": 4,
+   "points": 36,
+   "stored_reason": "source hours missing: 5 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-07",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 5,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-01",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 5,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-02",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 5,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-03",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 5,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-04",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 5,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-05",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 5,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-06",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 5,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-07",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    19
+   ],
+   "nominal_lead_day": 5,
+   "points": 36,
+   "stored_reason": "source hours missing: 5 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-08",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-01",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-02",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-03",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-04",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-05",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-06",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-07",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-08",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    19
+   ],
+   "nominal_lead_day": 6,
+   "points": 36,
+   "stored_reason": "source hours missing: 5 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-09",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-01",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-02",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-03",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-04",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-05",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-06",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-07",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-08",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    0
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 24 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-09",
+   "variable": "tmin"
+  },
+  {
+   "hours_present": [
+    19
+   ],
+   "nominal_lead_day": 7,
+   "points": 36,
+   "stored_reason": "source hours missing: 5 of 24 (no interpolation, no substitution)",
+   "valid_date_ist": "2024-02-10",
+   "variable": "tmin"
+  }
+ ],
+ "id": "2024-02-ecmwf-archive-start",
+ "manifest_sha256": "e1586403ab0302f6ec2129ce9f7e115f627bb2163119486cc7e8972299f8545a",
+ "model": "ecmwf_ifs025",
+ "nominal_leads": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7
+ ],
+ "points": 36,
+ "reclassify": {
+  "from": "C",
+  "from_label": "source hours missing (m4.3-1 wording; category C by default)",
+  "rows": 6804,
+  "to": "B",
+  "to_label": "before source archive start (B: source archive not yet started; source-unavailable)"
+ },
+ "release": "history-2024-02",
+ "release_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/releases/tag/history-2024-02",
+ "row_key_format": "point_id|variable|nominal_lead_day|valid_date_ist|hours_present, sorted, newline-joined",
+ "row_keys_sha256": "9cedc962ab807cb2cd4144746deae1582767848d35780ec884498e83c4680f62",
+ "row_selection": "model = ecmwf_ifs025 AND variable in (tmax, tmin, precip, precip_0830) AND complete = false AND reason starts with 'source hours missing' in forecasts_history-2024-02.parquet (all such rows)",
+ "rows": 6804,
+ "statement": "No values were changed. Release history-2024-02 is unmodified and remains immutable; this annotation only reclassifies the reason category of the listed rows for reporting. From processing version m4.3-2 the builder writes 'before source archive start' directly.",
+ "type": "classification annotation (metadata only)",
+ "values_changed": false,
+ "variable_labels": {
+  "precip": "rain per IST day",
+  "precip_0830": "rain per 08:30 IST day",
+  "tmax": "Tmax",
+  "tmin": "Tmin"
+ },
+ "variables": [
+  "tmax",
+  "tmin",
+  "precip",
+  "precip_0830"
+ ]
+}

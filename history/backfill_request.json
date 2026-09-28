@@ -1,6 +1,6 @@
 {
- "mode": "dry-run",
- "only_months": ["2024-12"],
- "budget": 1000,
- "note": "Workflow validation: dry run of Dec 2024 (year boundary: needs IMD 2024 and 2025). Publishes nothing."
+ "mode": "publish",
+ "only_months": [],
+ "budget": 6000,
+ "note": "Batch 1 (28 Sep 2026 UTC): ~9 months within the free tier after today's probe/dry-run usage (~3,500 counted calls). Dry run 36384259571 validated the workflow."
 }

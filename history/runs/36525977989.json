@@ -1,0 +1,47 @@
+{
+ "budget_counted_calls": 8100.0,
+ "dry_run": false,
+ "finished_utc": "2026-09-29 07:10:33+00:00",
+ "http": {
+  "bytes": 151171330,
+  "http_errors": 3,
+  "network_errors": 1,
+  "om_requests": 52,
+  "om_weighted_calls": 7902.771428571431,
+  "rate_limited": 37,
+  "requests": 184,
+  "retries": 41,
+  "slept_for_limits_s": 1970.0
+ },
+ "imd": [
+  {
+   "checksum_ok": true,
+   "release": "history-imd-raw-2024",
+   "status": "available",
+   "year": 2024
+  },
+  {
+   "checksum_ok": true,
+   "release": "history-imd-raw-2025",
+   "status": "available",
+   "year": 2025
+  }
+ ],
+ "months": {
+  "2024-11": "published (partial, 100440/113400)",
+  "2024-12": "published (partial, 103788/117180)",
+  "2025-01": "published (partial, 103788/117180)",
+  "2025-02": "published (partial, 93744/105840)",
+  "2025-03": "published (partial, 103788/117180)",
+  "2025-04": "published (partial, 100440/113400)",
+  "2025-05": "published (partial, 103788/117180)",
+  "2025-06": "published (partial, 100440/113400)",
+  "2025-07": "published (partial, 103788/117180)",
+  "2025-08": "published (partial, 103788/117180)",
+  "2025-09": "refused: source retrieval failed: open-meteo previous-runs icon_global: Expecting ',' delimiter: line 1 column 2672852 (char 2672851)",
+  "2025-10": "published (partial, 103788/117180)",
+  "2025-11": "published (partial, 100440/113400)"
+ },
+ "run_id": "36525977989",
+ "started_utc": "2026-09-29 05:25:49+00:00"
+}

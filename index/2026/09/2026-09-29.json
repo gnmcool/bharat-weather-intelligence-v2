@@ -1,0 +1,285 @@
+{
+ "archive_date_ist": "2026-09-29",
+ "checks": {
+  "checksums": {
+   "core_daily_2026-09-29.parquet": {
+    "downloaded": "9978b13ff7dd7f90de8f6e2bdd746c23098d80a5231ffa75d84227be2f1f13a0",
+    "manifest": "9978b13ff7dd7f90de8f6e2bdd746c23098d80a5231ffa75d84227be2f1f13a0",
+    "match": true
+   },
+   "core_risks_2026-09-29.parquet": {
+    "downloaded": "ec012d623b9d69d5d2e9096663734dd832b8c154ca98301ade6e19e95abf3d5d",
+    "manifest": "ec012d623b9d69d5d2e9096663734dd832b8c154ca98301ade6e19e95abf3d5d",
+    "match": true
+   },
+   "e2s_gfs_grid_2026092900.nc": {
+    "downloaded": "83e3e6297b5e03eedf3abe542d24feed8dc06b54fe2fee3ac8f3d1d1894655dc",
+    "manifest": "83e3e6297b5e03eedf3abe542d24feed8dc06b54fe2fee3ac8f3d1d1894655dc",
+    "match": true
+   },
+   "forecasts_2026-09-29.parquet": {
+    "downloaded": "5e4aa1775e2cbf9632ff4a2801f6ecd86fca38a87a22c8b410164e623ff7c21d",
+    "manifest": "5e4aa1775e2cbf9632ff4a2801f6ecd86fca38a87a22c8b410164e623ff7c21d",
+    "match": true
+   },
+   "gap_report_2026-09-29.json": {
+    "match": true
+   },
+   "manifest_2026-09-29.json": {
+    "match": true
+   }
+  },
+  "immutability": {
+   "add_new_asset": {
+    "message": "HTTP 422: Cannot upload assets to an immutable release. (https://uploads.github.com/repos/gnmcool/bharat-weather-intelligence-v2/releases/399081488/assets?label=&name=immutability_probe.txt)",
+    "rejected": true
+   },
+   "delete_asset": {
+    "message": "HTTP 422: Validation Failed (https://api.github.com/repos/gnmcool/bharat-weather-intelligence-v2/releases/assets/598051940)\nCannot delete asset from an immutable release",
+    "rejected": true
+   },
+   "draft": false,
+   "github_immutable_flag": true,
+   "overwrite_asset": {
+    "message": "HTTP 422: Validation Failed (https://api.github.com/repos/gnmcool/bharat-weather-intelligence-v2/releases/assets/598051940)\nCannot delete asset from an immutable release",
+    "rejected": true
+   },
+   "unchanged_after_attempts": true
+  },
+  "ok": true,
+  "published": true,
+  "tag": "archive-daily-2026-09-29"
+ },
+ "gap_report": {
+  "archive_date_ist": "2026-09-29",
+  "collection_errors": [],
+  "expected_counts": {
+   "e2s_gfs025": 1296,
+   "ecmwf_ifs025": 1296,
+   "gfs_global": 1296,
+   "icon_global": 576
+  },
+  "http": {
+   "http_errors": 0,
+   "network_errors": 0,
+   "rate_limited": 0,
+   "requests": 47,
+   "retries": 0
+  },
+  "missing": [],
+  "not_provided_by_source": [
+   {
+    "leads": [
+     0
+    ],
+    "model": "ecmwf_ifs025",
+    "reason": "outside the run's full-day coverage (partial or beyond its last valid time)"
+   },
+   {
+    "leads": [
+     0
+    ],
+    "model": "gfs_global",
+    "reason": "outside the run's full-day coverage (partial or beyond its last valid time)"
+   },
+   {
+    "leads": [
+     0,
+     5,
+     6,
+     7,
+     8,
+     9
+    ],
+    "model": "icon_global",
+    "reason": "outside the run's full-day coverage (partial or beyond its last valid time)"
+   }
+  ],
+  "partial_days_stored": 1152,
+  "present_counts": {
+   "e2s_gfs025": 1296,
+   "ecmwf_ifs025": 1296,
+   "gfs_global": 1296,
+   "icon_global": 576
+  },
+  "problems": [],
+  "publishable": true,
+  "test_injection": "none"
+ },
+ "gap_report_sha256": "8e208ae163f9b4a7301ee30bb56d66dc98657b0422e06b7f65362c7b0e06fc74",
+ "manifest": {
+  "archive_date_ist": "2026-09-29",
+  "collection_errors": [],
+  "created_utc": "2026-09-29T11:29:15+00:00",
+  "duration_s": 27.1,
+  "expected": {
+   "core": {
+    "points": 36,
+    "risks_per_point": 11,
+    "source": "https://bharat-weather-intelligence-brown.vercel.app/api/v1/dashboard"
+   },
+   "forecasts": [
+    {
+     "data_end_utc": "2026-10-14T03:00:00+00:00",
+     "expected_leads": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+     ],
+     "metadata_ids": [
+      "ecmwf_ifs025"
+     ],
+     "model": "ecmwf_ifs025",
+     "open_meteo_model": "ecmwf_ifs025",
+     "points": 36,
+     "run_available_utc": "2026-09-29T07:51:58+00:00",
+     "run_time_utc": "2026-09-29T00:00:00+00:00",
+     "step_hours": 3,
+     "variables": [
+      "tmax",
+      "tmin",
+      "precip",
+      "gust_max"
+     ]
+    },
+    {
+     "data_end_utc": "2026-10-15T01:00:00+00:00",
+     "expected_leads": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+     ],
+     "metadata_ids": [
+      "ncep_gfs013",
+      "ncep_gfs025"
+     ],
+     "model": "gfs_global",
+     "open_meteo_model": "gfs_global",
+     "points": 36,
+     "run_available_utc": "2026-09-29T05:42:21+00:00",
+     "run_time_utc": "2026-09-29T00:00:00+00:00",
+     "step_hours": 1,
+     "variables": [
+      "tmax",
+      "tmin",
+      "precip",
+      "gust_max"
+     ]
+    },
+    {
+     "data_end_utc": "2026-10-04T07:00:00+00:00",
+     "expected_leads": [
+      1,
+      2,
+      3,
+      4
+     ],
+     "metadata_ids": [
+      "dwd_icon"
+     ],
+     "model": "icon_global",
+     "open_meteo_model": "icon_global",
+     "points": 36,
+     "run_available_utc": "2026-09-29T09:35:40+00:00",
+     "run_time_utc": "2026-09-29T06:00:00+00:00",
+     "step_hours": 1,
+     "variables": [
+      "tmax",
+      "tmin",
+      "precip",
+      "gust_max"
+     ]
+    },
+    {
+     "expected_leads": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+     ],
+     "grid_file": "e2s_gfs_grid_2026092900.nc",
+     "model": "e2s_gfs025",
+     "points": 36,
+     "run_time_utc": "2026-09-29T00:00:00+00:00",
+     "variables": [
+      "precip",
+      "tmax",
+      "tmin",
+      "gust_max"
+     ]
+    }
+   ]
+  },
+  "files": [
+   {
+    "bytes": 17769,
+    "kind": "forecasts",
+    "name": "forecasts_2026-09-29.parquet",
+    "rows": 5616,
+    "sha256": "5e4aa1775e2cbf9632ff4a2801f6ecd86fca38a87a22c8b410164e623ff7c21d"
+   },
+   {
+    "bytes": 8681,
+    "kind": "core_risks",
+    "name": "core_risks_2026-09-29.parquet",
+    "rows": 396,
+    "sha256": "ec012d623b9d69d5d2e9096663734dd832b8c154ca98301ade6e19e95abf3d5d"
+   },
+   {
+    "bytes": 5396,
+    "kind": "core_daily",
+    "name": "core_daily_2026-09-29.parquet",
+    "rows": 1440,
+    "sha256": "9978b13ff7dd7f90de8f6e2bdd746c23098d80a5231ffa75d84227be2f1f13a0"
+   },
+   {
+    "bytes": 2185016,
+    "kind": "e2s_grid",
+    "name": "e2s_gfs_grid_2026092900.nc",
+    "rows": null,
+    "sha256": "83e3e6297b5e03eedf3abe542d24feed8dc06b54fe2fee3ac8f3d1d1894655dc"
+   }
+  ],
+  "http": {
+   "http_errors": 0,
+   "network_errors": 0,
+   "rate_limited": 0,
+   "requests": 47,
+   "retries": 0
+  },
+  "lead_day_definition": "valid_date_ist minus the IST calendar date of run_time_utc",
+  "points": 36,
+  "points_file": "archive/points.json",
+  "producer": {
+   "git_sha": "0453420a49cd104710f7ef4b0436e63ec847d9b3",
+   "run_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/actions/runs/36562007375",
+   "script": "archive/collect.py",
+   "test_injection": "none"
+  },
+  "run_time_policy": "forecasts table: run_time_utc is the exact model initialisation from Open-Meteo run metadata (checked before and after the request) or the Earth2Studio store issue time; run_time_known is always true. CORE tables record CORE's generated_at; CORE best-match is a blend and has no single run time.",
+  "schema_version": 1
+ },
+ "manifest_sha256": "a0dec8068df1bda5dc9bac25af61e982a9cc9ca32f0a3aad61824a5d65c26b98",
+ "recorded_utc": "2026-09-29T11:29:50+00:00",
+ "release_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/releases/tag/archive-daily-2026-09-29",
+ "run_id": "36562007375",
+ "status": "published",
+ "tag": "archive-daily-2026-09-29"
+}

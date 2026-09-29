@@ -1,0 +1,293 @@
+{
+ "manifest": {
+  "anomalies": [],
+  "build_secs": 540,
+  "code_commit": "3c9cd2c9293f02d85ebf2a1e3d6de3149d744860",
+  "created_utc": "2026-09-29 06:55:38+00:00",
+  "dataset": "historical_backfill",
+  "expected": {
+   "days": [
+    "2025-09-01",
+    "2025-09-02",
+    "2025-09-03",
+    "2025-09-04",
+    "2025-09-05",
+    "2025-09-06",
+    "2025-09-07",
+    "2025-09-08",
+    "2025-09-09",
+    "2025-09-10",
+    "2025-09-11",
+    "2025-09-12",
+    "2025-09-13",
+    "2025-09-14",
+    "2025-09-15",
+    "2025-09-16",
+    "2025-09-17",
+    "2025-09-18",
+    "2025-09-19",
+    "2025-09-20",
+    "2025-09-21",
+    "2025-09-22",
+    "2025-09-23",
+    "2025-09-24",
+    "2025-09-25",
+    "2025-09-26",
+    "2025-09-27",
+    "2025-09-28",
+    "2025-09-29",
+    "2025-09-30"
+   ],
+   "models": [
+    "ecmwf_ifs025",
+    "gfs_global",
+    "icon_global"
+   ],
+   "nominal_leads": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "points": [
+    "IN-35-640",
+    "IN-37-548",
+    "IN-12-779",
+    "IN-18-305",
+    "IN-10-221",
+    "IN-04-055",
+    "IN-22-410",
+    "IN-26-495",
+    "IN-07-delhi",
+    "IN-30-586",
+    "IN-24-474",
+    "IN-06-082",
+    "IN-02-027",
+    "IN-01-015",
+    "IN-20-361",
+    "IN-29-566",
+    "IN-32-594",
+    "IN-38-004",
+    "IN-31-587",
+    "IN-23-446",
+    "IN-27-514",
+    "IN-14-277",
+    "IN-17-296",
+    "IN-15-268",
+    "IN-13-263",
+    "IN-21-385",
+    "IN-34-635",
+    "IN-03-042",
+    "IN-08-119",
+    "IN-11-243",
+    "IN-33-614",
+    "IN-36-741",
+    "IN-16-708",
+    "IN-09-156",
+    "IN-05-064",
+    "IN-19-333"
+   ],
+   "values": 113400,
+   "variables": [
+    "tmax",
+    "tmin",
+    "precip",
+    "precip_0830",
+    "gust_max"
+   ]
+  },
+  "files": [
+   {
+    "bytes": 109938,
+    "kind": "forecasts",
+    "name": "forecasts_history-2025-09.parquet",
+    "rows": 75600,
+    "sha256": "d8de5dcbe4fe3b951fbf610481486780d6418825028e7a96b63233f9857953a9"
+   },
+   {
+    "bytes": 32663,
+    "kind": "reference",
+    "name": "reference_history-2025-09.parquet",
+    "rows": 7920,
+    "sha256": "728287045eacffb933c51889db9143e74a25f0d220999d5800b039681f84f862"
+   },
+   {
+    "bytes": 193193,
+    "kind": "matched",
+    "name": "matched_history-2025-09.parquet",
+    "rows": 136080,
+    "sha256": "f27888d22869bf44f363f78e139612c9c71bf751cbc65b86de049cb43fd54d12"
+   },
+   {
+    "bytes": 14333,
+    "kind": "metar_pairing",
+    "name": "metar_pairing_history-2025-09.json",
+    "rows": null,
+    "sha256": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965"
+   }
+  ],
+  "http": {
+   "bytes": 127906907,
+   "http_errors": 0,
+   "network_errors": 1,
+   "om_requests": 44,
+   "om_weighted_calls": 6682.628571428573,
+   "rate_limited": 31,
+   "requests": 153,
+   "retries": 32,
+   "slept_for_limits_s": 1800.0
+  },
+  "match_map": {
+   "gust_max": [
+    [
+     "era5",
+     "gust_max"
+    ],
+    [
+     "metar",
+     null
+    ]
+   ],
+   "precip": [
+    [
+     "era5",
+     "precip"
+    ]
+   ],
+   "precip_0830": [
+    [
+     "imd_rf025",
+     "precip_0830"
+    ],
+    [
+     "era5",
+     "precip_0830"
+    ]
+   ],
+   "tmax": [
+    [
+     "era5",
+     "tmax"
+    ],
+    [
+     "metar",
+     "tmax"
+    ]
+   ],
+   "tmin": [
+    [
+     "era5",
+     "tmin"
+    ],
+    [
+     "metar",
+     "tmin"
+    ]
+   ]
+  },
+  "missing_reference_reasons": {
+   "era5": "ERA5 not retrieved"
+  },
+  "month": "2025-09",
+  "period_ist": [
+   "2025-09-01",
+   "2025-09-30"
+  ],
+  "points_file_sha256": "4919f87259fd22a83a6050e01497f3be86711ce0e10e28aecbb9af324b65d49e",
+  "processing_version": "m4.3-2",
+  "retrieval_errors": [
+   {
+    "error": "Expecting ',' delimiter: line 1 column 2672852 (char 2672851)",
+    "source": "open-meteo previous-runs icon_global"
+   }
+  ],
+  "schema_version": 2,
+  "sources": {
+   "ecmwf_ifs025": {
+    "api": "https://previous-runs-api.open-meteo.com/v1/forecast",
+    "grid_distance_km_max": 19.0,
+    "hourly": [
+     "temperature_2m_previous_day1..7",
+     "precipitation_previous_day1..7",
+     "wind_gusts_10m_previous_day1..7"
+    ],
+    "om_model": "ecmwf_ifs025",
+    "request_utc_dates": [
+     "2025-08-31",
+     "2025-10-01"
+    ],
+    "timezone": "GMT"
+   },
+   "era5": {
+    "api": "https://archive-api.open-meteo.com/v1/archive",
+    "grid_distance_km_max": 20.4,
+    "label": "ERA5 reanalysis",
+    "request_utc_dates": [
+     "2025-08-31",
+     "2025-10-01"
+    ]
+   },
+   "gfs_global": {
+    "api": "https://previous-runs-api.open-meteo.com/v1/forecast",
+    "grid_distance_km_max": 7.9,
+    "hourly": [
+     "temperature_2m_previous_day1..7",
+     "precipitation_previous_day1..7",
+     "wind_gusts_10m_previous_day1..7"
+    ],
+    "om_model": "gfs_global",
+    "request_utc_dates": [
+     "2025-08-31",
+     "2025-10-01"
+    ],
+    "timezone": "GMT"
+   },
+   "imd_rf025": {
+    "api": "https://imdpune.gov.in/cmpg/Griddata/RF25.php",
+    "date_convention": "file date D = 24 h ending 08:30 IST on D; stored at D - 1",
+    "files": [
+     {
+      "release": "history-imd-raw-2025",
+      "sha256": "7d03cd397ebb1d7209ffae947d3965113643e1f30023cca657f0aa2c800af035",
+      "year": 2025
+     }
+    ],
+    "max_km": 30.0
+   },
+   "metar": {
+    "api": "https://mesonet.agron.iastate.edu/cgi-bin/request/asos.py",
+    "fields": [
+     "tmpc",
+     "sknt",
+     "gust",
+     "vsby",
+     "wxcodes"
+    ],
+    "rain": "never requested",
+    "stations": [
+     "VEIM",
+     "VERP",
+     "VICG",
+     "VIDP",
+     "VOPC",
+     "VOTR"
+    ]
+   }
+  },
+  "statement": "Historical reconstruction from Open-Meteo's Previous Runs API. run_time_known = false; the model run is not identified by the source and no run time is invented. Lead = nominal previous_dayN (each hourly value predicted at least N x 24 h before). Not an exact forecast-run archive; never pool with the prospective archive."
+ },
+ "month": "2025-09",
+ "quality": {
+  "dataset": "historical_backfill",
+  "month": "2025-09",
+  "problems": [
+   "source retrieval failed: open-meteo previous-runs icon_global: Expecting ',' delimiter: line 1 column 2672852 (char 2672851)"
+  ],
+  "publishable": false
+ },
+ "run_id": "36525977989",
+ "status": "refused"
+}

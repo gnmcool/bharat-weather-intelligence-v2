@@ -1,6 +1,6 @@
 {
  "mode": "publish",
- "only_months": [],
- "budget": 6000,
- "note": "Batch 1 (28 Sep 2026 UTC): ~9 months within the free tier after today's probe/dry-run usage (~3,500 counted calls). Dry run 36384259571 validated the workflow."
+ "only_months": ["2024-11", "2024-12", "2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11"],
+ "budget": 8100,
+ "note": "Batch 2 (owner-approved 29 Sep 2026, after the UTC daily reset): exactly Nov 2024 - Nov 2025, processing version m4.3-2, 13 months x ~620 counted calls."
 }

@@ -1,0 +1,30 @@
+{
+ "budget_counted_calls": 700.0,
+ "dry_run": false,
+ "finished_utc": "2026-09-29 07:32:30+00:00",
+ "http": {
+  "bytes": 11547691,
+  "http_errors": 0,
+  "malformed_responses": 0,
+  "network_errors": 0,
+  "om_requests": 4,
+  "om_weighted_calls": 600.6857142857143,
+  "rate_limited": 1,
+  "requests": 12,
+  "retries": 1,
+  "slept_for_limits_s": 55.0
+ },
+ "imd": [
+  {
+   "checksum_ok": true,
+   "release": "history-imd-raw-2025",
+   "status": "available",
+   "year": 2025
+  }
+ ],
+ "months": {
+  "2025-09": "published (partial, 100440/113400)"
+ },
+ "run_id": "36536735813",
+ "started_utc": "2026-09-29 07:29:15+00:00"
+}

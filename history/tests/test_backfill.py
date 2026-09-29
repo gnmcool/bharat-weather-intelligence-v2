@@ -19,6 +19,7 @@ sys.path.insert(0, str(HERE))
 
 import backfill as B  # noqa: E402
 import sources  # noqa: E402
+REAL_PREVIOUS_RUNS = sources.previous_runs   # captured before any fixture replaces it
 from common import HistoryError, load_points, sha256_file, write_json  # noqa: E402
 
 POINTS = load_points()
@@ -446,3 +447,60 @@ def test_aggregate_applies_annotation_only_with_matching_manifest_hash(tmp_path)
     rep = B.aggregate(idx, ["2024-02"])
     assert rep["missing_by_category"] == {"A": 30, "C": 10}
     assert rep["annotations_applied"][0]["applied"] is False
+
+
+# ---------------------------------------------------------------- malformed / truncated Open-Meteo responses
+GOOD = json.dumps({"latitude": 23.0, "longitude": 72.5, "hourly": {"time": ["2024-02-01T00:00"],
+                                                                   "temperature_2m_previous_day1": [20.0]}}).encode()
+
+
+def _quiet(monkeypatch):
+    monkeypatch.setattr(sources.time, "sleep", lambda s: None)
+    monkeypatch.setattr(sources.LIMITER, "wait", lambda w: None)
+
+
+def test_malformed_then_good_response_is_retried(monkeypatch):
+    _quiet(monkeypatch)
+    replies = [GOOD[:57], GOOD]            # first body truncated mid-JSON, second complete
+    calls = []
+    monkeypatch.setattr(sources, "http", lambda url, **k: calls.append(url) or replies.pop(0))
+    before = dict(sources.STATS)
+    resp, url = REAL_PREVIOUS_RUNS([{"id": "p", "lat": 23.0, "lon": 72.5}], "icon_global", ["temperature_2m"], [1],
+                                   date(2024, 2, 1), date(2024, 2, 1))
+    assert resp[0]["hourly"]["temperature_2m_previous_day1"] == [20.0]      # parsed from the good attempt only
+    assert len(calls) == 2 and calls[0] == calls[1]                            # identical request repeated
+    assert sources.STATS["malformed_responses"] - before["malformed_responses"] == 1
+    assert sources.STATS["om_requests"] - before["om_requests"] == 2           # both attempts counted (quota)
+
+
+def test_always_malformed_raises_after_4_attempts(monkeypatch):
+    _quiet(monkeypatch)
+    calls = []
+    monkeypatch.setattr(sources, "http", lambda url, **k: calls.append(url) or GOOD[:57])
+    with pytest.raises(HistoryError, match="malformed JSON response.*failed after 4 attempts"):
+        REAL_PREVIOUS_RUNS([{"id": "p", "lat": 23.0, "lon": 72.5}], "icon_global", ["temperature_2m"], [1],
+                           date(2024, 2, 1), date(2024, 2, 1))
+    assert len(calls) == 4
+
+
+def test_month_refused_when_every_attempt_is_malformed(fakes, imd_dir, tmp_path, monkeypatch):
+    _quiet(monkeypatch)
+    monkeypatch.setattr(sources, "previous_runs", REAL_PREVIOUS_RUNS)          # real request path for forecasts
+    monkeypatch.setattr(sources, "http", lambda url, **k: b'{"latitude": 23.0, "hourly": {"time": ["2024-02-01T0')
+    B.build_month("2024-02", tmp_path, imd_dir)
+    q = B.validate_month(tmp_path)
+    assert not q["publishable"]
+    bad = [p for p in q["problems"] if p.startswith("source retrieval failed: open-meteo previous-runs")]
+    assert len(bad) == 3 and all("failed after 4 attempts" in p for p in bad)
+    assert all(classify_reason(p) == "D" for p in bad)
+
+
+def test_valid_response_with_missing_source_data_is_not_retried_or_filled(monkeypatch):
+    _quiet(monkeypatch)
+    empty = json.dumps({"latitude": 23.0, "longitude": 72.5, "hourly": {"time": ["2024-02-01T00:00"],
+                                                                        "temperature_2m_previous_day1": [None]}}).encode()
+    calls = []
+    monkeypatch.setattr(sources, "http", lambda url, **k: calls.append(url) or empty)
+    resp, _ = REAL_PREVIOUS_RUNS([{"id": "p", "lat": 23.0, "lon": 72.5}], "icon_global", ["temperature_2m"], [1],
+                                 date(2024, 2, 1), date(2024, 2, 1))
+    assert len(calls) == 1 and resp[0]["hourly"]["temperature_2m_previous_day1"] == [None]

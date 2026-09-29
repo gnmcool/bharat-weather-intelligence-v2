@@ -28,7 +28,7 @@ IEM_STATIONS = "https://mesonet.agron.iastate.edu/geojson/network/IN__ASOS.geojs
 IEM_ASOS = "https://mesonet.agron.iastate.edu/cgi-bin/request/asos.py"
 IMD_RF25 = "https://imdpune.gov.in/cmpg/Griddata/RF25.php"
 
-STATS = {"requests": 0, "retries": 0, "rate_limited": 0, "http_errors": 0, "network_errors": 0,
+STATS = {"requests": 0, "retries": 0, "rate_limited": 0, "http_errors": 0, "network_errors": 0, "malformed_responses": 0,
          "om_requests": 0, "om_weighted_calls": 0.0, "bytes": 0, "slept_for_limits_s": 0.0}
 
 
@@ -90,13 +90,29 @@ def http(url: str, data: bytes | None = None, timeout: int = 120, tries: int = 4
     raise HistoryError(f"{url.split('?')[0]} failed: {last}")
 
 
-def _om(base: str, params: dict, n_loc: int, n_vars: int, n_days: int):
+def _om(base: str, params: dict, n_loc: int, n_vars: int, n_days: int, tries: int = 4):
+    """One Open-Meteo request. A malformed / truncated JSON body is a transient transport failure: the whole request
+    is repeated (up to `tries` attempts, same backoff as network errors). Every attempt counts against the quota.
+    If every attempt is malformed a HistoryError is raised, so the month is refused (category D). The content of a
+    well-formed response is never altered: a source that genuinely lacks data still yields nulls."""
     w = om_weight(n_loc, n_vars, n_days)
-    LIMITER.wait(w)
-    STATS["om_requests"] += 1
-    STATS["om_weighted_calls"] += w
     url = base + "?" + urllib.parse.urlencode(params, safe=",")
-    j = json.loads(http(url))
+    last = None
+    for a in range(tries):
+        LIMITER.wait(w)
+        STATS["om_requests"] += 1
+        STATS["om_weighted_calls"] += w
+        body = http(url)
+        try:
+            j = json.loads(body)
+            break
+        except ValueError as e:   # json.JSONDecodeError and UnicodeDecodeError are ValueErrors
+            STATS["malformed_responses"] += 1
+            last = f"malformed JSON response ({len(body)} bytes): {e}"
+            if a == tries - 1:
+                raise HistoryError(f"{base}: {last}; failed after {tries} attempts") from None
+            STATS["retries"] += 1
+            time.sleep(min(60, 5 * 2 ** a))
     if isinstance(j, dict) and j.get("error"):
         if any(k in str(j.get("reason", "")).lower() for k in ("daily", "monthly")):
             raise QuotaExhausted(f"Open-Meteo: {j.get('reason')}")

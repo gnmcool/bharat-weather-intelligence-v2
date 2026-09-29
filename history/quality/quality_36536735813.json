@@ -1,0 +1,1395 @@
+{
+ "annotations_applied": [
+  {
+   "annotation": "2024-02-ecmwf-archive-start",
+   "applied": true,
+   "from": "C",
+   "month": "2024-02",
+   "rows": 6804,
+   "to": "B"
+  }
+ ],
+ "anomalies": [],
+ "category_legend": {
+  "A": "source structurally unavailable (model/variable/lead does not exist)",
+  "B": "source archive not yet started",
+  "C": "source outage / partial source availability (retrieval succeeded)",
+  "D": "request/download failure (the month is refused, never published)",
+  "E": "reference unavailable",
+  "F": "temporal incompleteness (reference reporting coverage)",
+  "G": "spatial pairing failure"
+ },
+ "dataset_status": "partial",
+ "expected_values": 2528820,
+ "generated_utc": "2026-09-29 07:32:32+00:00",
+ "imd_alignment_by_month": {
+  "2024-02": {
+   "best_lag": "+0",
+   "r": {
+    "+0": 0.726,
+    "+1": 0.432,
+    "-1": 0.226
+   }
+  },
+  "2024-03": {
+   "best_lag": "+0",
+   "r": {
+    "+0": 0.743,
+    "+1": 0.369,
+    "-1": 0.394
+   }
+  },
+  "2024-04": {
+   "best_lag": "+0",
+   "r": {
+    "+0": 0.645,
+    "+1": 0.325,
+    "-1": 0.423
+   }
+  },
+  "2024-05": {
+   "best_lag": "+0",
+   "r": {
+    "+0": 0.524,
+    "+1": 0.257,
+    "-1": 0.335
+   }
+  },
+  "2024-06": {
+   "best_lag": "+0",
+   "r": {
+    "+0": 0.526,
+    "+1": 0.413,
+    "-1": 0.462
+   }
+  },
+  "2024-07": {
+   "best_lag": "+0",
+   "r": {
+    "+0": 0.515,
+    "+1": 0.307,
+    "-1": 0.43
+   }
+  },
+  "2024-08": {
+   "best_lag": "+0",
+   "r": {
+    "+0": 0.555,
+    "+1": 0.359,
+    "-1": 0.336
+   }
+  },
+  "2024-09": {
+   "best_lag": "+0",
+   "r": {
+    "+0": 0.666,
+    "+1": 0.36,
+    "-1": 0.399
+   }
+  },
+  "2024-10": {
+   "best_lag": "+0",
+   "r": {
+    "+0": 0.566,
+    "+1": 0.394,
+    "-1": 0.354
+   }
+  },
+  "2024-11": {
+   "best_lag": "+0",
+   "r": {
+    "+0": 0.816,
+    "+1": 0.278,
+    "-1": 0.183
+   }
+  },
+  "2024-12": {
+   "best_lag": "+0",
+   "r": {
+    "+0": 0.646,
+    "+1": 0.359,
+    "-1": 0.183
+   }
+  },
+  "2025-01": {
+   "best_lag": "+0",
+   "r": {
+    "+0": 0.667,
+    "+1": 0.058,
+    "-1": 0.218
+   }
+  },
+  "2025-02": {
+   "best_lag": "+0",
+   "r": {
+    "+0": 0.879,
+    "+1": 0.525,
+    "-1": 0.525
+   }
+  },
+  "2025-03": {
+   "best_lag": "+0",
+   "r": {
+    "+0": 0.604,
+    "+1": 0.358,
+    "-1": 0.318
+   }
+  },
+  "2025-04": {
+   "best_lag": "+0",
+   "r": {
+    "+0": 0.524,
+    "+1": 0.32,
+    "-1": 0.306
+   }
+  },
+  "2025-05": {
+   "best_lag": "+0",
+   "r": {
+    "+0": 0.69,
+    "+1": 0.54,
+    "-1": 0.458
+   }
+  },
+  "2025-06": {
+   "best_lag": "+0",
+   "r": {
+    "+0": 0.5,
+    "+1": 0.361,
+    "-1": 0.384
+   }
+  },
+  "2025-07": {
+   "best_lag": "+0",
+   "r": {
+    "+0": 0.578,
+    "+1": 0.318,
+    "-1": 0.357
+   }
+  },
+  "2025-08": {
+   "best_lag": "+0",
+   "r": {
+    "+0": 0.404,
+    "+1": 0.245,
+    "-1": 0.248
+   }
+  },
+  "2025-09": {
+   "best_lag": "+0",
+   "r": {
+    "+0": 0.491,
+    "+1": 0.268,
+    "-1": 0.314
+   }
+  },
+  "2025-10": {
+   "best_lag": "+0",
+   "r": {
+    "+0": 0.554,
+    "+1": 0.243,
+    "-1": 0.207
+   }
+  },
+  "2025-11": {
+   "best_lag": "+0",
+   "r": {
+    "+0": 0.749,
+    "+1": 0.379,
+    "-1": 0.287
+   }
+  }
+ },
+ "imd_by_point": {
+  "IN-01-015": {
+   "available": 669,
+   "days": 669
+  },
+  "IN-02-027": {
+   "available": 669,
+   "days": 669
+  },
+  "IN-03-042": {
+   "available": 669,
+   "days": 669
+  },
+  "IN-04-055": {
+   "available": 669,
+   "days": 669
+  },
+  "IN-05-064": {
+   "available": 669,
+   "days": 669
+  },
+  "IN-06-082": {
+   "available": 669,
+   "days": 669
+  },
+  "IN-07-delhi": {
+   "available": 669,
+   "days": 669
+  },
+  "IN-08-119": {
+   "available": 669,
+   "days": 669
+  },
+  "IN-09-156": {
+   "available": 669,
+   "days": 669
+  },
+  "IN-10-221": {
+   "available": 669,
+   "days": 669
+  },
+  "IN-11-243": {
+   "available": 669,
+   "days": 669
+  },
+  "IN-12-779": {
+   "available": 669,
+   "days": 669
+  },
+  "IN-13-263": {
+   "available": 669,
+   "days": 669
+  },
+  "IN-14-277": {
+   "available": 669,
+   "days": 669
+  },
+  "IN-15-268": {
+   "available": 669,
+   "days": 669
+  },
+  "IN-16-708": {
+   "available": 669,
+   "days": 669
+  },
+  "IN-17-296": {
+   "available": 669,
+   "days": 669
+  },
+  "IN-18-305": {
+   "available": 669,
+   "days": 669
+  },
+  "IN-19-333": {
+   "available": 669,
+   "days": 669
+  },
+  "IN-20-361": {
+   "available": 669,
+   "days": 669
+  },
+  "IN-21-385": {
+   "available": 669,
+   "days": 669
+  },
+  "IN-22-410": {
+   "available": 669,
+   "days": 669
+  },
+  "IN-23-446": {
+   "available": 669,
+   "days": 669
+  },
+  "IN-24-474": {
+   "available": 669,
+   "days": 669
+  },
+  "IN-26-495": {
+   "available": 669,
+   "days": 669
+  },
+  "IN-27-514": {
+   "available": 669,
+   "days": 669
+  },
+  "IN-29-566": {
+   "available": 669,
+   "days": 669
+  },
+  "IN-30-586": {
+   "available": 669,
+   "days": 669
+  },
+  "IN-31-587": {
+   "available": 0,
+   "days": 669
+  },
+  "IN-32-594": {
+   "available": 669,
+   "days": 669
+  },
+  "IN-33-614": {
+   "available": 669,
+   "days": 669
+  },
+  "IN-34-635": {
+   "available": 669,
+   "days": 669
+  },
+  "IN-35-640": {
+   "available": 0,
+   "days": 669
+  },
+  "IN-36-741": {
+   "available": 669,
+   "days": 669
+  },
+  "IN-37-548": {
+   "available": 669,
+   "days": 669
+  },
+  "IN-38-004": {
+   "available": 669,
+   "days": 669
+  }
+ },
+ "manifests": {
+  "2024-02": {
+   "files": {
+    "forecasts_history-2024-02.parquet": "b32887a2f405341df92bbdf0e3be5cf7ae6ec4c9436abf49f7596bdcac2a1a6d",
+    "matched_history-2024-02.parquet": "809c58508ef367232f8be68feac0533840be3fab7b007fe986d5682b37f635d8",
+    "metar_pairing_history-2024-02.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965",
+    "reference_history-2024-02.parquet": "35089abedd0fbca3172c96ca5c91f2af6d50b82c4a3dcc9d6648c5d639216d65"
+   },
+   "manifest_sha256": "e1586403ab0302f6ec2129ce9f7e115f627bb2163119486cc7e8972299f8545a",
+   "release_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/releases/tag/history-2024-02",
+   "tag": "history-2024-02"
+  },
+  "2024-03": {
+   "files": {
+    "forecasts_history-2024-03.parquet": "2f56215f2927a4aab7918a12e80bab549bb0155f54cc9477e410281136925053",
+    "matched_history-2024-03.parquet": "0e56341a58d07e5ca37bd203d8e7a6f5508894d8f40d19b5be7e2176cd73372b",
+    "metar_pairing_history-2024-03.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965",
+    "reference_history-2024-03.parquet": "9e944ddefc27618779a772de6e7e808350236d4bf9672949a765cd28fbbb0e50"
+   },
+   "manifest_sha256": "3e77b2986c9083f864829dff0b22b8d97cac5bdd562560c7b680770f04786113",
+   "release_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/releases/tag/history-2024-03",
+   "tag": "history-2024-03"
+  },
+  "2024-04": {
+   "files": {
+    "forecasts_history-2024-04.parquet": "71b92a178536e974c16033ac42137e2e27820550ddf57c4ecee840e71fca04bd",
+    "matched_history-2024-04.parquet": "0914c4c5ae3eea8a289713fa540921ce78a1d775b69b6f94642a8f6c917899fe",
+    "metar_pairing_history-2024-04.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965",
+    "reference_history-2024-04.parquet": "c55c8a8d8217074172bd10810a87b128116b034c66e893e86c237cb98dbc94ce"
+   },
+   "manifest_sha256": "50088ed0d89c840ff522eefed8081404bb10fe2a805959ed2b3f63d39e97d103",
+   "release_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/releases/tag/history-2024-04",
+   "tag": "history-2024-04"
+  },
+  "2024-05": {
+   "files": {
+    "forecasts_history-2024-05.parquet": "2d946dc339261e21a4be982f68cfc92531a3f7e1df7b7ee810b0bc7dd3ef9f89",
+    "matched_history-2024-05.parquet": "b3b0092ddb03b478e02f0c347fc65e21bd9bfa76a454d0f633ca0de11b7ba855",
+    "metar_pairing_history-2024-05.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965",
+    "reference_history-2024-05.parquet": "6ab91d8295d7efba4da088713a2fc6726ea8183ef563a6ecb0020e7197caef4b"
+   },
+   "manifest_sha256": "9eb135f79c964db044a11f2cd376facde22d04087f32ec0bd3f919ac38b35f26",
+   "release_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/releases/tag/history-2024-05",
+   "tag": "history-2024-05"
+  },
+  "2024-06": {
+   "files": {
+    "forecasts_history-2024-06.parquet": "62b1a1bef3310461c6dc7ee53dfacb6979ea03a70151d9b24a7e5f64db7b16f7",
+    "matched_history-2024-06.parquet": "e4db782c9bec181cf5cc85f177a23dd09599c2cf9f4b8ea7519683ae104c6831",
+    "metar_pairing_history-2024-06.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965",
+    "reference_history-2024-06.parquet": "5a12bd8d5995a0969af2a8714cd0c47004aab5de2596cc27c2ebb6ba1aca00e6"
+   },
+   "manifest_sha256": "bd7b4bd1a1af04b91b14037c2d69d54af718505206389e7ed961265adb112b97",
+   "release_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/releases/tag/history-2024-06",
+   "tag": "history-2024-06"
+  },
+  "2024-07": {
+   "files": {
+    "forecasts_history-2024-07.parquet": "76c6d7a2a667ac3b525cbbbd0e7d07202b783b022b20ec5158f53f3dad772cbf",
+    "matched_history-2024-07.parquet": "ae43f6dd0c31ff69515567a7bb288d5448dd0d4e7a53a1c36fe1e7539b2c8ef5",
+    "metar_pairing_history-2024-07.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965",
+    "reference_history-2024-07.parquet": "a86da70ccd7ca0d2665ef1f632750a3bd44f2676fae24b19122b5709bf4bf1bf"
+   },
+   "manifest_sha256": "22cba2d3d0f22e2835e767b6dbabf8110ca1c60b348aa1d8c20a3d049ead6fbb",
+   "release_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/releases/tag/history-2024-07",
+   "tag": "history-2024-07"
+  },
+  "2024-08": {
+   "files": {
+    "forecasts_history-2024-08.parquet": "839b6e3caf4880eae4e807475baa62b98b95e64aa70bd17314316292ba84d6b5",
+    "matched_history-2024-08.parquet": "462a9fb97cd80773a6372647d9dd0d33867082af0a745c09b1260b3c969e8076",
+    "metar_pairing_history-2024-08.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965",
+    "reference_history-2024-08.parquet": "74ea98ae318c50adbc4a7f6ee5e452c45222f5dc5fcca17cff0906c26fe95a8e"
+   },
+   "manifest_sha256": "54bd3e932c0a0e9ac7f46e3ff68d5a6602ce54354c1f3f9976e7f4a430a406b5",
+   "release_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/releases/tag/history-2024-08",
+   "tag": "history-2024-08"
+  },
+  "2024-09": {
+   "files": {
+    "forecasts_history-2024-09.parquet": "5124f109f266046a223cbb6a7f495531782da44c28048dfe7c6e73f736aaf95d",
+    "matched_history-2024-09.parquet": "f2694e4465121f8e5ffb202fc375f23814edcc1c19d7d57fcef1c46631282a32",
+    "metar_pairing_history-2024-09.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965",
+    "reference_history-2024-09.parquet": "16add51fc3f4b609b56ec8934bef0bb4b9fc1dd0299c941118867459f45a46df"
+   },
+   "manifest_sha256": "89403dbcb5692be58f43ba388be9c1d12ce306af48af596f8377569cd377fb0d",
+   "release_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/releases/tag/history-2024-09",
+   "tag": "history-2024-09"
+  },
+  "2024-10": {
+   "files": {
+    "forecasts_history-2024-10.parquet": "02f74b2b4e6f0429eaf7f812b725875b60bcd730424d7131bcc902c5e7439e34",
+    "matched_history-2024-10.parquet": "47ad366bd7fafb705b22570080dadd875db3939f57d6fa46b93686d17051bd83",
+    "metar_pairing_history-2024-10.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965",
+    "reference_history-2024-10.parquet": "bd91f14912147197c7b153a4f5552e8aef6f1b0a6d7fa577a42020ac79edab91"
+   },
+   "manifest_sha256": "e8481bcf8da0a0cfe08d0690f77e31d5298749c47e27d6f4d05d731de9038730",
+   "release_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/releases/tag/history-2024-10",
+   "tag": "history-2024-10"
+  },
+  "2024-11": {
+   "files": {
+    "forecasts_history-2024-11.parquet": "9e56c55a73a1036eb9bd5b04dd4dfb93a788752c2da6b266401051ec8a038836",
+    "matched_history-2024-11.parquet": "25984ac58c6878ffdc18aee27c83c19c510f0ae372ad9c702ed203500a0cf7b2",
+    "metar_pairing_history-2024-11.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965",
+    "reference_history-2024-11.parquet": "7afa79d7445580afb9a656e1cb7d03171f89a230076ba26613e19c3f8ae00303"
+   },
+   "manifest_sha256": "309dcae33f3405497b434323fa1c015d39f86807ba992b0c4353ac4df6a180e0",
+   "release_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/releases/tag/history-2024-11",
+   "tag": "history-2024-11"
+  },
+  "2024-12": {
+   "files": {
+    "forecasts_history-2024-12.parquet": "e712599606143d4c541498406563e8b84c225074f561deec74283d973517733e",
+    "matched_history-2024-12.parquet": "1f1fe83f6fee5b3bfd0cdae8a54cf09298082a10fb231cf1b97f55aaae81ac23",
+    "metar_pairing_history-2024-12.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965",
+    "reference_history-2024-12.parquet": "3a3402a50bba3aa97713aad9e2432acb99515cde319831423d916c2905a9d342"
+   },
+   "manifest_sha256": "eeb4c4535cc19c11693b6b32737ff1046c76851259d0f5a307ce41dad6e0858c",
+   "release_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/releases/tag/history-2024-12",
+   "tag": "history-2024-12"
+  },
+  "2025-01": {
+   "files": {
+    "forecasts_history-2025-01.parquet": "df8268b6fe0a8496302ef8046fafc112d32b156794a11f750c6f6dd2480f190d",
+    "matched_history-2025-01.parquet": "046575f50e4fa3ea4e0d877b8c2d33ba9aa642c0483ce2413eb542d911a244b0",
+    "metar_pairing_history-2025-01.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965",
+    "reference_history-2025-01.parquet": "1137af3f2c5b557b3c62a4da58d973f3746d2b8156c40872e951bf2fdd328749"
+   },
+   "manifest_sha256": "86cbf59445a0ed880578c424a9cb5cca0121457fc2eee7cc2835e4c31e854c9c",
+   "release_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/releases/tag/history-2025-01",
+   "tag": "history-2025-01"
+  },
+  "2025-02": {
+   "files": {
+    "forecasts_history-2025-02.parquet": "1ade16b1badb4ab456d7655b17679349de3c503a3007099d085e31a44bc724df",
+    "matched_history-2025-02.parquet": "e434158c0b7efee7109c1c09b058979fe3ccd750f13745cf803b5dc12c7a9548",
+    "metar_pairing_history-2025-02.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965",
+    "reference_history-2025-02.parquet": "ff2f21a60492c2ab785f7eb02193cc051b1be0df0a4d1fdb0dc39651fdf4d4de"
+   },
+   "manifest_sha256": "b2abcddc1ef0af60a8f9cb64355d574ad7d8d2e248e80cf46ca5f1cf44ecd7f6",
+   "release_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/releases/tag/history-2025-02",
+   "tag": "history-2025-02"
+  },
+  "2025-03": {
+   "files": {
+    "forecasts_history-2025-03.parquet": "a8f61941238db75be08bcfe5c9d2c5cb85a630d1bad087f5dd466d67496e0d27",
+    "matched_history-2025-03.parquet": "30f5456d20bc36cf7ea082b014ba3b25bb1a559b1921a6a3130f3b8619146628",
+    "metar_pairing_history-2025-03.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965",
+    "reference_history-2025-03.parquet": "6c3a3cf6d802e769366d242a0a288f1a7d310f9ce5a68e4b1228e6900d559f6f"
+   },
+   "manifest_sha256": "343fa96f1d68c8c29a029d1976315568f5e1175a4b87642f1c374baba08a8619",
+   "release_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/releases/tag/history-2025-03",
+   "tag": "history-2025-03"
+  },
+  "2025-04": {
+   "files": {
+    "forecasts_history-2025-04.parquet": "8c9926b6bcad4b630b302493cd0a36badb8f97b18b8b2202bda499adfac3afe4",
+    "matched_history-2025-04.parquet": "6e271cd632ce629d13b29fae65cdf79867a950ff57c55001d6290a2db3e04f96",
+    "metar_pairing_history-2025-04.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965",
+    "reference_history-2025-04.parquet": "cc5e76d266c0100d28270dd1cb4b4c60ca05f95967ca0975c3aa0e0da6c2c3b1"
+   },
+   "manifest_sha256": "fc67cdab4f7fce14d30f464dc4099ae0ffacb3a9962615614a89e780ced4886d",
+   "release_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/releases/tag/history-2025-04",
+   "tag": "history-2025-04"
+  },
+  "2025-05": {
+   "files": {
+    "forecasts_history-2025-05.parquet": "94020275b0f69171684b9ab2dd72da820764e50678a8c12119c3760d9ec1d438",
+    "matched_history-2025-05.parquet": "04d3c93efbda184ac8bf6c917dc04a0227271de9b21de8f28c318b6b5cbc03fb",
+    "metar_pairing_history-2025-05.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965",
+    "reference_history-2025-05.parquet": "d999933eddd354231fc431e683370d46b3dd28ea8ce25b49b3d892012db09504"
+   },
+   "manifest_sha256": "2182602f4287d58ceb02fd1e719c460dd0e644fa79e89d1ca23a30c4edf2fc18",
+   "release_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/releases/tag/history-2025-05",
+   "tag": "history-2025-05"
+  },
+  "2025-06": {
+   "files": {
+    "forecasts_history-2025-06.parquet": "966d2d135d1ae1ed44da4f370445f014fc421326dd18f3ad14ec2bd21ab4ba13",
+    "matched_history-2025-06.parquet": "efeaef1036389daaf4e9b763a713e29fad5c615bf0f358be80f62a964bbffc26",
+    "metar_pairing_history-2025-06.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965",
+    "reference_history-2025-06.parquet": "b693a9f059f01d484e40eaf0b1cddbd8f5a17beb994129ef4e1fee7da7491b6d"
+   },
+   "manifest_sha256": "4b88688001fdfae62fd8f88666c96b6f9f1684041a76b985bed5c64bbb9c466e",
+   "release_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/releases/tag/history-2025-06",
+   "tag": "history-2025-06"
+  },
+  "2025-07": {
+   "files": {
+    "forecasts_history-2025-07.parquet": "8ff2f25aa56eaa4bd26dd096b9f764bf89198fb441efb0b3bfda5c95a8d4340d",
+    "matched_history-2025-07.parquet": "1fdfd130821036421ed6e60ffa65d3a11f3b717c0cb10ee30b88f78100206bc0",
+    "metar_pairing_history-2025-07.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965",
+    "reference_history-2025-07.parquet": "b28baba02e90b8e9e8019783dad17e5e3d46939828e337e780560a51850101d1"
+   },
+   "manifest_sha256": "4d5fcb4ffedae384d2a718edbb17160d3b2aed1a0c344c794fbcf64d9c517f3d",
+   "release_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/releases/tag/history-2025-07",
+   "tag": "history-2025-07"
+  },
+  "2025-08": {
+   "files": {
+    "forecasts_history-2025-08.parquet": "bbab96c1aefc3b5dd2731728ae91685c68e701ae1872ffa0aea9194d1235c735",
+    "matched_history-2025-08.parquet": "7e20f6014cab7ae1b5d8cfdc568a5f29577ffd67a3b9b84e3a325669c70abf97",
+    "metar_pairing_history-2025-08.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965",
+    "reference_history-2025-08.parquet": "a62c4ee96c7d18cd45e08a50b3bc1421ca18858b7fdf86d54b4f03352bb7517b"
+   },
+   "manifest_sha256": "cad041e74346f83cc0dcae3e6e6d873092f436df3ec4c4033d0687eefed6034b",
+   "release_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/releases/tag/history-2025-08",
+   "tag": "history-2025-08"
+  },
+  "2025-09": {
+   "files": {
+    "forecasts_history-2025-09.parquet": "a612d5adc87baa3cf92335ff1f2bc46c5e8f9156e7da3fed7e71e4ea0332573e",
+    "matched_history-2025-09.parquet": "a8bc90a24a43919119e88ba7fef394b1f71eb339311c25ac729350aff480cb02",
+    "metar_pairing_history-2025-09.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965",
+    "reference_history-2025-09.parquet": "d93af735f3c5c087453e492caab8cd613a37e66103f37bc77188f9aaab89d764"
+   },
+   "manifest_sha256": "f6fcfd5b7464cea885858da3c7b46bb4f293e5d37ba9ba1abeee3a1597a50fa0",
+   "release_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/releases/tag/history-2025-09",
+   "tag": "history-2025-09"
+  },
+  "2025-10": {
+   "files": {
+    "forecasts_history-2025-10.parquet": "0c0ab0a2284fbe155990f58931ec98f109eb7eac2e27f0178d0ba69968dca63b",
+    "matched_history-2025-10.parquet": "2c4e87e3ea19fa694bc24fafa327b691732626f291f39e5c2ae3ccb25005999e",
+    "metar_pairing_history-2025-10.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965",
+    "reference_history-2025-10.parquet": "fb620e73c4c6a2ace31f38eb4d922b577a484d936678e9e58a9471baee623277"
+   },
+   "manifest_sha256": "a2fa5d023df5879b3ba9d3d431043e791e365f47d091c613441706b44c412266",
+   "release_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/releases/tag/history-2025-10",
+   "tag": "history-2025-10"
+  },
+  "2025-11": {
+   "files": {
+    "forecasts_history-2025-11.parquet": "06287ccb884ae86c30dcf3c3787a33067b493222a59f61a5df9d3dfadfac02f0",
+    "matched_history-2025-11.parquet": "322bf018517363f4b931aa8dd1f9fade2a09f03f0c90651a0053758b8685df94",
+    "metar_pairing_history-2025-11.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965",
+    "reference_history-2025-11.parquet": "4bfe8fe4174e5540e884506ffed80f8d5a7598ed190872e4e6d29f93148cde7d"
+   },
+   "manifest_sha256": "bbf20fb117eb5f4855b8c6efe1faf8f2c1bf481852a12dfcf4242105c17147c0",
+   "release_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/releases/tag/history-2025-11",
+   "tag": "history-2025-11"
+  }
+ },
+ "matched_rows": 4551876,
+ "metar_by_point": {
+  "IN-01-015": {
+   "days": 669,
+   "days_available": 0,
+   "distance_km": 42.0,
+   "elev_diff_m": -1274.0,
+   "matched": false,
+   "reason_not_matched": "nearest station 42 km > 25 km; elevation difference -1274 m exceeds \u00b1100 m",
+   "station": "VISR"
+  },
+  "IN-02-027": {
+   "days": 669,
+   "days_available": 0,
+   "distance_km": 27.5,
+   "elev_diff_m": -663.3,
+   "matched": false,
+   "reason_not_matched": "nearest station 27 km > 25 km; elevation difference -663 m exceeds \u00b1100 m",
+   "station": "VIBR"
+  },
+  "IN-03-042": {
+   "days": 669,
+   "days_available": 0,
+   "distance_km": 76.8,
+   "elev_diff_m": 35.7,
+   "matched": false,
+   "reason_not_matched": "nearest station 77 km > 25 km",
+   "station": "VILD"
+  },
+  "IN-04-055": {
+   "days": 669,
+   "days_available": 23,
+   "distance_km": 5.3,
+   "elev_diff_m": -24.6,
+   "matched": true,
+   "reason_not_matched": null,
+   "station": "VICG"
+  },
+  "IN-05-064": {
+   "days": 669,
+   "days_available": 0,
+   "distance_km": 75.0,
+   "elev_diff_m": -903.0,
+   "matched": false,
+   "reason_not_matched": "nearest station 75 km > 25 km; elevation difference -903 m exceeds \u00b1100 m",
+   "station": "VIPT"
+  },
+  "IN-06-082": {
+   "days": 669,
+   "days_available": 0,
+   "distance_km": 66.4,
+   "elev_diff_m": 12.0,
+   "matched": false,
+   "reason_not_matched": "nearest station 66 km > 25 km",
+   "station": "VIDP"
+  },
+  "IN-07-delhi": {
+   "days": 669,
+   "days_available": 668,
+   "distance_km": 7.9,
+   "elev_diff_m": 14.0,
+   "matched": true,
+   "reason_not_matched": null,
+   "station": "VIDP"
+  },
+  "IN-08-119": {
+   "days": 669,
+   "days_available": 0,
+   "distance_km": 28.1,
+   "elev_diff_m": -23.1,
+   "matched": false,
+   "reason_not_matched": "nearest station 28 km > 25 km",
+   "station": "VIKG"
+  },
+  "IN-09-156": {
+   "days": 669,
+   "days_available": 0,
+   "distance_km": 33.6,
+   "elev_diff_m": 6.0,
+   "matched": false,
+   "reason_not_matched": "nearest station 34 km > 25 km",
+   "station": "VILK"
+  },
+  "IN-10-221": {
+   "days": 669,
+   "days_available": 0,
+   "distance_km": 77.8,
+   "elev_diff_m": 88.0,
+   "matched": false,
+   "reason_not_matched": "nearest station 78 km > 25 km",
+   "station": "VEDG"
+  },
+  "IN-11-243": {
+   "days": 669,
+   "days_available": 0,
+   "distance_km": 23.3,
+   "elev_diff_m": -1055.0,
+   "matched": false,
+   "reason_not_matched": "elevation difference -1055 m exceeds \u00b1100 m",
+   "station": "VEPY"
+  },
+  "IN-12-779": {
+   "days": 669,
+   "days_available": 0,
+   "distance_km": 56.9,
+   "elev_diff_m": -492.0,
+   "matched": false,
+   "reason_not_matched": "nearest station 57 km > 25 km; elevation difference -492 m exceeds \u00b1100 m",
+   "station": "VEMN"
+  },
+  "IN-13-263": {
+   "days": 669,
+   "days_available": 0,
+   "distance_km": 69.2,
+   "elev_diff_m": -601.7,
+   "matched": false,
+   "reason_not_matched": "nearest station 69 km > 25 km; elevation difference -602 m exceeds \u00b1100 m",
+   "station": "VEMR"
+  },
+  "IN-14-277": {
+   "days": 669,
+   "days_available": 405,
+   "distance_km": 4.1,
+   "elev_diff_m": 6.0,
+   "matched": true,
+   "reason_not_matched": null,
+   "station": "VEIM"
+  },
+  "IN-15-268": {
+   "days": 669,
+   "days_available": 0,
+   "distance_km": 68.2,
+   "elev_diff_m": -414.4,
+   "matched": false,
+   "reason_not_matched": "nearest station 68 km > 25 km; elevation difference -414 m exceeds \u00b1100 m",
+   "station": "VELP"
+  },
+  "IN-16-708": {
+   "days": 669,
+   "days_available": 0,
+   "distance_km": 41.5,
+   "elev_diff_m": -41.0,
+   "matched": false,
+   "reason_not_matched": "nearest station 41 km > 25 km",
+   "station": "VEAT"
+  },
+  "IN-17-296": {
+   "days": 669,
+   "days_available": 0,
+   "distance_km": 66.5,
+   "elev_diff_m": -1312.0,
+   "matched": false,
+   "reason_not_matched": "nearest station 66 km > 25 km; elevation difference -1312 m exceeds \u00b1100 m",
+   "station": "VEGT"
+  },
+  "IN-18-305": {
+   "days": 669,
+   "days_available": 0,
+   "distance_km": 41.8,
+   "elev_diff_m": 19.9,
+   "matched": false,
+   "reason_not_matched": "nearest station 42 km > 25 km",
+   "station": "VETZ"
+  },
+  "IN-19-333": {
+   "days": 669,
+   "days_available": 0,
+   "distance_km": 169.3,
+   "elev_diff_m": 221.0,
+   "matched": false,
+   "reason_not_matched": "nearest station 169 km > 25 km; elevation difference +221 m exceeds \u00b1100 m",
+   "station": "VEDO"
+  },
+  "IN-20-361": {
+   "days": 669,
+   "days_available": 0,
+   "distance_km": 46.9,
+   "elev_diff_m": 277.0,
+   "matched": false,
+   "reason_not_matched": "nearest station 47 km > 25 km; elevation difference +277 m exceeds \u00b1100 m",
+   "station": "VERC"
+  },
+  "IN-21-385": {
+   "days": 669,
+   "days_available": 0,
+   "distance_km": 79.7,
+   "elev_diff_m": -107.0,
+   "matched": false,
+   "reason_not_matched": "nearest station 80 km > 25 km; elevation difference -107 m exceeds \u00b1100 m",
+   "station": "VEBS"
+  },
+  "IN-22-410": {
+   "days": 669,
+   "days_available": 53,
+   "distance_km": 13.9,
+   "elev_diff_m": 35.0,
+   "matched": true,
+   "reason_not_matched": null,
+   "station": "VERP"
+  },
+  "IN-23-446": {
+   "days": 669,
+   "days_available": 0,
+   "distance_km": 87.5,
+   "elev_diff_m": 2.7,
+   "matched": false,
+   "reason_not_matched": "nearest station 88 km > 25 km",
+   "station": "VABP"
+  },
+  "IN-24-474": {
+   "days": 669,
+   "days_available": 0,
+   "distance_km": 54.7,
+   "elev_diff_m": 41.0,
+   "matched": false,
+   "reason_not_matched": "nearest station 55 km > 25 km",
+   "station": "VAAH"
+  },
+  "IN-26-495": {
+   "days": 669,
+   "days_available": 0,
+   "distance_km": 78.9,
+   "elev_diff_m": 4.6,
+   "matched": false,
+   "reason_not_matched": "nearest station 79 km > 25 km",
+   "station": "VASU"
+  },
+  "IN-27-514": {
+   "days": 669,
+   "days_available": 0,
+   "distance_km": 49.2,
+   "elev_diff_m": 51.3,
+   "matched": false,
+   "reason_not_matched": "nearest station 49 km > 25 km",
+   "station": "VAAU"
+  },
+  "IN-29-566": {
+   "days": 669,
+   "days_available": 0,
+   "distance_km": 99.1,
+   "elev_diff_m": -150.0,
+   "matched": false,
+   "reason_not_matched": "nearest station 99 km > 25 km; elevation difference -150 m exceeds \u00b1100 m",
+   "station": "VOJV"
+  },
+  "IN-30-586": {
+   "days": 669,
+   "days_available": 0,
+   "distance_km": 35.5,
+   "elev_diff_m": -148.3,
+   "matched": false,
+   "reason_not_matched": "nearest station 35 km > 25 km; elevation difference -148 m exceeds \u00b1100 m",
+   "station": "VOGO"
+  },
+  "IN-31-587": {
+   "days": 669,
+   "days_available": 0,
+   "distance_km": 299.6,
+   "elev_diff_m": -15.0,
+   "matched": false,
+   "reason_not_matched": "nearest station 300 km > 25 km",
+   "station": "VOAT"
+  },
+  "IN-32-594": {
+   "days": 669,
+   "days_available": 0,
+   "distance_km": 36.3,
+   "elev_diff_m": -19.0,
+   "matched": false,
+   "reason_not_matched": "nearest station 36 km > 25 km",
+   "station": "VOCI"
+  },
+  "IN-33-614": {
+   "days": 669,
+   "days_available": 669,
+   "distance_km": 12.0,
+   "elev_diff_m": 23.0,
+   "matched": true,
+   "reason_not_matched": null,
+   "station": "VOTR"
+  },
+  "IN-34-635": {
+   "days": 669,
+   "days_available": 0,
+   "distance_km": 6.5,
+   "elev_diff_m": 33.0,
+   "matched": true,
+   "reason_not_matched": null,
+   "station": "VOPC"
+  },
+  "IN-35-640": {
+   "days": 669,
+   "days_available": 0,
+   "distance_km": 104.5,
+   "elev_diff_m": -79.1,
+   "matched": false,
+   "reason_not_matched": "nearest station 105 km > 25 km",
+   "station": "VOPB"
+  },
+  "IN-36-741": {
+   "days": 669,
+   "days_available": 0,
+   "distance_km": 81.2,
+   "elev_diff_m": 49.0,
+   "matched": false,
+   "reason_not_matched": "nearest station 81 km > 25 km",
+   "station": "VOHY"
+  },
+  "IN-37-548": {
+   "days": 669,
+   "days_available": 0,
+   "distance_km": 72.1,
+   "elev_diff_m": -19.0,
+   "matched": false,
+   "reason_not_matched": "nearest station 72 km > 25 km",
+   "station": "VOBZ"
+  },
+  "IN-38-004": {
+   "days": 669,
+   "days_available": 0,
+   "distance_km": 105.5,
+   "elev_diff_m": -1725.2,
+   "matched": false,
+   "reason_not_matched": "nearest station 106 km > 25 km; elevation difference -1725 m exceeds \u00b1100 m",
+   "station": "VILH"
+  }
+ },
+ "missing_by_category": {
+  "A": 289008,
+  "B": 6804
+ },
+ "missing_by_category_by_month": {
+  "2024-02": {
+   "A": 12528,
+   "B": 6804
+  },
+  "2024-03": {
+   "A": 13392
+  },
+  "2024-04": {
+   "A": 12960
+  },
+  "2024-05": {
+   "A": 13392
+  },
+  "2024-06": {
+   "A": 12960
+  },
+  "2024-07": {
+   "A": 13392
+  },
+  "2024-08": {
+   "A": 13392
+  },
+  "2024-09": {
+   "A": 12960
+  },
+  "2024-10": {
+   "A": 13392
+  },
+  "2024-11": {
+   "A": 12960
+  },
+  "2024-12": {
+   "A": 13392
+  },
+  "2025-01": {
+   "A": 13392
+  },
+  "2025-02": {
+   "A": 12096
+  },
+  "2025-03": {
+   "A": 13392
+  },
+  "2025-04": {
+   "A": 12960
+  },
+  "2025-05": {
+   "A": 13392
+  },
+  "2025-06": {
+   "A": 12960
+  },
+  "2025-07": {
+   "A": 13392
+  },
+  "2025-08": {
+   "A": 13392
+  },
+  "2025-09": {
+   "A": 12960
+  },
+  "2025-10": {
+   "A": 13392
+  },
+  "2025-11": {
+   "A": 12960
+  }
+ },
+ "missing_by_lead": {
+  "1": {
+   "available": 336636,
+   "expected": 361260,
+   "missing": 24624
+  },
+  "2": {
+   "available": 336492,
+   "expected": 361260,
+   "missing": 24768
+  },
+  "3": {
+   "available": 336348,
+   "expected": 361260,
+   "missing": 24912
+  },
+  "4": {
+   "available": 336204,
+   "expected": 361260,
+   "missing": 25056
+  },
+  "5": {
+   "available": 336060,
+   "expected": 361260,
+   "missing": 25200
+  },
+  "6": {
+   "available": 335916,
+   "expected": 361260,
+   "missing": 25344
+  },
+  "7": {
+   "available": 215352,
+   "expected": 361260,
+   "missing": 145908
+  }
+ },
+ "missing_by_location": {
+  "IN-01-015": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-02-027": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-03-042": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-04-055": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-05-064": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-06-082": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-07-delhi": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-08-119": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-09-156": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-10-221": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-11-243": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-12-779": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-13-263": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-14-277": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-15-268": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-16-708": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-17-296": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-18-305": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-19-333": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-20-361": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-21-385": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-22-410": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-23-446": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-24-474": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-26-495": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-27-514": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-29-566": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-30-586": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-31-587": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-32-594": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-33-614": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-34-635": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-35-640": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-36-741": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-37-548": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  },
+  "IN-38-004": {
+   "available": 62028,
+   "expected": 70245,
+   "missing": 8217
+  }
+ },
+ "missing_by_model": {
+  "ecmwf_ifs025": {
+   "available": 667548,
+   "expected": 842940,
+   "missing": 175392
+  },
+  "gfs_global": {
+   "available": 842940,
+   "expected": 842940,
+   "missing": 0
+  },
+  "icon_global": {
+   "available": 722520,
+   "expected": 842940,
+   "missing": 120420
+  }
+ },
+ "missing_by_reason": {
+  "A: source structurally unavailable (model/variable/lead does not exist)": 170640,
+  "not provided by source (structural)": 118368,
+  "source hours missing": 6804
+ },
+ "missing_by_variable": {
+  "gust_max": {
+   "available": 313092,
+   "expected": 505764,
+   "missing": 192672
+  },
+  "precip": {
+   "available": 479916,
+   "expected": 505764,
+   "missing": 25848
+  },
+  "precip_0830": {
+   "available": 480168,
+   "expected": 505764,
+   "missing": 25596
+  },
+  "tmax": {
+   "available": 479916,
+   "expected": 505764,
+   "missing": 25848
+  },
+  "tmin": {
+   "available": 479916,
+   "expected": 505764,
+   "missing": 25848
+  }
+ },
+ "months_not_published": [
+  "2025-12",
+  "2026-01",
+  "2026-02",
+  "2026-03",
+  "2026-04",
+  "2026-05",
+  "2026-06",
+  "2026-07",
+  "2026-08"
+ ],
+ "published_months": [
+  "2024-02",
+  "2024-03",
+  "2024-04",
+  "2024-05",
+  "2024-06",
+  "2024-07",
+  "2024-08",
+  "2024-09",
+  "2024-10",
+  "2024-11",
+  "2024-12",
+  "2025-01",
+  "2025-02",
+  "2025-03",
+  "2025-04",
+  "2025-05",
+  "2025-06",
+  "2025-07",
+  "2025-08",
+  "2025-09",
+  "2025-10",
+  "2025-11"
+ ],
+ "reference_coverage": {
+  "era5:gust_max": {
+   "available": 24084,
+   "expected": 24084
+  },
+  "era5:precip": {
+   "available": 24084,
+   "expected": 24084
+  },
+  "era5:precip_0830": {
+   "available": 24084,
+   "expected": 24084
+  },
+  "era5:tmax": {
+   "available": 24084,
+   "expected": 24084
+  },
+  "era5:tmin": {
+   "available": 24084,
+   "expected": 24084
+  },
+  "imd_rf025:precip_0830": {
+   "available": 22746,
+   "expected": 24084,
+   "reason: no IMD cell within 30 km": 1338
+  },
+  "metar:gust_max": {
+   "available": 0,
+   "expected": 24084,
+   "reason: METAR reports a gust group only when gusts occur and sustained wind is not a gus": 24084
+  },
+  "metar:tmax": {
+   "available": 1818,
+   "expected": 24084,
+   "reason: incomplete reporting coverage": 2196,
+   "reason: no METAR match": 20070
+  },
+  "metar:tmin": {
+   "available": 1818,
+   "expected": 24084,
+   "reason: incomplete reporting coverage": 2196,
+   "reason: no METAR match": 20070
+  }
+ },
+ "reference_rows": 176616,
+ "refused_attempt_problems": [
+  {
+   "attempt": "2025-09_36525977989",
+   "problems": [
+    "source retrieval failed: open-meteo previous-runs icon_global: Expecting ',' delimiter: line 1 column 2672852 (char 2672851)"
+   ]
+  }
+ ],
+ "refused_attempts": [
+  "2025-09_36525977989.json"
+ ],
+ "rows_stored": 2528820,
+ "scope_months": [
+  "2024-02",
+  "2024-03",
+  "2024-04",
+  "2024-05",
+  "2024-06",
+  "2024-07",
+  "2024-08",
+  "2024-09",
+  "2024-10",
+  "2024-11",
+  "2024-12",
+  "2025-01",
+  "2025-02",
+  "2025-03",
+  "2025-04",
+  "2025-05",
+  "2025-06",
+  "2025-07",
+  "2025-08",
+  "2025-09",
+  "2025-10",
+  "2025-11",
+  "2025-12",
+  "2026-01",
+  "2026-02",
+  "2026-03",
+  "2026-04",
+  "2026-05",
+  "2026-06",
+  "2026-07",
+  "2026-08"
+ ],
+ "status_explanation": "complete only if every scoped month is published AND every expected forecast value is available; the job finishing does not make it complete",
+ "storage_bytes": {
+  "forecasts": 3187194,
+  "matched": 6472914,
+  "metar_pairing": 315326,
+  "reference": 686505
+ },
+ "values_available": 2233008,
+ "values_missing": 295812
+}

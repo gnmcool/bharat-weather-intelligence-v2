@@ -1,0 +1,69 @@
+{
+ "id": "m4.4-a-gate2-hold-1",
+ "kind": "verification hold (append-only annotation)",
+ "applies_to": {
+  "record": "history/verification/m4.4-a-gate2-9d9e204/",
+  "metric_results_csv_sha256": "20cffcaefacf2710e11c4fe0dad3ddba2d80e60c8d78f6dd42fadd51c651253c",
+  "code_commit": "9d9e204",
+  "census_id": "m4.4-a-census-2@55030a4",
+  "methodology_version": "VM-1.1"
+ },
+ "decided": "owner, M4.4-A Gate 2 review, 30 Sep 2026",
+ "status": "HELD pending a controlled source probe; metric values unchanged; not excluded; not to be interpreted as forecast behaviour",
+ "holds": [
+  {
+   "issue": "GFS rainfall representation changes materially from nominal lead 5 onward (data-quality finding accepted; cause unconfirmed)",
+   "hypothesis_under_test": "GFS output becomes 3-hourly after forecast hour 120 and the source's hourly series / its daily aggregation undercounts",
+   "primary_cells_held": [
+    "A3|shared-data:ecmwf_ifs025+gfs_global|-|precip_0830|L5|pooled=all-points|all|all",
+    "A3|shared-data:ecmwf_ifs025+gfs_global|-|precip_0830|L6|pooled=all-points|all|all",
+    "A3|shared-data:gfs_global+icon_global|-|precip_0830|L5|pooled=all-points|all|all",
+    "A3|shared-data:gfs_global+icon_global|-|precip_0830|L6|pooled=all-points|all|all",
+    "A3|single-model|gfs_global|precip_0830|L5|pooled=all-points|all|all",
+    "A3|single-model|gfs_global|precip_0830|L6|pooled=all-points|all|all"
+   ]
+  },
+  {
+   "issue": "ECMWF temperature shows a step at nominal lead 6 (cause unconfirmed)",
+   "hypothesis_under_test": "ECMWF open data become 6-hourly after forecast hour 144 and the daily max/min from coarser steps is affected",
+   "primary_cells_held": [
+    "A2|shared-data:ecmwf_ifs025+gfs_global|-|tmax|L6|station=VEIM|all|all",
+    "A2|shared-data:ecmwf_ifs025+gfs_global|-|tmax|L6|station=VICG|all|all",
+    "A2|shared-data:ecmwf_ifs025+gfs_global|-|tmax|L6|station=VIDP|all|all",
+    "A2|shared-data:ecmwf_ifs025+gfs_global|-|tmax|L6|station=VOTR|all|all",
+    "A2|shared-data:ecmwf_ifs025+gfs_global|-|tmin|L6|station=VEIM|all|all",
+    "A2|shared-data:ecmwf_ifs025+gfs_global|-|tmin|L6|station=VICG|all|all",
+    "A2|shared-data:ecmwf_ifs025+gfs_global|-|tmin|L6|station=VIDP|all|all",
+    "A2|shared-data:ecmwf_ifs025+gfs_global|-|tmin|L6|station=VOTR|all|all",
+    "A2|shared-data:ecmwf_ifs025+icon_global|-|tmax|L6|station=VEIM|all|all",
+    "A2|shared-data:ecmwf_ifs025+icon_global|-|tmax|L6|station=VICG|all|all",
+    "A2|shared-data:ecmwf_ifs025+icon_global|-|tmax|L6|station=VIDP|all|all",
+    "A2|shared-data:ecmwf_ifs025+icon_global|-|tmax|L6|station=VOTR|all|all",
+    "A2|shared-data:ecmwf_ifs025+icon_global|-|tmin|L6|station=VEIM|all|all",
+    "A2|shared-data:ecmwf_ifs025+icon_global|-|tmin|L6|station=VICG|all|all",
+    "A2|shared-data:ecmwf_ifs025+icon_global|-|tmin|L6|station=VIDP|all|all",
+    "A2|shared-data:ecmwf_ifs025+icon_global|-|tmin|L6|station=VOTR|all|all",
+    "A2|single-model|ecmwf_ifs025|tmax|L6|station=VEIM|all|all",
+    "A2|single-model|ecmwf_ifs025|tmax|L6|station=VICG|all|all",
+    "A2|single-model|ecmwf_ifs025|tmax|L6|station=VIDP|all|all",
+    "A2|single-model|ecmwf_ifs025|tmax|L6|station=VOTR|all|all",
+    "A2|single-model|ecmwf_ifs025|tmin|L6|station=VEIM|all|all",
+    "A2|single-model|ecmwf_ifs025|tmin|L6|station=VICG|all|all",
+    "A2|single-model|ecmwf_ifs025|tmin|L6|station=VIDP|all|all",
+    "A2|single-model|ecmwf_ifs025|tmin|L6|station=VOTR|all|all"
+   ]
+  }
+ ],
+ "exploratory_cells_affected_not_held": {
+  "gfs_rain_leads_5_7_A3_A4": 1124,
+  "ecmwf_temperature_leads_6_7_A1_A2": 576
+ },
+ "not_done": [
+  "no archive change",
+  "no result change",
+  "no census change",
+  "no exclusion",
+  "no VM-1.2",
+  "no M4.4-B"
+ ]
+}

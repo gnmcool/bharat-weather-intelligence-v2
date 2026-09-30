@@ -522,3 +522,31 @@ correction, reprocessing, interpolation, smoothing, exclusion or resolution corr
   three-model sample are exploratory, and elevation slices are diagnostic.
 - **Source-resolution note:** GFS rain cells at leads 5–7 carry the §21 source-resolution note in `limitations`.
   No data are corrected or excluded.
+
+**Reporting label — degenerate bootstrap intervals (owner decision at the M4.4-B review, 30 Sep 2026).** The
+bootstrap method is unchanged, and no interval method (Wilson or other) replaces it.
+- **When it applies:** a proportion (POD, FAR, CSI, observed frequency) at 0 or 1, or a frequency bias at 0, whose
+  interval collapses to that value.
+- **Label:** "Degenerate bootstrap interval: all bootstrap replicates produced the same boundary value; this does not
+  imply statistical certainty."
+- **Value:** unchanged. [0, 0] and [1, 1] are never read as certainty.
+- **Model differences are not labelled.** A difference of 0 is not a boundary value. A zero-width difference
+  interval arises when both models behave identically in the sample; it is reported as such.
+- **Published M4.4-B results:** the label is added through an append-only annotation; the results are unchanged.
+
+**M4.4-C model agreement (owner decisions at the M4.4-B review, 30 Sep 2026).**
+- **Models:** ECMWF, GFS and ICON only.
+- **k:** the number of the three models with a forecast ≥ τ, for each point, date, lead and CORE M-RAIN threshold,
+  on the census three-model shared sample, pooled, all seasons.
+- **References:** IMD (08:30 day) is primary; ERA5 (IST day) is secondary. They are kept separate.
+- **Leads:** 1–4 are primary. Leads 5–6 are exploratory, carrying the note "GFS rainfall source representation
+  changes at this lead range. The effect on the verification metric and on the model-agreement distribution is
+  unresolved." Lead 7 is not analysed, because ICON is not defined there.
+- **Per k-group:** n, reference events, observed frequency and a 95% interval (one draw matrix per lead and
+  threshold, shared by all its groups).
+- **Groups are not independent:** k = 0, 1, 2 and 3 partition the same sample, so they are mutually exclusive and
+  their intervals are not independent samples.
+- **Floors:** n ≥ 100 and ≥ 10 reference events per group; otherwise "insufficient sample" and no value is computed.
+- **Exploratory breakdown:** which models make up k = 1 and k = 2.
+- **Fixed wording:** "In the archived sample … when k of 3 models forecast ≥ τ, the reference reached ≥ τ on x of n
+  days." The words probability, chance, confidence and likelihood are not used.

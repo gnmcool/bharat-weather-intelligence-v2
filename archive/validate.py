@@ -8,6 +8,9 @@ Always writes gap_report_<D>.json. Checks:
   5. completeness: every expected (point, model, variable, lead) has a non-null value, where "expected" = the
      leads the model run fully covers (from its metadata) and the variables the source provides
   6. every expected model is present (a failed model = incomplete); CORE snapshot complete (36 points x 11 risks)
+  7. CORE risk table (schema_version 2, M4.4-D D1): exact CORE_RISK_SCHEMA; CORE's rule text (`criterion`) present
+     and non-empty on every row; exactly one flood item per point with a determined wet-soil flag; no wet-soil flag
+     on any other risk. A flag that cannot be read from CORE's text is never guessed: the day is refused.
 Missing data is reported, never filled.
 """
 from __future__ import annotations
@@ -20,7 +23,7 @@ from collections import Counter
 
 import pyarrow.parquet as pq
 
-from common import FORECAST_SCHEMA, REQUIRED_NON_NULL, ArchiveError, sha256, write_json
+from common import CORE_RISK_SCHEMA, FORECAST_SCHEMA, REQUIRED_NON_NULL, SCHEMA_VERSION, ArchiveError, sha256, write_json
 from collect import MODELS
 
 EXPECTED_MODELS = list(MODELS) + ["e2s_gfs025"]
@@ -112,7 +115,30 @@ def validate(stage: pathlib.Path) -> dict:
     if gaps["missing"]:
         problems.append(f"{len(gaps['missing'])} expected forecast values missing")
 
-    cr = pq.read_table(stage / f"core_risks_{day}.parquet").to_pandas()
+    if man.get("schema_version") != SCHEMA_VERSION:
+        problems.append(f"manifest schema_version {man.get('schema_version')} is not {SCHEMA_VERSION}")
+    crt = pq.read_table(stage / f"core_risks_{day}.parquet")
+    cr = crt.to_pandas()
+    # 7. CORE risk table: rule text and flood wet-soil flag (M4.4-D D1)
+    if not crt.schema.equals(CORE_RISK_SCHEMA, check_metadata=False):
+        problems.append("core_risks schema differs from CORE_RISK_SCHEMA (schema_version 2: criterion, flood_wet_soil)")
+    else:
+        crit = cr["criterion"]
+        blank = int((crit.isna() | (crit.astype(str).str.strip() == "")).sum())
+        if blank:
+            problems.append(f"CORE rule text (criterion) missing in {blank} core_risks rows")
+        flood = cr[cr["risk_id"] == "flood"]
+        fcount = Counter(flood["point_id"])
+        no_flood = [p["id"] for p in points if fcount.get(p["id"], 0) != 1]
+        if no_flood:
+            problems.append(f"flood item missing or duplicated for {len(no_flood)} points")
+        undetermined = int(flood["flood_wet_soil"].isna().sum())
+        if undetermined:
+            problems.append(f"flood wet-soil flag not determinable for {undetermined} points "
+                            "(CORE explanation not in the known core-v1.0 form; the flag is never guessed)")
+        stray = int((cr["risk_id"] != "flood")[cr["flood_wet_soil"].notna()].sum())
+        if stray:
+            problems.append(f"wet-soil flag set on {stray} non-flood rows")
     per_point = Counter(cr["point_id"])
     short = [p["id"] for p in points if per_point.get(p["id"], 0) != man["expected"]["core"]["risks_per_point"]]
     if short:

@@ -8,7 +8,7 @@ from datetime import date, datetime, timedelta, timezone
 
 import pyarrow as pa
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2   # 2 (M4.4-D D1): core_risks gains `criterion` and `flood_wet_soil`; releases before it stay at 1
 IST = timezone(timedelta(hours=5, minutes=30))
 HERE = pathlib.Path(__file__).resolve().parent
 
@@ -33,7 +33,7 @@ FORECAST_SCHEMA = pa.schema([
 REQUIRED_NON_NULL = [f.name for f in FORECAST_SCHEMA if f.name != "value"]
 
 # ---- CORE snapshot tables (CORE output as shown; best-match values are a blend, so no model run time) ----
-CORE_RISK_SCHEMA = pa.schema([
+_CORE_RISK_FIELDS_V1 = [
     ("point_id", pa.string()),
     ("core_generated_at_utc", pa.timestamp("ms", tz="UTC")),
     ("retrieved_at_utc", pa.timestamp("ms", tz="UTC")),
@@ -50,7 +50,31 @@ CORE_RISK_SCHEMA = pa.schema([
     ("reference", pa.string()),
     ("official_alert_ids", pa.string()),              # JSON list of CORE-matched SACHET ids at that time
     ("model_runs_note", pa.string()),                 # CORE's "per-model runs used" provenance text
+]
+# schema_version 1 (archive-daily releases up to the D1 change): kept only to read existing immutable releases
+CORE_RISK_SCHEMA_V1 = pa.schema(_CORE_RISK_FIELDS_V1)
+# schema_version 2 (M4.4-D-SPEC-1.0, decision Q5): exactly two additions, each with a verification purpose
+CORE_RISK_SCHEMA = pa.schema(_CORE_RISK_FIELDS_V1 + [
+    ("criterion", pa.string()),                       # CORE's rule text for the item, verbatim (required, non-empty)
+    ("flood_wet_soil", pa.bool_()),                   # flood rows only: CORE's wet-soil +1 level applied; null otherwise
 ])
+RULE_TEXT_NOT_ARCHIVED = "rule text not archived"
+# CORE core-v1.0 (risk.py) builds the flood explanation as PREFIX + (" Soil already wet." if wet) + official note
+FLOOD_EXPLANATION_PREFIX = "Rain-based indicator only (no river/drainage model)."
+FLOOD_WET_MARKER = " Soil already wet."
+
+
+def flood_wet_soil_flag(explanation) -> bool | None:
+    """CORE's wet-soil flag for a flood item, read from CORE's explanation text. None when the text is not in the
+    known CORE form (the day is then refused by validate.py: the flag is never guessed)."""
+    if not isinstance(explanation, str) or not explanation.startswith(FLOOD_EXPLANATION_PREFIX):
+        return None
+    return explanation[len(FLOOD_EXPLANATION_PREFIX):].startswith(FLOOD_WET_MARKER)
+
+
+def core_rule_text_status(schema_version: int) -> str:
+    """Whether a release's core_risks table carries CORE's rule text (M4.4-D D1)."""
+    return "archived" if schema_version >= 2 else RULE_TEXT_NOT_ARCHIVED
 CORE_DAILY_SCHEMA = pa.schema([
     ("point_id", pa.string()),
     ("core_generated_at_utc", pa.timestamp("ms", tz="UTC")),

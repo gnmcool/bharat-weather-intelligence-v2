@@ -30,7 +30,7 @@ import pyarrow as pa
 import pyarrow.parquet as pq
 import xarray as xr
 
-from common import (CORE_DAILY_SCHEMA, CORE_RISK_SCHEMA, DAILY_VARS, FORECAST_SCHEMA, HERE, IST, SCHEMA_VERSION,
+from common import (CORE_DAILY_SCHEMA, CORE_RISK_SCHEMA, DAILY_VARS, FORECAST_SCHEMA, HERE, IST, SCHEMA_VERSION, flood_wet_soil_flag,
                     ArchiveError, day_fully_covered, lead_day, sha256, write_json)
 
 OPEN_METEO = "https://api.open-meteo.com/v1/forecast"
@@ -206,7 +206,10 @@ def core_snapshot(pts: list[dict], retrieved: datetime):
                           "period_end": r.get("period_end"), "peak_value": r.get("peak_value"), "unit": r.get("unit"),
                           "agreement_basis": (r.get("confidence") or {}).get("basis"), "official": bool(r.get("official")),
                           "experimental": bool(r.get("experimental")), "reference": r.get("reference"),
-                          "official_alert_ids": alert_ids, "model_runs_note": runs})
+                          "official_alert_ids": alert_ids, "model_runs_note": runs,
+                          # M4.4-D D1: CORE's rule text verbatim, and flood's wet-soil flag (flood rows only)
+                          "criterion": r.get("criterion"),
+                          "flood_wet_soil": flood_wet_soil_flag(r.get("explanation")) if r["id"] == "flood" else None})
         for row in d.get("daily", []):
             for k, (var, unit) in DAILY_VARS.items():
                 daily.append({"point_id": p["id"], "core_generated_at_utc": gen, "retrieved_at_utc": retrieved,

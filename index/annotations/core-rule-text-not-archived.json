@@ -1,0 +1,13 @@
+{
+ "id": "core-rule-text-not-archived-1",
+ "kind": "append-only annotation (M4.4-D D1); releases unchanged",
+ "decided": "owner, M4.4-D specification review, 30 Sep 2026 (M4.4-D-SPEC-1.0, decision Q5)",
+ "flag": "rule text not archived",
+ "meaning": "core_risks in these releases has schema_version 1: CORE's rule text (criterion) and the flood wet-soil flag were not captured. Flood items in them cannot be tied to the rain-only rule (not verifiable for flood); rain items carry no archived rule text (rule provenance: core-v1.0 assumed).",
+ "rule": "every archive-daily release whose manifest schema_version < 2 carries this flag, including releases published by the unchanged capture on main until the D1 change is deployed",
+ "releases_at_time_of_writing": [
+  {"tag": "archive-daily-2026-09-28", "manifest_sha256": "0e1a7a5aad8be7a7982896eeba2caac58a6ebe1672f51cc3fd443b23613b917a", "schema_version": 1},
+  {"tag": "archive-daily-2026-09-29", "manifest_sha256": "a0dec8068df1bda5dc9bac25af61e982a9cc9ca32f0a3aad61824a5d65c26b98", "schema_version": 1}
+ ],
+ "not_done": ["no release modified", "no field back-filled", "no rule text reconstructed"]
+}

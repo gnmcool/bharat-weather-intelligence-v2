@@ -1,7 +1,8 @@
 # BWI verification methodology
 
-**Version:** VM-1.0-draft (M4.3, methodology only — 30 Sep 2026). **Status:** proposed; items marked
-**[approval]** need the owner's decision before M4.4. No scores have been computed.
+**Version:** **VM-1.0** (M4.3, methodology only). **Status:** approved by the owner on 30 Sep 2026 (draft
+VM-1.0-draft, commit `f223a05`, approved with one modification: heat/cold verification is a future extension, §10).
+Decisions recorded in §20. No scores have been computed. Any change to this document requires a new version number.
 
 **Inputs this document is built on:** the M4.0 feasibility report (`docs/evidence/m4_step1_probe_report.json`), the
 M4.1 prospective archive (`docs/ARCHIVE.md`), the M4.2/M4.3 historical dataset (`docs/HISTORY.md`, 31 immutable
@@ -151,7 +152,8 @@ For eligible pairs *(fᵢ, oᵢ)*, *i = 1…n*, error *eᵢ = fᵢ − oᵢ*:
 
 Also reported with every metric: n, number of distinct valid dates, number of points, reference label, window,
 lead type. Rain MAE/RMSE are reported for all eligible days and separately for days where the reference ≥ 2.5 mm
-(**[approval]**: 2.5 mm is IMD's standard "rainy day", used only as a stratification, not as a risk threshold).
+(approved: 2.5 mm is IMD's standard "rainy day", an **analytical classification only**; it must never become a BWI
+risk threshold).
 
 Breakdowns: by model × variable × lead (always); by season and by region only when the sample floor (§11) is met;
 per point only for METAR stations and as a diagnostic list, never ranked. **No overall "BWI score"** — combining
@@ -224,26 +226,27 @@ Which CORE risks can be verified, using only CORE's existing criteria:
 | CORE risk | Criterion (CORE, verbatim basis) | Reference | Status |
 | --- | --- | --- | --- |
 | rain (M-RAIN) | 24-h rain ≥ 35.6 / 64.5 / 115.6 mm | IMD (not 2026), ERA5 | **verifiable** (IMD gap in 2026, §15) |
-| heat (M-HEAT) | Tmax ≥ 40 °C plains & departure ≥ 4.5 / 6.5 °C; Watch: departure ≥ 3 °C | ERA5/METAR Tmax **plus a normal** | **needs normals + terrain class** (not in the archive) **[approval]** |
-| cold (M-COLD) | Tmin ≤ 10 °C plains & departure ≤ −4.5 / −6.5 °C | same | same **[approval]** |
+| heat (M-HEAT) | Tmax ≥ 40 °C plains & departure ≥ 4.5 / 6.5 °C; Watch: departure ≥ 3 °C | ERA5/METAR Tmax **plus a normal** | **future extension** — needs a normals input and a terrain class that are not in the archive; not part of M4.4, and no reference (e.g. NASA POWER) is added for it at this stage |
+| cold (M-COLD) | Tmin ≤ 10 °C plains & departure ≤ −4.5 / −6.5 °C | same | **future extension**, as heat |
 | wind (M-WIND) | daily max gust ≥ 50 / 62 / 89 km/h | ERA5 gust only | exploratory only (no observed gust) |
 | flood (M-FLOOD) | 72-h rain ≥ 115.6 / 204.5 / 300 mm; +1 level with soil moisture | IMD/ERA5 rain (3-day sums) | rain part only; soil-moisture part not verifiable |
-| thunderstorm, lightning (M-TS) | model weather codes, CAPE | none | **not verifiable** (METAR TS reports at 6 points could give occurrence only — **[approval]**) |
-| fog (M-FOG) | visibility < 1000 / 200 / 50 m | METAR visibility (6 points) | occurrence at matched stations only **[approval]** |
+| thunderstorm, lightning (M-TS) | model weather codes, CAPE | none as a system reference | **not verifiable** as a system forecast; METAR thunderstorm reports at matched stations may be shown as **station-level supplementary occurrence only** (approved), never extrapolated |
+| fog (M-FOG) | visibility < 1000 / 200 / 50 m | METAR visibility (matched stations) | **station-level supplementary occurrence only** (approved), never extrapolated nationally |
 | fire, drought, cyclone | heuristic / 30-day rain vs normal / official only | none suitable | **not verifiable** (cyclone is an official alert, not a system forecast) |
 
-**C2 — rule replay on the historical dataset (optional, [approval]).** CORE's M-RAIN thresholds and "k of 3" logic
-applied to the historical per-model forecasts. This is **not CORE's output** (CORE uses a best-match blend and its own
-runs); it must be labelled "rule replay" and reported apart from C1 and from A/B.
+**C2 — "historical rule replay" (approved).** CORE's M-RAIN thresholds and "k of 3" logic applied to the historical
+per-model forecasts. This is **not CORE's output** and **not historical CORE performance** (CORE uses a best-match
+blend and its own runs, which were not recorded before 28 Sep 2026). It is always called "historical rule replay" and
+reported apart from C1 and from A/B.
 
 Raw model skill (A) and CORE risk performance (C) are different analyses: a good model can feed a poorly calibrated
 rule, and vice versa.
 
 ---
 
-## 11. Sample floors (proposed, **[approval]**)
+## 11. Sample floors (approved — publication/reporting floors)
 
-A metric is published only if its floor is met; otherwise the cell shows **"insufficient sample"** (with n) and no
+These are **publication and reporting floors**. A metric is published only if its floor is met; otherwise the cell shows **"insufficient sample"** (with n) and no
 number.
 
 | Result type | Floor |
@@ -269,11 +272,12 @@ method (§14) accounts for this, and the floors are minimums, not proofs.
   district centroids). They are not random, not area- or population-weighted, and **not a nationally representative
   sample**. A pooled result means "average over the 36 state points", never "India".
 - No extrapolation to the 724 districts, or to any district that is not an archive point.
-- Regions (proposed, **[approval]**, following IMD's homogeneous regions): North-West 10 (J&K, Ladakh, HP,
+- Regions (approved, following IMD's homogeneous regions): North-West 10 (J&K, Ladakh, HP,
   Uttarakhand, Punjab, Chandigarh, Haryana, Delhi, UP, Rajasthan); Central 7 (Gujarat, DNH-DD, MP, Chhattisgarh,
   Maharashtra, Goa, Odisha); South Peninsula 6 (AP, Telangana, Karnataka, Kerala, TN, Puducherry); East & North-East
   11 (Bihar, Jharkhand, WB, Sikkim, Assam, Meghalaya, Arunachal, Nagaland, Manipur, Mizoram, Tripura); Islands 2
-  (Andaman & Nicobar, Lakshadweep) — reported separately (no IMD reference, G).
+  (Andaman & Nicobar, Lakshadweep) — always reported separately and **never merged into mainland regional results**
+  (no IMD reference, G).
 - High-altitude flag: point elevation ≥ 1,000 m (90 m DEM, stored in each release's pairing file): Ladakh 4,983 m,
   J&K 2,940 m, Sikkim 2,470 m, HP 1,744 m, Meghalaya 1,366 m, Uttarakhand 1,141 m. Temperature results for these are
   reported separately (grid-terrain representativeness).
@@ -300,7 +304,7 @@ the floor on their own. Winter rain events will mostly be "insufficient sample".
 ## 14. Uncertainty and interpretation
 
 - Intervals: 95% **block bootstrap** — resample whole valid dates (all points together, preserving spatial
-  correlation) in 7-day blocks (temporal correlation), 1,000 resamples, fixed recorded seed (**[approval]**).
+  correlation) in 7-day blocks (temporal correlation), 1,000 resamples, fixed recorded seed (approved).
 - Every result carries three separate statements: **measured result** (number, n, interval, reference, period,
   lead type) · **limitation** (reference nature, representativeness, exclusions) · **interpretation** (only what the
   numbers support).
@@ -322,7 +326,8 @@ the floor on their own. Winter rain events will mostly be "insufficient sample".
 - **Must wait:** any IMD-based rain statement for 2026 (e.g. monsoon 2026) until IMD publishes 2026 or IMERG is
   implemented (B6). ERA5 is not a substitute and 2026 ERA5 rain results are never merged with IMD results.
 - When IMD 2026 appears: new immutable `history-imd-raw-2026`; the monthly releases are not modified — an additional,
-  versioned reference supplement for 2026 is published (**[approval]** at that time).
+  versioned reference supplement for 2026 is published (approved); existing immutable monthly releases are never
+  modified.
 
 ---
 
@@ -332,7 +337,7 @@ One row per result. Proposed fields:
 
 | Field | Notes |
 | --- | --- |
-| result_id, methodology_version, experiment | experiment ∈ A-continuous, A-event, B-agreement, C1-core, C2-replay |
+| result_id, methodology_version, experiment | experiment ∈ A-continuous, A-event, B-agreement, C1-core-issued, C2-historical-rule-replay, S-metar-occurrence |
 | dataset, lead_type | historical_nominal \| prospective_exact |
 | model \| agreement_k \| core_risk | exactly one is set, per experiment |
 | variable, window | tmax / tmin / precip / precip_0830 / gust_max; ist_day \| imd_0830 |
@@ -373,11 +378,27 @@ archive.
 
 M4.4 (implementation of scoring) may start only when all hold, and the owner has approved:
 
-1. This methodology is approved, including every **[approval]** item.
+1. This methodology is approved (VM-1.0, 30 Sep 2026 — done).
 2. Every metric has a named eligibility rule (§6) and reference (§2).
 3. Missing-data treatment A–G is explicit (§6).
 4. Sample floors are fixed (§11).
-5. A, B and C are separate, with C1 (CORE outputs, prospective) separate from C2 (rule replay).
+5. A, B and C are separate, with C1 (CORE-issued outputs, prospective) separate from C2 (historical rule replay).
 6. Reproducibility record format is fixed (§17).
 7. Scoring code will be tested offline on synthetic data with known answers (MAE/RMSE/bias and a contingency table
    computed by hand) before it touches the archive.
+
+---
+
+## 20. Decisions recorded (owner approval, 30 Sep 2026)
+
+| # | Decision | Approved as |
+| --- | --- | --- |
+| 1 | Sample floors (§11) | publication/reporting floors; below the floor report "insufficient sample", no number |
+| 2 | 2.5 mm rainy-day split (§7) | analytical classification only; never a BWI risk threshold |
+| 3 | IMD-style regions (§12) | approved; islands always separate, never merged into mainland results |
+| 4 | Uncertainty (§14) | 95% intervals, 7-day block bootstrap on whole valid dates, 1,000 iterations, fixed seed |
+| 5 | Heat / cold (§10) | **restricted**: future extension requiring an additional reference input; NASA POWER is not added in M4.4; the verification dataset is not expanded at this stage |
+| 6 | METAR occurrence (thunderstorm, fog) | station-level supplementary validation only; never extrapolated nationally |
+| 7 | C2 | "historical rule replay", explicitly separate from CORE-issued risk verification (C1) |
+| 8 | IMD 2026 | versioned reference supplement when available; immutable monthly releases never modified |
+

@@ -31,3 +31,4 @@ imd-raw-2026,unavailable,,,,,source did not return a readable NetCDF (0 bytes): 
 2026-02,published,history-2026-02,829b93ea2b13b2a2a2da82a7541804cdf1bc3c1d00d51489d06856fa63f2ce19,105840,93744,partial,2026-09-30 04:05:01+00:00,36666584479
 imd-raw-2026,unavailable,,,,,source did not return a readable NetCDF (0 bytes): did not find a match in any of xarray's currently installed IO backen,2026-09-30 04:34:43+00:00,36669287140
 2026-03,published,history-2026-03,74627ae2d2365b9c2d0415498fc0ea68e74176dd560a4f7ce5b636f7a950f1b9,117180,103788,partial,2026-09-30 04:36:55+00:00,36669287140
+2026-04,published,history-2026-04,f9ba41d3de7194e2dd59cd603f9e9b3aa2083ae58c9ce8d4dd8f4d1e8acf597f,113400,97092,partial,2026-09-30 04:39:35+00:00,36669287140

@@ -1,6 +1,6 @@
 {
  "mode": "publish",
- "only_months": ["2025-12", "2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08"],
- "budget": 5600,
- "note": "Batch 3 (owner-approved 30 Sep 2026): exactly Dec 2025 - Aug 2026, processing version m4.3-2, ~5,481.3 planned counted calls; retry/refusal logic from 10c2832."
+ "only_months": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08"],
+ "budget": 3800,
+ "note": "Re-run of March-August 2026 (owner-approved 30 Sep 2026) with retry-safe publication (6f03a20). March's stale draft from run 36666584479 is deleted and rebuilt by the batch, never converted. ~3,679 planned counted calls."
 }

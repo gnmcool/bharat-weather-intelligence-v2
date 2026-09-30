@@ -478,3 +478,20 @@ Gate 2 review, 30 Sep 2026 — a clarification, not a change: the Gate 2 results
 - Metrics are computed only for cells whose census status is "meets floor"; no value is computed, stored or
   reported for any other cell.
 
+
+**Source-representation limitation — M4.4-A reporting note (owner decision after the source probe, 30 Sep 2026).**
+This is a reporting note on the source data, not a measured forecast error and not a methodology change. No data
+correction, reprocessing, interpolation, smoothing, exclusion or resolution correction is applied.
+
+| Affected results | Source representation change | Causal effect on the verification metric |
+| --- | --- | --- |
+| GFS rainfall, nominal leads 5–7 (A3, A4) | **Established:** the source's hourly series changes structure from lead 5 (evenly spread 3-hour totals and a 6-hour pattern, absent at leads 1–4), coinciding with the documented change to 3-hourly GFS output after forecast hour 120 | **Unresolved:** spreading a 3-hour total evenly does not reduce it; the mechanism of the lower lead-5–7 rain totals is not established |
+| ECMWF temperature, nominal leads 6–7 (A1, A2) | **Established:** the source's hourly series changes from 3-hourly to 6-hourly node structure at lead 6, with a smaller diurnal range, coinciding with the documented 6-hourly ECMWF open-data steps after forecast hour 144 | **Unresolved:** the thinning simulation is directionally and approximately quantitatively consistent with the observed Tmax step, but does not establish causality; the small Tmin step is not explained |
+
+- **Both hypotheses are UNRESOLVED.** The archive reproduces the source values exactly (the archive preserves the
+  change; it does not introduce it).
+- Evidence: source probe run 36684062500 and its report on archive-index
+  (`history/verification/source-probe/`).
+- Every M4.4-A result for these model–variable–lead combinations is reported with this note, **separately from the
+  measured numbers**. The 30 primary cells placed on hold at the Gate 2 review stay held until the owner releases
+  them.

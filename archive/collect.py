@@ -7,7 +7,8 @@ separate step (publish.sh) that runs only after validate.py passes.
 Outputs in --out:
   forecasts_<D>.parquet      exact-run model forecasts at the 36 fixed points (FORECAST_SCHEMA)
   core_risks_<D>.parquet     CORE risk items as CORE showed them (prospective CORE-level record)
-  core_daily_<D>.parquet     CORE best-match daily values as shown (a blend: no single model run)
+  core_daily_<D>.parquet     CORE's displayed daily values: the Open-Meteo best-match forecast CORE uses for its
+                             issued risk values (no single model run time)
   e2s_gfs_grid_<cycle>.nc    Earth2Studio GFS daily grid (IST days), as in M0
   gap_report_<D>.json        what was expected, present, missing, not provided by the source
   manifest_<D>.json          files, SHA-256, rows, sources, run times, expectation spec

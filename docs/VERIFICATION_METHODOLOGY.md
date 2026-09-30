@@ -495,3 +495,30 @@ correction, reprocessing, interpolation, smoothing, exclusion or resolution corr
 - Every M4.4-A result for these model–variable–lead combinations is reported with this note, **separately from the
   measured numbers**. The 30 primary cells placed on hold at the Gate 2 review stay held until the owner releases
   them.
+
+**M4.4-B event implementation (details VM-1.0 §8/§11/§14 leave open; recorded before any event metric was computed).**
+
+- **Scope:** weather-model rainfall-event detection only. It is not CORE risk verification, CORE alert accuracy or
+  impact accuracy. Thresholds are CORE's M-RAIN amounts (35.6 / 64.5 / 115.6 mm) and nothing else. Each threshold
+  is evaluated independently; an event is value ≥ threshold.
+- **Precision:** the archive stores rain as float32, so the comparison is made in float32 (a stored 35.6 mm is an
+  event at 35.6 mm).
+- **Samples and floors:** event cells use the census-2 eligible samples of A3 (IMD, 08:30 window) and A4 (ERA5, IST
+  day), with stratum "all". IMD and ERA5 are never combined.
+  1. A cell whose census sample floor (§11: n, dates, points) is not met is suppressed: no count and no value is
+     computed.
+  2. Otherwise the four counts and the base rate are published.
+  3. Each ratio then needs its own event floor: POD needs ≥ 20 reference events, FAR ≥ 20 forecast events, CSI and
+     frequency bias both. Below the floor the ratio is "insufficient sample" and no value is computed.
+  4. A zero denominator gives "no value", never zero.
+- **Bootstrap:** same blocks, seed derivation and draws as §21 (the cell id includes the threshold). The counts
+  a, b, c and d are summed per block, and each resample recomputes the ratios from its resampled counts. Model
+  pairs share the draws, giving a paired interval for the difference.
+- **Undefined resamples:** a resample with a zero denominator has no value for that ratio. It is left out of the
+  percentile interval and counted. If more than 25 of the 1,000 resamples (2.5 %) have no value, the interval is
+  reported as "no value".
+- **Roles:** primary is IMD, pooled eligible points, all seasons, leads 1–6, each model and each model pair on
+  shared data. ERA5 pooled, all seasons, leads 1–6 is secondary. Seasonal and regional slices, lead 7 and the
+  three-model sample are exploratory, and elevation slices are diagnostic.
+- **Source-resolution note:** GFS rain cells at leads 5–7 carry the §21 source-resolution note in `limitations`.
+  No data are corrected or excluded.

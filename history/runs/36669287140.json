@@ -1,0 +1,36 @@
+{
+ "budget_counted_calls": 3800.0,
+ "dry_run": false,
+ "finished_utc": "2026-09-30 04:49:50+00:00",
+ "http": {
+  "bytes": 71241670,
+  "http_errors": 0,
+  "malformed_responses": 0,
+  "network_errors": 0,
+  "om_requests": 24,
+  "om_weighted_calls": 3679.199999999999,
+  "rate_limited": 0,
+  "requests": 67,
+  "retries": 0,
+  "slept_for_limits_s": 235.0
+ },
+ "imd": [
+  {
+   "bytes": 0,
+   "checked_utc": "2026-09-30 04:34:17+00:00",
+   "reason": "source did not return a readable NetCDF (0 bytes): did not find a match in any of xarray's currently installed IO backends ['netcdf4']. Consider explicitly selecting one o",
+   "status": "unavailable",
+   "year": 2026
+  }
+ ],
+ "months": {
+  "2026-03": "published (partial, 103788/117180)",
+  "2026-04": "published (partial, 97092/113400)",
+  "2026-05": "published (partial, 103788/117180)",
+  "2026-06": "published (partial, 100440/113400)",
+  "2026-07": "published (partial, 103788/117180)",
+  "2026-08": "published (partial, 103788/117180)"
+ },
+ "run_id": "36669287140",
+ "started_utc": "2026-09-30 04:34:17+00:00"
+}

@@ -138,8 +138,9 @@ MONTH = "2025-07"
 N_DAYS = 31
 
 
-@pytest.fixture
-def one_month(tmp_path):
+@pytest.fixture(scope="module")
+def one_month(tmp_path_factory):
+    tmp_path = tmp_path_factory.mktemp("one_month")
     src = FakeSource()
     src.add_month(MONTH, *build_month(MONTH))
     rec = run_census.run(src, tmp_path / "out")
@@ -322,3 +323,28 @@ def test_deterministic(tmp_path):
     r2 = run_census.run(src, tmp_path / "b")
     assert r1["result_sha256"] == r2["result_sha256"]
     assert (tmp_path / "a" / "census_cells.csv").read_bytes() == (tmp_path / "b" / "census_cells.csv").read_bytes()
+
+
+def test_both_sides_reasons_preserved(one_month):
+    """VM-1.1 §6: primary reason D > C > B > A > E/F/G, and the other side's reason is never lost."""
+    _, rec, C, out = one_month
+    base = dict(comparison="single-model", geo_slice_type="pooled", geo_slice="all-points", season="all", stratum="all")
+    # ICON lead 7 (forecast A) at the islands, which also have no IMD cell (reference G): primary A, G kept
+    c = cell(C, experiment="A3", model="icon_global", variable="precip_0830", lead=7, **base)
+    assert c.excluded_A == 12 * N_DAYS and c.excluded_G == 0
+    assert c.reference_unavailable_G == 2 * N_DAYS and c.n_both_unavailable == 2 * N_DAYS
+    # GFS outage (C) at the islands (G): primary C, G kept
+    c = cell(C, experiment="A3", model="gfs_global", variable="precip_0830", lead=2, **base)
+    assert c.excluded_C == 12 * 3 and c.excluded_G == 2 * (N_DAYS - 3)
+    assert c.reference_unavailable_G == 2 * N_DAYS and c.n_both_unavailable == 2 * 3
+    X = pd.read_csv(out / "census_exclusions.csv")
+    r = X[(X.experiment == "A3") & (X.model == "icon_global") & (X.lead == 7)]
+    assert set(zip(r.reason, r.forecast_category, r.reference_category)) == {("A", "A", "none"), ("A", "A", "G")}
+    assert int(r.n_excluded.sum()) == 12 * N_DAYS
+    r = X[(X.experiment == "A3") & (X.model == "ecmwf_ifs025") & (X.lead == 1)]
+    assert set(zip(r.reason, r.forecast_category, r.reference_category)) == {("G", "none", "G")}
+
+
+def test_precedence_order():
+    from common import PRECEDENCE
+    assert PRECEDENCE == ["D", "C", "B", "A", "E", "F", "G"]

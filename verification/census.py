@@ -3,7 +3,8 @@
 Eligibility (VM-1.0 §6), per (experiment, model, variable, nominal lead, valid date, point):
   forecast available (24/24 h, no A-D reason) AND reference available (no E-G reason) AND same variable and window
   AND spatial rule (ERA5 grid <= 30 km; IMD cell <= 30 km; METAR matched station only) AND nominal lead 1-7.
-Exclusion reason: the forecast's category if the forecast is unavailable, else the reference's category.
+Exclusion reasons (VM-1.1 §6): the primary reason follows D > C > B > A > E/F/G; both sides' categories are kept
+(forecast_category, reference_category) so no cause is lost when both sides are unavailable.
 Missing values are never zero: an eligible pair must have both values present, otherwise the census refuses.
 """
 from __future__ import annotations
@@ -13,8 +14,8 @@ import itertools
 import numpy as np
 import pandas as pd
 
-from common import (EXPERIMENTS, ERA5_MAX_GRID_KM, HIGH_ALTITUDE_M, IMD_MAX_KM, LEADS, MODELS, RAINY_DAY_MM, REGIONS,
-                    SEASONS, STATE_REGION, CensusError, classify_reason, floor_status)
+from common import (EXPERIMENTS, ERA5_MAX_GRID_KM, HIGH_ALTITUDE_M, IMD_MAX_KM, LEADS, MODELS, PRECEDENCE, RAINY_DAY_MM,
+                    REGIONS, SEASONS, STATE_REGION, CensusError, classify_reason, floor_status)
 
 CATS = list("ABCDEFG")
 LIMITATIONS = {
@@ -57,9 +58,17 @@ def pairs_for_month(md: dict, overrides: dict) -> pd.DataFrame:
             spatial_ok = s["point_id"].map(lambda p: pairing[p]["paired"])
         spatial_ok = spatial_ok.fillna(False).astype(bool)
         eligible = s["forecast_available"] & s["reference_available"] & spatial_ok
-        reason = fc.where(~s["forecast_available"], rc)
-        reason = reason.where(~(s["forecast_available"] & s["reference_available"] & ~spatial_ok), "G")
-        reason = reason.where(~eligible, None)
+        f_cat = fc.where(~s["forecast_available"], None)
+        r_cat = rc.where(~s["reference_available"], None)
+        r_cat = r_cat.where(~(s["reference_available"] & ~spatial_ok), "G")      # spatial rule failed on an available ref
+        rank = {c: i for i, c in enumerate(PRECEDENCE)}
+        f_cat = f_cat.astype(object).where(f_cat.notna(), None)
+        r_cat = r_cat.astype(object).where(r_cat.notna(), None)
+        bad = set(f_cat.dropna()) | set(r_cat.dropna())
+        if bad - set(rank):
+            raise CensusError(f"{md['tag']} {exp}: unknown exclusion categories {sorted(bad - set(rank))}")
+        reason = pd.Series([min((x for x in (a, b) if x is not None), key=rank.__getitem__, default=None)
+                            for a, b in zip(f_cat, r_cat)], index=s.index, dtype=object)
         if (eligible & (s["forecast_value"].isna() | s["reference_value"].isna())).any():
             raise CensusError(f"{md['tag']} {exp}: eligible pair without a value (missing is never zero)")
         if (~eligible & reason.isna()).any():
@@ -78,6 +87,9 @@ def pairs_for_month(md: dict, overrides: dict) -> pd.DataFrame:
             "station": s["point_id"].map(lambda p: pairing[p]["station"] if pairing[p]["paired"] else None).values,
             "season": SEASONS[int(md["month"][5:7])],
             "eligible": eligible.values, "reason": reason.values,
+            "forecast_category": f_cat.values, "reference_category": r_cat.values,
+            "forecast_value": s["forecast_value"].astype(float).values,
+            "reference_value": s["reference_value"].astype(float).values,
             "rainy": (eligible & (s["reference_value"] >= RAINY_DAY_MM)).values if spec.get("rainy_split") else False,
         }))
     return pd.concat(out, ignore_index=True)
@@ -99,6 +111,11 @@ def _count(g: pd.DataFrame) -> dict:
     rc = g["reason"].value_counts()
     for c in CATS:
         d[f"excluded_{c}"] = int(rc.get(c, 0))
+    # both sides preserved: reference-side unavailability regardless of the forecast, and rows where both sides failed
+    rr = g["reference_category"].value_counts()
+    for c in ("E", "F", "G"):
+        d[f"reference_unavailable_{c}"] = int(rr.get(c, 0))
+    d["n_both_unavailable"] = int((g["forecast_category"].notna() & g["reference_category"].notna()).sum())
     return d
 
 
@@ -119,7 +136,8 @@ def census(P: pd.DataFrame) -> pd.DataFrame:
                         g = g[g["rainy"]]
                     c = _count(g)
                     if stratum != "all":   # the split applies to eligible pairs only; exclusions belong to "all"
-                        c.update({"n_total": c["n_eligible"], "n_excluded": 0, **{f"excluded_{k}": 0 for k in CATS}})
+                        c.update({"n_total": c["n_eligible"], "n_excluded": 0, **{f"excluded_{k}": 0 for k in CATS},
+                                  **{f"reference_unavailable_{k}": 0 for k in "EFG"}, "n_both_unavailable": 0})
                     status, rule = floor_status(kind, c["n_eligible"], c["n_dates"], c["n_points"])
                     rows.append({"experiment": exp, "comparison": "single-model", "model": model, "variable": var,
                                  "window": spec["window"], "reference": spec["reference"], "lead": int(lead),
@@ -153,6 +171,7 @@ def census(P: pd.DataFrame) -> pd.DataFrame:
                                      "lead": int(lead), "geo_slice_type": gtype, "geo_slice": gval, "season": season,
                                      "stratum": stratum, "n_total": None, "n_eligible": n, "n_dates": nd,
                                      "n_points": npt, "n_excluded": None, **{f"excluded_{k}": None for k in CATS},
+                                     **{f"reference_unavailable_{k}": None for k in "EFG"}, "n_both_unavailable": None,
                                      "floor_rule": rule, "status": status if not note else "not defined",
                                      "limitations": ";".join(LIMITATIONS[exp] + ([note] if note else []))})
     C = pd.DataFrame(rows)
@@ -161,7 +180,10 @@ def census(P: pd.DataFrame) -> pd.DataFrame:
 
 
 def exclusions(P: pd.DataFrame) -> pd.DataFrame:
-    """Experiment-level exclusion totals by model, variable, lead and category (includes METAR-unmatched points)."""
-    X = P[~P["eligible"]]
-    t = X.groupby(["experiment", "model", "variable", "lead", "reason"]).size().rename("n_excluded").reset_index()
-    return t.sort_values(["experiment", "model", "variable", "lead", "reason"], kind="mergesort").reset_index(drop=True)
+    """Experiment-level exclusion totals by model, variable, lead, primary reason and both sides' categories
+    (includes METAR-unmatched points). 'none' = that side was available."""
+    X = P[~P["eligible"]].assign(forecast_category=lambda d: d["forecast_category"].fillna("none"),
+                                 reference_category=lambda d: d["reference_category"].fillna("none"))
+    keys = ["experiment", "model", "variable", "lead", "reason", "forecast_category", "reference_category"]
+    t = X.groupby(keys).size().rename("n_excluded").reset_index()
+    return t.sort_values(keys, kind="mergesort").reset_index(drop=True)

@@ -1,8 +1,11 @@
 # BWI verification methodology
 
-**Version:** **VM-1.0** (M4.3, methodology only). **Status:** approved by the owner on 30 Sep 2026 (draft
-VM-1.0-draft, commit `f223a05`, approved with one modification: heat/cold verification is a future extension, §10).
-Decisions recorded in §20. No scores have been computed. Any change to this document requires a new version number.
+**Version:** **VM-1.1**. VM-1.0 (M4.3) was approved by the owner on 30 Sep 2026 (draft VM-1.0-draft, commit
+`f223a05`, approved with one modification: heat/cold verification is a future extension, §10); decisions in §20.
+VM-1.1 records the four owner decisions of the M4.4-A Gate 1 review (30 Sep 2026) — missing-data reason precedence,
+islands, elevation, primary comparisons — and fixes the bootstrap implementation details that VM-1.0 left open (§21).
+VM-1.1 changes no eligibility rule, floor or reference: every pair eligible under VM-1.0 is eligible under VM-1.1.
+Any change to this document requires a new version number.
 
 **Inputs this document is built on:** the M4.0 feasibility report (`docs/evidence/m4_step1_probe_report.json`), the
 M4.1 prospective archive (`docs/ARCHIVE.md`), the M4.2/M4.3 historical dataset (`docs/HISTORY.md`, 31 immutable
@@ -130,6 +133,14 @@ belongs to.
 | E / F / G | reference unavailable / incomplete / not spatially matched | the pair is excluded; reported in reference coverage |
 
 **Missing is never zero.** A day with fewer than 24 hourly values has no value and no pair.
+
+**Reason precedence when both sides are unavailable (VM-1.1).** Each excluded pair keeps **both** sides' categories
+(`forecast_category`, `reference_category`; "none" when that side was available). For headline counts one primary
+reason is assigned: **D > C > B > A > E / F / G** (download failure, source outage, before archive start, not
+provided by source, then the reference/spatial limitations). The primary reason is a counting convention only; the
+other side's reason is never discarded and is reported (`reference_unavailable_E/F/G`, `n_both_unavailable`, and the
+exclusion table by both categories). Example: ICON lead 7 at an island point for IMD rain → primary A, reference G
+kept. Historical archive data are not changed.
 
 **A forecast/reference pair is eligible for scoring only if all hold:** (1) forecast `complete = true` (24 of 24
 hours; no A–D reason); (2) reference `complete = true`; (3) same variable, same window (§5), same valid date,
@@ -282,6 +293,13 @@ method (§14) accounts for this, and the floors are minimums, not proofs.
   J&K 2,940 m, Sikkim 2,470 m, HP 1,744 m, Meghalaya 1,366 m, Uttarakhand 1,141 m. Temperature results for these are
   reported separately (grid-terrain representativeness).
 - METAR results are per station (6 matched; 2 near-complete); never pooled into a national figure.
+- **Islands (VM-1.1):** pooled results cover all 36 archive points wherever pairs are eligible, **including the
+  island points** (for IMD rain the islands have no cell within 30 km, so they are G and absent). Islands are never
+  silently removed from pooled results. Regional results keep islands as their own region; when that region fails
+  the floor it is published as "insufficient sample".
+- **Elevation (VM-1.1):** diagnostic only. Reported: archive point elevation, the ≥ 1,000 m flag, and the METAR
+  station elevation difference where available. No finer elevation bands; forecasts and references are never
+  elevation-adjusted.
 
 ---
 
@@ -401,4 +419,43 @@ M4.4 (implementation of scoring) may start only when all hold, and the owner has
 | 6 | METAR occurrence (thunderstorm, fog) | station-level supplementary validation only; never extrapolated nationally |
 | 7 | C2 | "historical rule replay", explicitly separate from CORE-issued risk verification (C1) |
 | 8 | IMD 2026 | versioned reference supplement when available; immutable monthly releases never modified |
+
+---
+
+## 21. VM-1.1 amendments (owner decisions at the M4.4-A Gate 1 review, 30 Sep 2026)
+
+| # | Decision | Recorded as |
+| --- | --- | --- |
+| 1 | Missing-data reason precedence | §6: primary reason D > C > B > A > E/F/G; both sides' categories always kept |
+| 2 | Islands | §12: included in pooled results where eligible; separate region; "insufficient sample" below floor |
+| 3 | Elevation | §12: diagnostic only (point elevation, ≥ 1,000 m flag, METAR elevation difference); no bands; no adjustment |
+| 4 | Primary comparisons | below; everything else is secondary/exploratory |
+
+**Primary comparisons (declared before any metric was computed).**
+
+- *Temperature:* Tmax and Tmin vs **METAR** at each matched station that meets the station floor, all seasons pooled,
+  nominal leads 1–6: each model, and each model pair on the pair's shared-data sample.
+- *Rainfall:* 08:30–08:30 IST rain vs **IMD**, pooled over the eligible archive points, all seasons pooled, all
+  days (no rainy-day stratum), nominal leads 1–6: each model, and each model pair on the pair's shared-data sample.
+- *Secondary / exploratory:* every ERA5 comparison (A1, A4), seasonal slices, regional slices, elevation
+  diagnostics (high-altitude slices), lead 7, the rainy-day (≥ 2.5 mm) stratum, and the three-model shared sample.
+  Exploratory results are published with their numbers but are not findings (no multiplicity correction; Q3).
+- *Wording:* a metric difference is reported only as the measured difference for the declared population,
+  reference, metric and period, with its interval. It is never described as one model being "better" in general;
+  no overall score and no global model ranking are produced.
+
+**Bootstrap implementation (fixes details VM-1.0 §14 left open; approved settings unchanged).**
+
+- Blocks: non-overlapping 7-day calendar blocks anchored on 1 Feb 2024 (the first date of the historical dataset);
+  a block holds every eligible pair of the cell whose valid date falls in it (all points together).
+- Resampling: blocks are drawn with replacement, as many as the cell has non-empty blocks; 1,000 resamples; bias,
+  MAE and RMSE are recomputed from the resampled pairs (RMSE = √(Σe²/n) of the resample).
+- Interval: percentile, 2.5th and 97.5th of the 1,000 resampled values.
+- Seed: master seed 20240201; each cell's generator is seeded from SHA-256(master seed, cell id), so a result does
+  not depend on the order in which cells are computed.
+- Model pairs: both models' errors on the shared-data sample are resampled with the **same** blocks, giving a paired
+  interval for the difference (model A − model B) in bias, MAE and RMSE. An interval that excludes 0 is reported as
+  such; nothing more is inferred.
+- Metrics are computed only for cells whose census status is "meets floor"; no value is computed, stored or
+  reported for any other cell.
 

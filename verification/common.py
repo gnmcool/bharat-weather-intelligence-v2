@@ -10,8 +10,13 @@ import pathlib
 
 HERE = pathlib.Path(__file__).resolve().parent
 REPO = HERE.parent
-METHODOLOGY_VERSION = "VM-1.0"
-CENSUS_VERSION = "m4.4-a-census-1"
+METHODOLOGY_VERSION = "VM-1.1"
+CENSUS_VERSION = "m4.4-a-census-2"   # census-2: both sides' reasons preserved (VM-1.1 §6 precedence)
+
+# VM-1.1 §6: primary exclusion reason precedence (owner decision, 30 Sep 2026). Forecast-side D > C > B > A rank above
+# every reference-side reason (E, F, G), so the primary reason is the forecast's when the forecast is unavailable;
+# the other side's reason is always kept as well.
+PRECEDENCE = ["D", "C", "B", "A", "E", "F", "G"]
 
 # single source of truth for categories A-G: history/common.py (loaded by path; both packages have a common.py)
 _spec = importlib.util.spec_from_file_location("history_common", REPO / "history" / "common.py")

@@ -46,7 +46,7 @@ def run(source, out: pathlib.Path, months: list[str] | None = None) -> dict:
     h = {n: hashlib.sha256((out / n).read_bytes()).hexdigest()
          for n in ("census_cells.csv", "census_exclusions.csv")}
     run_rec = {
-        "census_version": CENSUS_VERSION, "methodology_version": METHODOLOGY_VERSION, "gate": "M4.4-A Gate 1 (counts only)",
+        "census_version": CENSUS_VERSION, "methodology_version": METHODOLOGY_VERSION, "gate": "M4.4-A census (counts only)",
         "metrics_computed": "none", "created_utc": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
         "code_commit": _commit(), "archive_index_commit": getattr(source, "index_commit", None),
         "experiments": {k: {**v, "variables": list(v["variables"])} for k, v in EXPERIMENTS.items()},
@@ -69,7 +69,7 @@ def _commit() -> str:
 
 
 def report(C: pd.DataFrame, X: pd.DataFrame, rec: dict) -> str:
-    L = [f"# M4.4-A census (Gate 1, counts only) — {rec['methodology_version']}", "",
+    L = [f"# M4.4-A census {rec['census_version']} (counts only) — {rec['methodology_version']}", "",
          f"Months {rec['months'][0]} … {rec['months'][-1]} ({len(rec['months'])} releases); code {rec['code_commit'][:7]}; "
          f"archive-index {str(rec['archive_index_commit'])[:7]}. **No metric was computed.**", ""]
     L += ["## Totals", "", "| Experiment | Pairs | Eligible | Excluded |", "| --- | --- | --- | --- |"]
@@ -80,6 +80,11 @@ def report(C: pd.DataFrame, X: pd.DataFrame, rec: dict) -> str:
     t = X.groupby(["experiment", "model", "variable", "reason"])["n_excluded"].sum().unstack(fill_value=0)
     for (e, m, v), r in t.iterrows():
         L.append(f"| {e} | {m} | {v} | " + " | ".join(f"{int(r.get(c, 0)):,}" for c in "ABCDEFG") + " |")
+    L += ["", "## Both sides unavailable (primary reason D > C > B > A > E/F/G; the other side's reason is kept)", "",
+          "| Experiment | Primary (forecast) | Reference category | Pairs |", "| --- | --- | --- | --- |"]
+    b = X[(X["forecast_category"] != "none") & (X["reference_category"] != "none")]
+    for (e, f, r), n in b.groupby(["experiment", "forecast_category", "reference_category"])["n_excluded"].sum().items():
+        L.append(f"| {e} | {f} | {r} | {int(n):,} |")
     L += ["", "## Cells meeting the publication floor (single-model)", "",
           "| Experiment | Slice type | Cells | Meets floor | Insufficient sample |", "| --- | --- | --- | --- | --- |"]
     S = C[C["comparison"] == "single-model"]

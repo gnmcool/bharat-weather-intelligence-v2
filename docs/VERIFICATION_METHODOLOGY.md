@@ -550,3 +550,9 @@ bootstrap method is unchanged, and no interval method (Wilson or other) replaces
 - **Exploratory breakdown:** which models make up k = 1 and k = 2.
 - **Fixed wording:** "In the archived sample … when k of 3 models forecast ≥ τ, the reference reached ≥ τ on x of n
   days." The words probability, chance, confidence and likelihood are not used.
+
+**Terminology note on CORE's forecast (owner direction, 30 Sep 2026; VM-1.0 text unchanged).** Where VM-1.0 (§2,
+§10) says "best-match blends" or "best-match blend", it means Open-Meteo's best-match forecast. CORE uses the
+Open-Meteo best-match forecast for its issued risk values; model agreement is a separate contextual field based on
+the available model forecasts. CORE does not blend ECMWF, GFS and ICON into one forecast. The best-match model
+composition over India is not documented in the available evidence (M4.4-D-SPEC-1.0, Q6).

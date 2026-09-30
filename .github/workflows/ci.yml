@@ -41,6 +41,8 @@ jobs:
       - run: python -m pytest -q archive/tests
       - name: History (M4.2) — offline tests
         run: python -m pytest -q history/tests
+      - name: Verification (M4.4) — offline tests
+        run: python -m pytest -q verification/tests
 
   api-v2:
     name: API v2 — tests (offline, CORE fixtures)

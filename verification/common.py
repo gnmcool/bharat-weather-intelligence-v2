@@ -1,7 +1,7 @@
 """M4.4 verification: shared definitions, straight from VM-1.0 (docs/VERIFICATION_METHODOLOGY.md).
 
-Gate 1 (M4.4-A census) uses only this module, inputs.py and census.py. No metric is computed anywhere in this package
-at Gate 1.
+Gate 1 (census, counts only): this module, inputs.py, census.py, run_census.py.
+Gate 2 (bias, MAE, RMSE for cells meeting the floor): metrics.py, run_metrics.py.
 """
 from __future__ import annotations
 
@@ -41,6 +41,7 @@ EXPERIMENTS = {
     "A4": {"variables": ("precip",), "reference": "era5", "window": "ist_day",
            "label": "Rain (IST day) vs ERA5 reanalysis (secondary)", "geo": "pooled", "rainy_split": True},
 }
+UNITS = {"tmax": "degC", "tmin": "degC", "precip": "mm", "precip_0830": "mm"}   # as stored in the releases
 RAINY_DAY_MM = 2.5   # VM-1.0 §7: analytical split on the reference value only; never a risk threshold
 
 # VM-1.0 §13: IMD seasons

@@ -53,6 +53,32 @@ def store(tmp_path):
     return p
 
 
+CORE_IDS = ["heat", "cold", "rain", "wind", "thunderstorm", "lightning", "flood", "drought", "fog", "fire", "cyclone"]
+FLOOD_EXPLANATION = {"dry": "Rain-based indicator only (no river/drainage model).",
+                     "wet": "Rain-based indicator only (no river/drainage model). Soil already wet."}
+CORE_FIXTURE = {"flood_explanation": FLOOD_EXPLANATION["dry"], "drop_criterion": None}
+
+
+def core_risks_fixture():
+    """11 CORE items per point, shaped like CORE core-v1.0 RiskItem (criterion on every item; flood explanation)."""
+    out = []
+    for rid in CORE_IDS:
+        r = {"id": rid, "level": 0, "status": "No risk", "confidence": {"basis": "3 of 3"},
+             "criterion": f"core-v1.0 rule text for {rid}", "explanation": f"explanation for {rid}"}
+        if rid == "flood":
+            r["explanation"] = CORE_FIXTURE["flood_explanation"]
+        if rid == CORE_FIXTURE["drop_criterion"]:
+            del r["criterion"]
+        out.append(r)
+    return out
+
+
+@pytest.fixture(autouse=True)
+def _reset_core_fixture():
+    CORE_FIXTURE.update(flood_explanation=FLOOD_EXPLANATION["dry"], drop_criterion=None)
+    yield
+
+
 def fake_http(url, timeout=90, tries=4):
     if "/static/meta.json" in url:
         days = 6 if "ecmwf" in url else 15
@@ -61,7 +87,7 @@ def fake_http(url, timeout=90, tries=4):
     if "/dashboard" in url:
         return {"generated_at": "2026-09-28T05:41:00Z", "warnings": [],
                 "sources": [{"issue_time": "x", "notes": "Per-model runs used for confidence (...)"}],
-                "risks": [{"id": f"r{i}", "level": 0, "status": "No risk", "confidence": {"basis": "3 of 3"}} for i in range(11)],
+                "risks": core_risks_fixture(),
                 "daily": [{"date": (date(2026, 9, 28) + timedelta(days=k)).isoformat(), "temperature_2m_max": 30, "temperature_2m_min": 20,
                            "precipitation_sum": 1, "wind_gusts_10m_max": 20} for k in range(10)]}
     # Open-Meteo multi-location daily: ECMWF-like model has no data after its last valid time
@@ -166,3 +192,99 @@ def test_grids_disagreeing_on_run_time_is_refused(tmp_path, store, monkeypatch):
     collect.main()
     res = validate.validate(tmp_path / "s")
     assert not res["ok"] and any("gfs_global" in p for p in res["problems"])
+
+
+# ---------------- M4.4-D D1: CORE rule text and flood wet-soil flag ----------------
+def _core(stage):
+    return pq.read_table(next(stage.glob("core_risks_*.parquet")))
+
+
+def test_d1_rule_text_and_flood_flag_captured(tmp_path, store, monkeypatch):
+    stage = run_collect(tmp_path, store, monkeypatch=monkeypatch)
+    assert validate.validate(stage)["ok"]
+    t = _core(stage)
+    assert t.schema.equals(common.CORE_RISK_SCHEMA, check_metadata=False)
+    df = t.to_pandas()
+    assert df["criterion"].notna().all() and (df["criterion"] == "core-v1.0 rule text for " + df["risk_id"]).all()
+    assert (df.loc[df.risk_id == "flood", "flood_wet_soil"] == False).all()   # noqa: E712
+    assert df.loc[df.risk_id != "flood", "flood_wet_soil"].isna().all()
+    man = json.loads(next(stage.glob("manifest_*.json")).read_text())
+    assert man["schema_version"] == common.SCHEMA_VERSION == 2
+
+
+def test_d1_wet_soil_flag_true(tmp_path, store, monkeypatch):
+    CORE_FIXTURE["flood_explanation"] = FLOOD_EXPLANATION["wet"] + " Official: CWC has an active flood warning."
+    stage = run_collect(tmp_path, store, monkeypatch=monkeypatch)
+    assert validate.validate(stage)["ok"]
+    df = _core(stage).to_pandas()
+    assert (df.loc[df.risk_id == "flood", "flood_wet_soil"] == True).all()     # noqa: E712
+
+
+def test_d1_missing_rule_text_is_refused(tmp_path, store, monkeypatch):
+    CORE_FIXTURE["drop_criterion"] = "rain"
+    stage = run_collect(tmp_path, store, monkeypatch=monkeypatch)
+    res = validate.validate(stage)
+    assert not res["ok"] and any("criterion" in p and "36 core_risks rows" in p for p in res["problems"]), res["problems"]
+
+
+def test_d1_unknown_flood_text_is_refused_never_guessed(tmp_path, store, monkeypatch):
+    CORE_FIXTURE["flood_explanation"] = "Some other wording. Soil already wet."
+    stage = run_collect(tmp_path, store, monkeypatch=monkeypatch)
+    res = validate.validate(stage)
+    assert not res["ok"] and any("wet-soil flag not determinable" in p for p in res["problems"]), res["problems"]
+    assert _core(stage).to_pandas().query("risk_id == 'flood'")["flood_wet_soil"].isna().all()
+
+
+def _rewrite_core(stage, mutate):
+    """Rewrite core_risks and its manifest entry consistently (so only rule 7 can fail)."""
+    f = next(stage.glob("core_risks_*.parquet"))
+    t = mutate(pq.read_table(f))
+    pq.write_table(t, f)
+    mp = next(stage.glob("manifest_*.json"))
+    man = json.loads(mp.read_text())
+    for e in man["files"]:
+        if e["name"] == f.name:
+            e["sha256"], e["rows"], e["bytes"] = common.sha256(f), t.num_rows, f.stat().st_size
+    mp.write_text(json.dumps(man))
+
+
+def test_d1_flag_on_non_flood_row_is_refused(tmp_path, store, monkeypatch):
+    stage = run_collect(tmp_path, store, monkeypatch=monkeypatch)
+    import pyarrow as pa
+
+    def mutate(t):
+        df = t.to_pandas()
+        df.loc[df.risk_id == "rain", "flood_wet_soil"] = True
+        return pa.Table.from_pandas(df, schema=common.CORE_RISK_SCHEMA, preserve_index=False)
+    _rewrite_core(stage, mutate)
+    res = validate.validate(stage)
+    assert not res["ok"] and any("non-flood rows" in p for p in res["problems"]), res["problems"]
+
+
+def test_d1_old_v1_core_table_cannot_be_published(tmp_path, store, monkeypatch):
+    stage = run_collect(tmp_path, store, monkeypatch=monkeypatch)
+    _rewrite_core(stage, lambda t: t.select(common.CORE_RISK_SCHEMA_V1.names))
+    res = validate.validate(stage)
+    assert not res["ok"] and any("core_risks schema differs" in p for p in res["problems"]), res["problems"]
+
+
+def test_d1_existing_v1_releases_remain_readable_and_flagged(tmp_path):
+    import pyarrow as pa
+    row = {f.name: None for f in common.CORE_RISK_SCHEMA_V1}
+    row.update(point_id="IN-07-delhi", risk_id="rain", level=0, official=False, experimental=False)
+    t = pa.Table.from_pylist([row], schema=common.CORE_RISK_SCHEMA_V1)
+    assert "criterion" not in t.schema.names
+    assert common.core_rule_text_status(1) == common.RULE_TEXT_NOT_ARCHIVED == "rule text not archived"
+    assert common.core_rule_text_status(2) == "archived"
+
+
+@pytest.mark.parametrize("text,flag", [
+    ("Rain-based indicator only (no river/drainage model).", False),
+    ("Rain-based indicator only (no river/drainage model). Soil already wet.", True),
+    ("Rain-based indicator only (no river/drainage model). Official: CWC has an active flood warning.", False),
+    ("Rain-based indicator only (no river/drainage model). Soil already wet. Official: x", True),
+    ("Rain-based indicator only (no river/drainage model). Official: note says Soil already wet.", False),
+    ("", None), (None, None), ("Soil already wet.", None)])
+def test_d1_flood_flag_parser(text, flag):
+    assert common.flood_wet_soil_flag(text) is flag
+

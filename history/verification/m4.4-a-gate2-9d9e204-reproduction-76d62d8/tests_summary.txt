@@ -1,0 +1,4 @@
+27 passed in 0.31s
+12 passed, 1 warning in 5.21s
+52 passed, 1 warning in 93.70s (0:01:33)
+49 passed in 176.44s (0:02:56)

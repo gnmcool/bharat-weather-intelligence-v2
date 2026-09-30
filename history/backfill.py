@@ -412,18 +412,115 @@ def release_state(tag: str) -> str:
     return "none" if r.returncode else ("draft" if r.stdout.strip() == "true" else "published")
 
 
-def publish(tag: str, title: str, notes: str, stage: pathlib.Path, target_kind: str) -> dict:
-    assets = [str(p) for p in sorted(stage.iterdir()) if p.is_file()]
-    sh("gh", "release", "create", tag, "--draft", "--latest=false", "--title", title, "--notes", notes, *assets)
-    vr = pathlib.Path(__file__).resolve().parents[1] / "archive" / "verify_release.py"
-    with tempfile.TemporaryDirectory() as d:
-        sh(sys.executable, str(vr), "--tag", tag, "--stage", str(stage), "--out", f"{d}/pre.json", "--target-kind", target_kind)
+class PublicationError(RuntimeError):
+    """A validated dataset could not be published (GitHub / infrastructure). Not a data or source condition:
+    never categorised A-G; recorded as 'publication failure (data valid)'."""
+
+
+class GH:
+    """Thin wrapper over the GitHub CLI for release publication (replaced by a fake in offline tests)."""
+
+    def state(self, tag: str) -> str:
+        return release_state(tag)
+
+    def create_draft(self, tag: str, title: str, notes: str) -> None:
+        sh("gh", "release", "create", tag, "--draft", "--latest=false", "--title", title, "--notes", notes)
+
+    def list_assets(self, tag: str) -> list[str]:
+        r = sh("gh", "release", "view", tag, "--json", "assets", "-q", "[.assets[].name] | join(\"\\n\")")
+        return [x for x in r.stdout.split("\n") if x.strip()]
+
+    def download(self, tag: str, name: str, dest: pathlib.Path) -> pathlib.Path:
+        sh("gh", "release", "download", tag, "-p", name, "-D", str(dest), "--clobber")
+        return dest / name
+
+    def upload(self, tag: str, path: pathlib.Path) -> None:
+        sh("gh", "release", "upload", tag, str(path))          # never --clobber: an existing asset is checked instead
+
+    def publish(self, tag: str) -> None:
         sh("gh", "release", "edit", tag, "--draft=false", "--latest=false")
-        r = sh(sys.executable, str(vr), "--tag", tag, "--stage", str(stage), "--out", f"{d}/checks.json", "--published",
-               "--target-kind", target_kind, check=False)
-        checks = json.loads(pathlib.Path(f"{d}/checks.json").read_text()) if pathlib.Path(f"{d}/checks.json").exists() else {}
-    if r.returncode:
-        raise RuntimeError(f"post-publish verification failed for {tag}: {r.stdout[-400:]}")
+
+    def url(self, tag: str) -> str:
+        return sh("gh", "release", "view", tag, "--json", "url", "-q", ".url").stdout.strip()
+
+    def verify_published(self, tag: str, stage: pathlib.Path, target_kind: str) -> tuple[bool, dict]:
+        vr = pathlib.Path(__file__).resolve().parents[1] / "archive" / "verify_release.py"
+        with tempfile.TemporaryDirectory() as d:
+            r = sh(sys.executable, str(vr), "--tag", tag, "--stage", str(stage), "--out", f"{d}/checks.json",
+                   "--published", "--target-kind", target_kind, check=False)
+            p = pathlib.Path(f"{d}/checks.json")
+            return r.returncode == 0, (json.loads(p.read_text()) if p.exists() else {})
+
+
+def expected_assets(stage: pathlib.Path) -> dict:
+    """name -> SHA-256 for every file to publish. Data files must match the manifest; manifest and gap report are
+    hashed from the stage (they are what the index records)."""
+    man_p = next(stage.glob("manifest_*.json"))
+    man = json.loads(man_p.read_text())
+    exp = {f["name"]: f["sha256"] for f in man["files"]}
+    for p in sorted(stage.iterdir()):
+        if not p.is_file():
+            continue
+        h = sha256_file(p)
+        if p.name in exp and exp[p.name] != h:
+            raise PublicationError(f"staged file {p.name} differs from its manifest checksum; not publishing")
+        exp[p.name] = h
+    return exp
+
+
+def publish(tag: str, title: str, notes: str, stage: pathlib.Path, target_kind: str, gh: GH | None = None,
+            upload_attempts: int = 3) -> dict:
+    """Retry-safe publication: draft first, assets one by one (an existing asset counts only if its checksum matches),
+    full manifest verification of the draft, then publish, then the post-publish immutability checks.
+    Any failure raises PublicationError; nothing is published unless the whole draft verified."""
+    gh = gh or GH()
+    want = expected_assets(stage)
+    st = gh.state(tag)
+    if st == "published":
+        raise PublicationError(f"{tag} is already published; never overwritten")
+    if st == "none":
+        gh.create_draft(tag, title, notes)
+    log = {"uploaded": [], "already_present_matching": [], "upload_retries": 0}
+
+    def remote_sha(name: str) -> str:
+        with tempfile.TemporaryDirectory() as d:
+            return sha256_file(gh.download(tag, name, pathlib.Path(d)))
+
+    for name, sha in want.items():
+        for attempt in range(upload_attempts):
+            if name in gh.list_assets(tag):
+                got = remote_sha(name)
+                if got != sha:
+                    raise PublicationError(f"draft asset {name} exists with a different checksum "
+                                           f"({got[:12]} != manifest {sha[:12]}); not publishing")
+                (log["uploaded"] if attempt else log["already_present_matching"]).append(name)
+                break
+            try:
+                gh.upload(tag, stage / name)
+            except Exception as e:  # noqa: BLE001 — re-checked on the next pass (a duplicate may have landed)
+                log["upload_retries"] += 1
+                last = str(e)[:300]
+                continue
+            log["uploaded"].append(name)
+            break
+        else:
+            if name in gh.list_assets(tag) and remote_sha(name) == sha:
+                log["uploaded"].append(name)
+            else:
+                raise PublicationError(f"upload of {name} failed after {upload_attempts} attempts: {last}")
+    # final verification of the complete draft against the manifest, before publication
+    have = set(gh.list_assets(tag))
+    if have != set(want):
+        raise PublicationError(f"draft assets differ from manifest: missing {sorted(set(want) - have)}, "
+                               f"unexpected {sorted(have - set(want))}; not publishing")
+    bad = [n for n, sha in want.items() if remote_sha(n) != sha]
+    if bad:
+        raise PublicationError(f"draft verification failed for {bad}; not publishing")
+    gh.publish(tag)
+    ok, checks = gh.verify_published(tag, stage, target_kind)
+    checks["publication_log"] = log
+    if not ok:
+        raise PublicationError(f"post-publish verification failed for {tag}")
     return checks
 
 
@@ -500,8 +597,34 @@ def ensure_imd(years, imd_dir: pathlib.Path, idx: pathlib.Path, work: pathlib.Pa
     return log
 
 
+PUBLICATION_FAILURE = "publication failure (data valid)"
+
+
+def record_publication_failure(idx, month, tag, run_id, stage, man, q, msha, err, gh) -> None:
+    """Append-only record of a validated month that could not be published. Not A-G; never 'published'."""
+    try:
+        after = gh.state(tag)
+        assets = gh.list_assets(tag) if after != "none" else []
+    except Exception as e:  # noqa: BLE001
+        after, assets = f"unknown ({str(e)[:120]})", []
+    gp = stage / f"gap_report_history-{month}.json"
+    rec = idx / "history" / "publication_failed" / f"{month}_{run_id}.json"
+    rec.parent.mkdir(parents=True, exist_ok=True)
+    write_json(rec, {"month": month, "status": PUBLICATION_FAILURE, "tag": tag, "run_id": run_id,
+                     "error": str(err)[:1000], "release_state_after": after, "draft_assets_after": assets,
+                     "manifest_sha256": msha, "gap_report_sha256": sha256_file(gp) if gp.exists() else None,
+                     "staged_files": {f["name"]: f["sha256"] for f in man["files"]},
+                     "manifest": man, "quality": q,
+                     "note": "Dataset passed validation; publication to GitHub failed. Not a data/source category "
+                             "(A-G). The month is NOT published; a stale draft is deleted and rebuilt on the next run."})
+    append_csv(idx, [month, PUBLICATION_FAILURE, tag, msha, q.get("expected_values", ""), q.get("values_available", ""),
+                     str(err)[:150].replace(",", ";").replace("\n", " "), now_utc(), run_id])
+    commit_index(idx, f"history: {PUBLICATION_FAILURE} {month} (run {run_id})")
+
+
 def batch(months: list[str], idx: pathlib.Path, work: pathlib.Path, budget: float, run_id: str,
-          dry_run: bool = False) -> dict:
+          dry_run: bool = False, gh: GH | None = None) -> dict:
+    gh = gh or GH()
     points = load_points()
     summary = {"run_id": run_id, "started_utc": now_utc(), "budget_counted_calls": budget, "months": {},
                "dry_run": dry_run}
@@ -552,14 +675,19 @@ def batch(months: list[str], idx: pathlib.Path, work: pathlib.Path, budget: floa
             commit_index(idx, f"history: refused {month} (run {run_id})")
             summary["months"][month] = "refused: " + "; ".join(q["problems"])[:300]
             continue
-        checks = publish(tag, f"Historical forecast/reference dataset {month} (reconstruction, run time unknown)",
-                         f"Matched historical dataset for {month}: Open-Meteo Previous Runs reconstruction "
-                         f"(run_time_known = false, nominal previous_dayN leads; NOT an exact forecast-run archive) "
-                         f"with ERA5 reanalysis, IMD gauge analysis and METAR (matched stations only). "
-                         f"Status: {q['status']} ({q['values_available']}/{q['expected_values']} forecast values). "
-                         f"Manifest and quality report are committed to the archive-index branch. No skill scores.",
-                         stage, "forecasts")
-        url = sh("gh", "release", "view", tag, "--json", "url", "-q", ".url").stdout.strip()
+        try:
+            checks = publish(tag, f"Historical forecast/reference dataset {month} (reconstruction, run time unknown)",
+                             f"Matched historical dataset for {month}: Open-Meteo Previous Runs reconstruction "
+                             f"(run_time_known = false, nominal previous_dayN leads; NOT an exact forecast-run archive) "
+                             f"with ERA5 reanalysis, IMD gauge analysis and METAR (matched stations only). "
+                             f"Status: {q['status']} ({q['values_available']}/{q['expected_values']} forecast values). "
+                             f"Manifest and quality report are committed to the archive-index branch. No skill scores.",
+                             stage, "forecasts", gh=gh)
+        except Exception as e:  # noqa: BLE001 — publication failure: recorded, never marked published, batch continues
+            record_publication_failure(idx, month, tag, run_id, stage, man, q, msha, e, gh)
+            summary["months"][month] = f"{PUBLICATION_FAILURE}: {str(e)[:250]}"
+            continue
+        url = gh.url(tag)
         rec = idx / "history" / "index" / f"{month}.json"
         if rec.exists():
             raise RuntimeError(f"refusing to overwrite index record {rec}")
@@ -622,6 +750,10 @@ def aggregate(idx: pathlib.Path, months_scope: list[str]) -> dict:
     by = {k: defaultdict(Counter) for k in ("missing_by_model", "missing_by_variable", "missing_by_lead", "missing_by_location")}
     reasons, refcov, metar, imd, anomalies, sizes, manifests, align = Counter(), defaultdict(Counter), {}, defaultdict(Counter), [], Counter(), {}, {}
     failures = []
+    pub_fail_dir = idx / "history" / "publication_failed"
+    publication_failures = [{"attempt": p.stem, "error": json.loads(p.read_text()).get("error"),
+                             "manifest_sha256": json.loads(p.read_text()).get("manifest_sha256")}
+                            for p in sorted(pub_fail_dir.glob("*.json"))] if pub_fail_dir.exists() else []
     for p in (sorted((idx / "history" / "refused").glob("*.json")) if (idx / "history" / "refused").exists() else []):
         r = json.loads(p.read_text())
         failures.append({"attempt": p.stem, "problems": r["quality"].get("problems", [])})
@@ -670,6 +802,7 @@ def aggregate(idx: pathlib.Path, months_scope: list[str]) -> dict:
         **{k: {kk: dict(vv) for kk, vv in v.items()} for k, v in by.items()},
         "reference_coverage": {k: dict(v) for k, v in refcov.items()}, "metar_by_point": metar,
         "imd_by_point": {k: dict(v) for k, v in imd.items()}, "anomalies": anomalies, "imd_alignment_by_month": align, "refused_attempt_problems": failures,
+        "publication_failures": publication_failures,
         "storage_bytes": dict(sizes), "matched_rows": tot["matched_rows"], "reference_rows": tot["reference_rows"],
         "manifests": manifests,
     }
@@ -711,7 +844,8 @@ def main() -> int:
             months = [m for m in months if m in only]
         s = batch(months, pathlib.Path(a.index), pathlib.Path(a.work), a.budget, a.run_id, a.dry_run)
         print(json.dumps(s, default=str, indent=1))
-        return 1 if any(v.startswith(("refused", "dry run: would REFUSE")) for v in s["months"].values()) else 0
+        return 1 if any(v.startswith(("refused", "dry run: would REFUSE", PUBLICATION_FAILURE))
+                        for v in s["months"].values()) else 0
     rep = aggregate(pathlib.Path(a.index), months)
     write_json(pathlib.Path(a.out), rep)
     print(json.dumps({k: rep[k] for k in ("dataset_status", "expected_values", "values_available", "values_missing",

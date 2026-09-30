@@ -158,3 +158,13 @@ the start; otherwise C. GFS and ICON have no start inside the M4.3 scope.
 default). The append-only annotation `archive-index:history/annotations/2024-02-ecmwf-archive-start.json`
 reclassifies the 6,804 ECMWF rows of 1–10 Feb 2024 to B, bound to the release's manifest SHA-256; the quality report
 applies it only if the hash matches. No released value or file was changed.
+
+### Publication failures (owner-approved 30 Sep 2026)
+
+Publishing is retry-safe: the draft is created first, assets are uploaded one by one (an asset already present counts
+only if its SHA-256 matches the manifest; a mismatch stops publication), the complete draft is verified against the
+manifest, and only then is the release published and its immutability checked. If publication fails, the month is
+recorded append-only as **"publication failure (data valid)"** in `archive-index:history/publication_failed/` and
+`INDEX.csv` (manifest and gap-report SHA-256, error, release state afterwards). This is an infrastructure status, not
+a data/source category (A–G); the month is not marked published and the batch continues. Batch 3's March 2026 draft
+(run 36666584479, HTTP 422 duplicate asset) predates this handling.

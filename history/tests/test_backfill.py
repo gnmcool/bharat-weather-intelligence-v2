@@ -504,3 +504,167 @@ def test_valid_response_with_missing_source_data_is_not_retried_or_filled(monkey
     resp, _ = REAL_PREVIOUS_RUNS([{"id": "p", "lat": 23.0, "lon": 72.5}], "icon_global", ["temperature_2m"], [1],
                                  date(2024, 2, 1), date(2024, 2, 1))
     assert len(calls) == 1 and resp[0]["hourly"]["temperature_2m_previous_day1"] == [None]
+
+
+# ---------------------------------------------------------------- retry-safe publication (offline fake GitHub)
+import hashlib  # noqa: E402
+
+
+class FakeGH:
+    """In-memory GitHub releases with fault injection."""
+
+    def __init__(self):
+        self.rel = {}                       # tag -> {"draft": bool, "assets": {name: bytes}}
+        self.dup_then_raise = set()         # upload stores the asset, then reports an error (HTTP 422 duplicate)
+        self.fail_upload = set()            # upload always fails, nothing stored
+        self.corrupt_on_upload = set()      # upload "succeeds" but the stored bytes differ (silent corruption)
+        self.uploads = []
+
+    def state(self, tag):
+        r = self.rel.get(tag)
+        return "none" if r is None else ("draft" if r["draft"] else "published")
+
+    def create_draft(self, tag, title, notes):
+        assert tag not in self.rel
+        self.rel[tag] = {"draft": True, "assets": {}}
+
+    def list_assets(self, tag):
+        return sorted(self.rel[tag]["assets"])
+
+    def download(self, tag, name, dest):
+        (dest / name).write_bytes(self.rel[tag]["assets"][name])
+        return dest / name
+
+    def upload(self, tag, path):
+        name = path.name
+        self.uploads.append(name)
+        assert self.rel[tag]["draft"], "upload to a published release"
+        if name in self.rel[tag]["assets"]:
+            raise RuntimeError("HTTP 422: ReleaseAsset.name already exists")
+        if name in self.fail_upload:
+            raise RuntimeError("HTTP 502: upload failed")
+        data = path.read_bytes()
+        self.rel[tag]["assets"][name] = data + b"X" if name in self.corrupt_on_upload else data
+        if name in self.dup_then_raise:
+            self.dup_then_raise.discard(name)
+            raise RuntimeError("HTTP 422: ReleaseAsset.name already exists")
+
+    def publish(self, tag):
+        self.rel[tag]["draft"] = False
+
+    def verify_published(self, tag, stage, target_kind):
+        return True, {"immutability": {"github_immutable_flag": True}}
+
+    def url(self, tag):
+        return f"https://example.invalid/{tag}"
+
+
+def _stage(tmp_path):
+    s = tmp_path / "stage"
+    s.mkdir()
+    (s / "forecasts_history-2099-01.parquet").write_bytes(b"forecast-bytes")
+    (s / "reference_history-2099-01.parquet").write_bytes(b"reference-bytes")
+    files = [{"kind": "forecasts", "name": "forecasts_history-2099-01.parquet", "rows": None},
+             {"kind": "reference", "name": "reference_history-2099-01.parquet", "rows": None}]
+    for f in files:
+        f["sha256"] = hashlib.sha256((s / f["name"]).read_bytes()).hexdigest()
+    write_json(s / "manifest_history-2099-01.json", {"month": "2099-01", "files": files})
+    write_json(s / "gap_report_history-2099-01.json", {"publishable": True})
+    return s
+
+
+TAG = "history-2099-01"
+
+
+def test_publish_clean(tmp_path):
+    gh = FakeGH()
+    checks = B.publish(TAG, "t", "n", _stage(tmp_path), "forecasts", gh=gh)
+    assert gh.state(TAG) == "published" and len(gh.list_assets(TAG)) == 4
+    assert sorted(checks["publication_log"]["uploaded"]) == gh.list_assets(TAG)
+
+
+def test_publish_a_duplicate_upload_with_matching_checksum_continues(tmp_path):
+    gh = FakeGH()
+    gh.dup_then_raise = {"reference_history-2099-01.parquet"}      # the batch-3 March failure pattern
+    checks = B.publish(TAG, "t", "n", _stage(tmp_path), "forecasts", gh=gh)
+    assert gh.state(TAG) == "published"
+    assert "reference_history-2099-01.parquet" in checks["publication_log"]["uploaded"]
+    assert checks["publication_log"]["upload_retries"] == 1
+    assert gh.uploads.count("reference_history-2099-01.parquet") == 1   # not re-uploaded once found matching
+
+
+def test_publish_b_existing_asset_with_mismatching_checksum_is_not_published(tmp_path):
+    gh = FakeGH()
+    gh.rel[TAG] = {"draft": True, "assets": {"forecasts_history-2099-01.parquet": b"something else"}}
+    with pytest.raises(B.PublicationError, match="different checksum"):
+        B.publish(TAG, "t", "n", _stage(tmp_path), "forecasts", gh=gh)
+    assert gh.state(TAG) == "draft"
+    assert gh.rel[TAG]["assets"]["forecasts_history-2099-01.parquet"] == b"something else"   # never clobbered
+
+
+def test_publish_c_upload_failure_is_not_published(tmp_path):
+    gh = FakeGH()
+    gh.fail_upload = {"reference_history-2099-01.parquet"}
+    with pytest.raises(B.PublicationError, match="failed after 3 attempts"):
+        B.publish(TAG, "t", "n", _stage(tmp_path), "forecasts", gh=gh)
+    assert gh.state(TAG) == "draft"
+    assert gh.uploads.count("reference_history-2099-01.parquet") == 3
+
+
+def test_publish_d_success_after_partial_upload(tmp_path):
+    s = _stage(tmp_path)
+    gh = FakeGH()
+    gh.rel[TAG] = {"draft": True, "assets": {n: (s / n).read_bytes() for n in
+                                             ["forecasts_history-2099-01.parquet", "manifest_history-2099-01.json"]}}
+    checks = B.publish(TAG, "t", "n", s, "forecasts", gh=gh)
+    assert gh.state(TAG) == "published" and len(gh.list_assets(TAG)) == 4
+    assert sorted(checks["publication_log"]["already_present_matching"]) == [
+        "forecasts_history-2099-01.parquet", "manifest_history-2099-01.json"]
+    assert "forecasts_history-2099-01.parquet" not in gh.uploads
+
+
+def test_publish_e_final_verification_failure_is_not_published(tmp_path):
+    gh = FakeGH()
+    gh.corrupt_on_upload = {"forecasts_history-2099-01.parquet"}
+    with pytest.raises(B.PublicationError, match="draft verification failed"):
+        B.publish(TAG, "t", "n", _stage(tmp_path), "forecasts", gh=gh)
+    assert gh.state(TAG) == "draft"
+
+
+def test_publish_refuses_extra_or_already_published(tmp_path):
+    s = _stage(tmp_path)
+    gh = FakeGH()
+    gh.rel[TAG] = {"draft": True, "assets": {"stray.txt": b"x"}}
+    with pytest.raises(B.PublicationError, match="unexpected"):
+        B.publish(TAG, "t", "n", s, "forecasts", gh=gh)
+    gh2 = FakeGH()
+    gh2.rel[TAG] = {"draft": False, "assets": {}}
+    with pytest.raises(B.PublicationError, match="already published"):
+        B.publish(TAG, "t", "n", s, "forecasts", gh=gh2)
+
+
+def test_batch_records_publication_failure_and_continues(fakes, imd_dir, tmp_path, monkeypatch):
+    monkeypatch.setattr(B, "ensure_imd", lambda *a: [])
+    monkeypatch.setattr(B, "release_state", lambda tag: "none")
+    monkeypatch.setattr(B, "commit_index", lambda *a: None)
+    w = tmp_path / "w"
+    import shutil
+    shutil.copytree(imd_dir, w / "imd")
+    gh = FakeGH()
+    gh.fail_upload = {"reference_history-2024-02.parquet"}
+    idx = tmp_path / "idx"
+    s = B.batch(["2024-02", "2024-03"], idx, w, 10000, "t9", gh=gh)
+    assert s["months"]["2024-02"].startswith("publication failure (data valid)")
+    assert s["months"]["2024-03"].startswith("published")                 # the batch continued
+    rec = json.loads((idx / "history" / "publication_failed" / "2024-02_t9.json").read_text())
+    assert rec["status"] == "publication failure (data valid)" and rec["release_state_after"] == "draft"
+    assert len(rec["manifest_sha256"]) == 64 and rec["quality"]["publishable"] is True
+    assert not (idx / "history" / "index" / "2024-02.json").exists()      # never marked published
+    assert (idx / "history" / "index" / "2024-03.json").exists()
+    csv = (idx / "history" / "INDEX.csv").read_text()
+    assert "2024-02,publication failure (data valid)" in csv and "2024-03,published" in csv
+    F = pq.read_table(w / "m-2024-03" / "forecasts_history-2024-03.parquet").to_pandas() \
+        if (w / "m-2024-03").exists() else None
+    assert F is None or not F.reason.fillna("").str.contains("publication").any()   # never a data-row reason
+    rep = B.aggregate(idx, ["2024-02", "2024-03"])
+    assert rep["publication_failures"][0]["attempt"] == "2024-02_t9" and "2024-02" in rep["months_not_published"]

@@ -324,3 +324,10 @@ def test_february_annotation_required(tmp_path):
     run_census.run(src, tmp_path / "c")
     with pytest.raises(CensusError, match="2024-02-ecmwf-archive-start"):
         run_metrics.run(src, tmp_path / "o", tmp_path / "c")
+
+
+def test_report_tables_well_formed(gate2):
+    rep = (gate2[1] / "metrics" / "metric_report.md").read_text()
+    rows = [l for l in rep.splitlines() if l.startswith("| ")]
+    assert rows and all(l.count("|") in (5, 7) for l in rows)                   # 4- or 6-column tables only
+

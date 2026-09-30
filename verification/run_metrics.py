@@ -302,7 +302,7 @@ def _tbl(D: pd.DataFrame) -> list[str]:
     for (cid, subj), g in D.groupby(["cell_id", "subject"], sort=False):
         v = {m: g[g["metric"] == m].iloc[0] for m in MX.METRICS}
         f = lambda x: f"{x.value:+.2f} [{x.ci_low:+.2f}, {x.ci_high:+.2f}]" + (" †" if x.interval_excludes_zero else "")
-        short = cid.replace("|pooled=all-points", "").replace("|all|all", "")
+        short = cid.replace("|pooled=all-points", "").replace("|all|all", "").replace("|", " · ")   # no raw pipes
         L.append(f"| {short} | {subj} | {int(v['bias'].n):,} | {f(v['bias'])} | {f(v['mae'])} | {f(v['rmse'])} |")
     return L
 

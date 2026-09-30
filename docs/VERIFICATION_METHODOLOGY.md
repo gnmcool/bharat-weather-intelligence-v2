@@ -444,18 +444,37 @@ M4.4 (implementation of scoring) may start only when all hold, and the owner has
   reference, metric and period, with its interval. It is never described as one model being "better" in general;
   no overall score and no global model ranking are produced.
 
-**Bootstrap implementation (fixes details VM-1.0 §14 left open; approved settings unchanged).**
+**Bootstrap implementation (fixes details VM-1.0 §14 left open; approved settings unchanged; owner-approved at the
+Gate 2 review, 30 Sep 2026 — a clarification, not a change: the Gate 2 results were computed exactly this way).**
 
-- Blocks: non-overlapping 7-day calendar blocks anchored on 1 Feb 2024 (the first date of the historical dataset);
-  a block holds every eligible pair of the cell whose valid date falls in it (all points together).
-- Resampling: blocks are drawn with replacement, as many as the cell has non-empty blocks; 1,000 resamples; bias,
-  MAE and RMSE are recomputed from the resampled pairs (RMSE = √(Σe²/n) of the resample).
-- Interval: percentile, 2.5th and 97.5th of the 1,000 resampled values.
-- Seed: master seed 20240201; each cell's generator is seeded from SHA-256(master seed, cell id), so a result does
-  not depend on the order in which cells are computed.
-- Model pairs: both models' errors on the shared-data sample are resampled with the **same** blocks, giving a paired
-  interval for the difference (model A − model B) in bias, MAE and RMSE. An interval that excludes 0 is reported as
-  such; nothing more is inferred.
+- Blocks: fixed, non-overlapping 7-day calendar blocks beginning **1 Feb 2024** (the first date of the historical
+  dataset). Block number = ⌊(valid date − 2024-02-01 in days) / 7⌋. A block holds every eligible pair of the cell
+  whose valid date falls in it (all points together). Let the cell's K non-empty blocks be sorted by block number.
+- Resampling: **1,000** resamples; each draws K block indices with replacement. For resample b, the counts c₍b,k₎
+  of each block give n* = Σ c·n_k, Σe* = Σ c·Σe_k, Σ|e|* = Σ c·Σ|e|_k, Σe²* = Σ c·Σe²_k, and
+  bias* = Σe*/n*, MAE* = Σ|e|*/n*, RMSE* = √(Σe²*/n*). The reported value is computed from all pairs (not the mean
+  of the resamples).
+- Interval: **percentile**, `numpy.percentile(values, [2.5, 97.5])` with NumPy's default `method="linear"`
+  (Hyndman–Fan type 7).
+- **Seed derivation (exact):**
+  1. Cell id (UTF-8 string):
+     `{experiment}|{comparison}|{model or "-"}|{variable}|L{lead}|{geo_slice_type}={geo_slice}|{season}|{stratum}`,
+     e.g. `A3|single-model|gfs_global|precip_0830|L5|pooled=all-points|all|all`.
+  2. Input string: `"20240201|" + cell id` (master seed 20240201, a pipe, the cell id), encoded as UTF-8.
+  3. Hash: **SHA-256** of that byte string.
+  4. Integer: the **first 8 bytes** of the digest read as an **unsigned big-endian** integer (0 … 2⁶⁴ − 1).
+     Example: the cell above → digest prefix `5bec439491c535d8` → seed 6623743457334998488.
+  5. RNG: `numpy.random.default_rng(seed)` — the **PCG64** bit generator seeded through NumPy's `SeedSequence`.
+  6. Draws: one call `rng.integers(0, K, size=(1000, K))` (64-bit integers, 0 inclusive, K exclusive); row b is
+     resample b, and the values index the cell's sorted non-empty blocks.
+  7. Model pairs use one generator and one draw matrix for both models (paired). In the three-model shared-sample
+     cells, each model's resampling uses the same cell seed, and therefore the same draws.
+- Software: the Gate 2 run used Python 3.11.15, NumPy 2.4.4, pandas 3.0.2 and pyarrow 25.0.1. NumPy does not guarantee
+  identical `Generator` output across versions, so exact reproduction uses NumPy 2.4.4. With another version, a
+  re-run is checked against the recorded result SHA-256 values.
+- Stored values (value, interval ends) are rounded to 6 decimals.
+- Model pairs: the interval is for the difference (model A − model B) in bias, MAE and RMSE. An interval that
+  excludes 0 is reported as such; nothing more is inferred.
 - Metrics are computed only for cells whose census status is "meets floor"; no value is computed, stored or
   reported for any other cell.
 

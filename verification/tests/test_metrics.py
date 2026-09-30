@@ -331,3 +331,24 @@ def test_report_tables_well_formed(gate2):
     rows = [l for l in rep.splitlines() if l.startswith("| ")]
     assert rows and all(l.count("|") in (5, 7) for l in rows)                   # 4- or 6-column tables only
 
+
+
+def test_documented_seed_derivation_reproduces_code():
+    """VM-1.1 §21, written independently from the documented steps."""
+    import hashlib
+    cid = "A3|single-model|gfs_global|precip_0830|L5|pooled=all-points|all|all"
+    digest = hashlib.sha256(("20240201|" + cid).encode("utf-8")).digest()
+    seed = int.from_bytes(digest[:8], "big", signed=False)
+    assert seed == 6623743457334998488 == MX.cell_seed(cid)
+    # documented resampling, done by hand, equals the module's interval
+    days = np.repeat(_dates(84), 3)
+    e = np.random.default_rng(5).normal(0.3, 1.0, len(days))
+    blk = ((np.asarray(days, dtype="datetime64[D]") - np.datetime64("2024-02-01")).astype(int)) // 7
+    uniq = np.unique(blk)
+    draws = np.random.default_rng(MX.cell_seed("doc")).integers(0, len(uniq), size=(1000, len(uniq)))
+    vals = []
+    for row in draws:
+        sel = np.concatenate([e[blk == uniq[k]] for k in row])
+        vals.append(sel.mean())
+    lo, hi = np.percentile(vals, [2.5, 97.5])
+    assert MX.bootstrap(e, days, "doc")["bias"]["ci"] == pytest.approx((lo, hi), abs=1e-12)

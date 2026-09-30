@@ -1,0 +1,494 @@
+{
+ "census_version": "m4.4-a-census-2",
+ "methodology_version": "VM-1.1",
+ "gate": "M4.4-A census (counts only)",
+ "metrics_computed": "none",
+ "created_utc": "2026-09-30T06:11:32+00:00",
+ "code_commit": "55030a489be435fd5d6a8f047244a0ad75fb2217",
+ "archive_index_commit": "555ce01bff1da494ac2317a26b93da19562ce932",
+ "experiments": {
+  "A1": {
+   "variables": [
+    "tmax",
+    "tmin"
+   ],
+   "reference": "era5",
+   "window": "ist_day",
+   "label": "Tmax/Tmin vs ERA5 reanalysis (agreement with reanalysis, not observation)",
+   "geo": "pooled"
+  },
+  "A2": {
+   "variables": [
+    "tmax",
+    "tmin"
+   ],
+   "reference": "metar",
+   "window": "ist_day",
+   "label": "Tmax/Tmin vs METAR station observation (matched stations only, per station)",
+   "geo": "station"
+  },
+  "A3": {
+   "variables": [
+    "precip_0830"
+   ],
+   "reference": "imd_rf025",
+   "window": "imd_0830",
+   "label": "Rain (08:30-08:30 IST) vs IMD gridded rain-gauge analysis",
+   "geo": "pooled",
+   "rainy_split": true
+  },
+  "A4": {
+   "variables": [
+    "precip"
+   ],
+   "reference": "era5",
+   "window": "ist_day",
+   "label": "Rain (IST day) vs ERA5 reanalysis (secondary)",
+   "geo": "pooled",
+   "rainy_split": true
+  }
+ },
+ "models": [
+  "ecmwf_ifs025",
+  "gfs_global",
+  "icon_global"
+ ],
+ "months": [
+  "2024-02",
+  "2024-03",
+  "2024-04",
+  "2024-05",
+  "2024-06",
+  "2024-07",
+  "2024-08",
+  "2024-09",
+  "2024-10",
+  "2024-11",
+  "2024-12",
+  "2025-01",
+  "2025-02",
+  "2025-03",
+  "2025-04",
+  "2025-05",
+  "2025-06",
+  "2025-07",
+  "2025-08",
+  "2025-09",
+  "2025-10",
+  "2025-11",
+  "2025-12",
+  "2026-01",
+  "2026-02",
+  "2026-03",
+  "2026-04",
+  "2026-05",
+  "2026-06",
+  "2026-07",
+  "2026-08"
+ ],
+ "releases": [
+  {
+   "tag": "history-2024-02",
+   "release_id": 397994952,
+   "manifest_sha256": "e1586403ab0302f6ec2129ce9f7e115f627bb2163119486cc7e8972299f8545a",
+   "processing_version": "m4.3-1",
+   "files": {
+    "forecasts_history-2024-02.parquet": "b32887a2f405341df92bbdf0e3be5cf7ae6ec4c9436abf49f7596bdcac2a1a6d",
+    "reference_history-2024-02.parquet": "35089abedd0fbca3172c96ca5c91f2af6d50b82c4a3dcc9d6648c5d639216d65",
+    "matched_history-2024-02.parquet": "809c58508ef367232f8be68feac0533840be3fab7b007fe986d5682b37f635d8",
+    "metar_pairing_history-2024-02.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965"
+   }
+  },
+  {
+   "tag": "history-2024-03",
+   "release_id": 397997421,
+   "manifest_sha256": "3e77b2986c9083f864829dff0b22b8d97cac5bdd562560c7b680770f04786113",
+   "processing_version": "m4.3-1",
+   "files": {
+    "forecasts_history-2024-03.parquet": "2f56215f2927a4aab7918a12e80bab549bb0155f54cc9477e410281136925053",
+    "reference_history-2024-03.parquet": "9e944ddefc27618779a772de6e7e808350236d4bf9672949a765cd28fbbb0e50",
+    "matched_history-2024-03.parquet": "0e56341a58d07e5ca37bd203d8e7a6f5508894d8f40d19b5be7e2176cd73372b",
+    "metar_pairing_history-2024-03.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965"
+   }
+  },
+  {
+   "tag": "history-2024-04",
+   "release_id": 398001312,
+   "manifest_sha256": "50088ed0d89c840ff522eefed8081404bb10fe2a805959ed2b3f63d39e97d103",
+   "processing_version": "m4.3-1",
+   "files": {
+    "forecasts_history-2024-04.parquet": "71b92a178536e974c16033ac42137e2e27820550ddf57c4ecee840e71fca04bd",
+    "reference_history-2024-04.parquet": "c55c8a8d8217074172bd10810a87b128116b034c66e893e86c237cb98dbc94ce",
+    "matched_history-2024-04.parquet": "0914c4c5ae3eea8a289713fa540921ce78a1d775b69b6f94642a8f6c917899fe",
+    "metar_pairing_history-2024-04.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965"
+   }
+  },
+  {
+   "tag": "history-2024-05",
+   "release_id": 398004342,
+   "manifest_sha256": "9eb135f79c964db044a11f2cd376facde22d04087f32ec0bd3f919ac38b35f26",
+   "processing_version": "m4.3-1",
+   "files": {
+    "forecasts_history-2024-05.parquet": "2d946dc339261e21a4be982f68cfc92531a3f7e1df7b7ee810b0bc7dd3ef9f89",
+    "reference_history-2024-05.parquet": "6ab91d8295d7efba4da088713a2fc6726ea8183ef563a6ecb0020e7197caef4b",
+    "matched_history-2024-05.parquet": "b3b0092ddb03b478e02f0c347fc65e21bd9bfa76a454d0f633ca0de11b7ba855",
+    "metar_pairing_history-2024-05.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965"
+   }
+  },
+  {
+   "tag": "history-2024-06",
+   "release_id": 398006754,
+   "manifest_sha256": "bd7b4bd1a1af04b91b14037c2d69d54af718505206389e7ed961265adb112b97",
+   "processing_version": "m4.3-1",
+   "files": {
+    "forecasts_history-2024-06.parquet": "62b1a1bef3310461c6dc7ee53dfacb6979ea03a70151d9b24a7e5f64db7b16f7",
+    "reference_history-2024-06.parquet": "5a12bd8d5995a0969af2a8714cd0c47004aab5de2596cc27c2ebb6ba1aca00e6",
+    "matched_history-2024-06.parquet": "e4db782c9bec181cf5cc85f177a23dd09599c2cf9f4b8ea7519683ae104c6831",
+    "metar_pairing_history-2024-06.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965"
+   }
+  },
+  {
+   "tag": "history-2024-07",
+   "release_id": 398009416,
+   "manifest_sha256": "22cba2d3d0f22e2835e767b6dbabf8110ca1c60b348aa1d8c20a3d049ead6fbb",
+   "processing_version": "m4.3-1",
+   "files": {
+    "forecasts_history-2024-07.parquet": "76c6d7a2a667ac3b525cbbbd0e7d07202b783b022b20ec5158f53f3dad772cbf",
+    "reference_history-2024-07.parquet": "a86da70ccd7ca0d2665ef1f632750a3bd44f2676fae24b19122b5709bf4bf1bf",
+    "matched_history-2024-07.parquet": "ae43f6dd0c31ff69515567a7bb288d5448dd0d4e7a53a1c36fe1e7539b2c8ef5",
+    "metar_pairing_history-2024-07.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965"
+   }
+  },
+  {
+   "tag": "history-2024-08",
+   "release_id": 398025393,
+   "manifest_sha256": "54bd3e932c0a0e9ac7f46e3ff68d5a6602ce54354c1f3f9976e7f4a430a406b5",
+   "processing_version": "m4.3-1",
+   "files": {
+    "forecasts_history-2024-08.parquet": "839b6e3caf4880eae4e807475baa62b98b95e64aa70bd17314316292ba84d6b5",
+    "reference_history-2024-08.parquet": "74ea98ae318c50adbc4a7f6ee5e452c45222f5dc5fcca17cff0906c26fe95a8e",
+    "matched_history-2024-08.parquet": "462a9fb97cd80773a6372647d9dd0d33867082af0a745c09b1260b3c969e8076",
+    "metar_pairing_history-2024-08.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965"
+   }
+  },
+  {
+   "tag": "history-2024-09",
+   "release_id": 398029308,
+   "manifest_sha256": "89403dbcb5692be58f43ba388be9c1d12ce306af48af596f8377569cd377fb0d",
+   "processing_version": "m4.3-1",
+   "files": {
+    "forecasts_history-2024-09.parquet": "5124f109f266046a223cbb6a7f495531782da44c28048dfe7c6e73f736aaf95d",
+    "reference_history-2024-09.parquet": "16add51fc3f4b609b56ec8934bef0bb4b9fc1dd0299c941118867459f45a46df",
+    "matched_history-2024-09.parquet": "f2694e4465121f8e5ffb202fc375f23814edcc1c19d7d57fcef1c46631282a32",
+    "metar_pairing_history-2024-09.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965"
+   }
+  },
+  {
+   "tag": "history-2024-10",
+   "release_id": 398033771,
+   "manifest_sha256": "e8481bcf8da0a0cfe08d0690f77e31d5298749c47e27d6f4d05d731de9038730",
+   "processing_version": "m4.3-1",
+   "files": {
+    "forecasts_history-2024-10.parquet": "02f74b2b4e6f0429eaf7f812b725875b60bcd730424d7131bcc902c5e7439e34",
+    "reference_history-2024-10.parquet": "bd91f14912147197c7b153a4f5552e8aef6f1b0a6d7fa577a42020ac79edab91",
+    "matched_history-2024-10.parquet": "47ad366bd7fafb705b22570080dadd875db3939f57d6fa46b93686d17051bd83",
+    "metar_pairing_history-2024-10.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965"
+   }
+  },
+  {
+   "tag": "history-2024-11",
+   "release_id": 398848812,
+   "manifest_sha256": "309dcae33f3405497b434323fa1c015d39f86807ba992b0c4353ac4df6a180e0",
+   "processing_version": "m4.3-2",
+   "files": {
+    "forecasts_history-2024-11.parquet": "9e56c55a73a1036eb9bd5b04dd4dfb93a788752c2da6b266401051ec8a038836",
+    "reference_history-2024-11.parquet": "7afa79d7445580afb9a656e1cb7d03171f89a230076ba26613e19c3f8ae00303",
+    "matched_history-2024-11.parquet": "25984ac58c6878ffdc18aee27c83c19c510f0ae372ad9c702ed203500a0cf7b2",
+    "metar_pairing_history-2024-11.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965"
+   }
+  },
+  {
+   "tag": "history-2024-12",
+   "release_id": 398850576,
+   "manifest_sha256": "eeb4c4535cc19c11693b6b32737ff1046c76851259d0f5a307ce41dad6e0858c",
+   "processing_version": "m4.3-2",
+   "files": {
+    "forecasts_history-2024-12.parquet": "e712599606143d4c541498406563e8b84c225074f561deec74283d973517733e",
+    "reference_history-2024-12.parquet": "3a3402a50bba3aa97713aad9e2432acb99515cde319831423d916c2905a9d342",
+    "matched_history-2024-12.parquet": "1f1fe83f6fee5b3bfd0cdae8a54cf09298082a10fb231cf1b97f55aaae81ac23",
+    "metar_pairing_history-2024-12.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965"
+   }
+  },
+  {
+   "tag": "history-2025-01",
+   "release_id": 398852306,
+   "manifest_sha256": "86cbf59445a0ed880578c424a9cb5cca0121457fc2eee7cc2835e4c31e854c9c",
+   "processing_version": "m4.3-2",
+   "files": {
+    "forecasts_history-2025-01.parquet": "df8268b6fe0a8496302ef8046fafc112d32b156794a11f750c6f6dd2480f190d",
+    "reference_history-2025-01.parquet": "1137af3f2c5b557b3c62a4da58d973f3746d2b8156c40872e951bf2fdd328749",
+    "matched_history-2025-01.parquet": "046575f50e4fa3ea4e0d877b8c2d33ba9aa642c0483ce2413eb542d911a244b0",
+    "metar_pairing_history-2025-01.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965"
+   }
+  },
+  {
+   "tag": "history-2025-02",
+   "release_id": 398855929,
+   "manifest_sha256": "b2abcddc1ef0af60a8f9cb64355d574ad7d8d2e248e80cf46ca5f1cf44ecd7f6",
+   "processing_version": "m4.3-2",
+   "files": {
+    "forecasts_history-2025-02.parquet": "1ade16b1badb4ab456d7655b17679349de3c503a3007099d085e31a44bc724df",
+    "reference_history-2025-02.parquet": "ff2f21a60492c2ab785f7eb02193cc051b1be0df0a4d1fdb0dc39651fdf4d4de",
+    "matched_history-2025-02.parquet": "e434158c0b7efee7109c1c09b058979fe3ccd750f13745cf803b5dc12c7a9548",
+    "metar_pairing_history-2025-02.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965"
+   }
+  },
+  {
+   "tag": "history-2025-03",
+   "release_id": 398859061,
+   "manifest_sha256": "343fa96f1d68c8c29a029d1976315568f5e1175a4b87642f1c374baba08a8619",
+   "processing_version": "m4.3-2",
+   "files": {
+    "forecasts_history-2025-03.parquet": "a8f61941238db75be08bcfe5c9d2c5cb85a630d1bad087f5dd466d67496e0d27",
+    "reference_history-2025-03.parquet": "6c3a3cf6d802e769366d242a0a288f1a7d310f9ce5a68e4b1228e6900d559f6f",
+    "matched_history-2025-03.parquet": "30f5456d20bc36cf7ea082b014ba3b25bb1a559b1921a6a3130f3b8619146628",
+    "metar_pairing_history-2025-03.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965"
+   }
+  },
+  {
+   "tag": "history-2025-04",
+   "release_id": 398862634,
+   "manifest_sha256": "fc67cdab4f7fce14d30f464dc4099ae0ffacb3a9962615614a89e780ced4886d",
+   "processing_version": "m4.3-2",
+   "files": {
+    "forecasts_history-2025-04.parquet": "8c9926b6bcad4b630b302493cd0a36badb8f97b18b8b2202bda499adfac3afe4",
+    "reference_history-2025-04.parquet": "cc5e76d266c0100d28270dd1cb4b4c60ca05f95967ca0975c3aa0e0da6c2c3b1",
+    "matched_history-2025-04.parquet": "6e271cd632ce629d13b29fae65cdf79867a950ff57c55001d6290a2db3e04f96",
+    "metar_pairing_history-2025-04.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965"
+   }
+  },
+  {
+   "tag": "history-2025-05",
+   "release_id": 398875107,
+   "manifest_sha256": "2182602f4287d58ceb02fd1e719c460dd0e644fa79e89d1ca23a30c4edf2fc18",
+   "processing_version": "m4.3-2",
+   "files": {
+    "forecasts_history-2025-05.parquet": "94020275b0f69171684b9ab2dd72da820764e50678a8c12119c3760d9ec1d438",
+    "reference_history-2025-05.parquet": "d999933eddd354231fc431e683370d46b3dd28ea8ce25b49b3d892012db09504",
+    "matched_history-2025-05.parquet": "04d3c93efbda184ac8bf6c917dc04a0227271de9b21de8f28c318b6b5cbc03fb",
+    "metar_pairing_history-2025-05.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965"
+   }
+  },
+  {
+   "tag": "history-2025-06",
+   "release_id": 398878031,
+   "manifest_sha256": "4b88688001fdfae62fd8f88666c96b6f9f1684041a76b985bed5c64bbb9c466e",
+   "processing_version": "m4.3-2",
+   "files": {
+    "forecasts_history-2025-06.parquet": "966d2d135d1ae1ed44da4f370445f014fc421326dd18f3ad14ec2bd21ab4ba13",
+    "reference_history-2025-06.parquet": "b693a9f059f01d484e40eaf0b1cddbd8f5a17beb994129ef4e1fee7da7491b6d",
+    "matched_history-2025-06.parquet": "efeaef1036389daaf4e9b763a713e29fad5c615bf0f358be80f62a964bbffc26",
+    "metar_pairing_history-2025-06.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965"
+   }
+  },
+  {
+   "tag": "history-2025-07",
+   "release_id": 398881189,
+   "manifest_sha256": "4d5fcb4ffedae384d2a718edbb17160d3b2aed1a0c344c794fbcf64d9c517f3d",
+   "processing_version": "m4.3-2",
+   "files": {
+    "forecasts_history-2025-07.parquet": "8ff2f25aa56eaa4bd26dd096b9f764bf89198fb441efb0b3bfda5c95a8d4340d",
+    "reference_history-2025-07.parquet": "b28baba02e90b8e9e8019783dad17e5e3d46939828e337e780560a51850101d1",
+    "matched_history-2025-07.parquet": "1fdfd130821036421ed6e60ffa65d3a11f3b717c0cb10ee30b88f78100206bc0",
+    "metar_pairing_history-2025-07.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965"
+   }
+  },
+  {
+   "tag": "history-2025-08",
+   "release_id": 398883943,
+   "manifest_sha256": "cad041e74346f83cc0dcae3e6e6d873092f436df3ec4c4033d0687eefed6034b",
+   "processing_version": "m4.3-2",
+   "files": {
+    "forecasts_history-2025-08.parquet": "bbab96c1aefc3b5dd2731728ae91685c68e701ae1872ffa0aea9194d1235c735",
+    "reference_history-2025-08.parquet": "a62c4ee96c7d18cd45e08a50b3bc1421ca18858b7fdf86d54b4f03352bb7517b",
+    "matched_history-2025-08.parquet": "7e20f6014cab7ae1b5d8cfdc568a5f29577ffd67a3b9b84e3a325669c70abf97",
+    "metar_pairing_history-2025-08.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965"
+   }
+  },
+  {
+   "tag": "history-2025-09",
+   "release_id": 398912313,
+   "manifest_sha256": "f6fcfd5b7464cea885858da3c7b46bb4f293e5d37ba9ba1abeee3a1597a50fa0",
+   "processing_version": "m4.3-2",
+   "files": {
+    "forecasts_history-2025-09.parquet": "a612d5adc87baa3cf92335ff1f2bc46c5e8f9156e7da3fed7e71e4ea0332573e",
+    "reference_history-2025-09.parquet": "d93af735f3c5c087453e492caab8cd613a37e66103f37bc77188f9aaab89d764",
+    "matched_history-2025-09.parquet": "a8bc90a24a43919119e88ba7fef394b1f71eb339311c25ac729350aff480cb02",
+    "metar_pairing_history-2025-09.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965"
+   }
+  },
+  {
+   "tag": "history-2025-10",
+   "release_id": 398892559,
+   "manifest_sha256": "a2fa5d023df5879b3ba9d3d431043e791e365f47d091c613441706b44c412266",
+   "processing_version": "m4.3-2",
+   "files": {
+    "forecasts_history-2025-10.parquet": "0c0ab0a2284fbe155990f58931ec98f109eb7eac2e27f0178d0ba69968dca63b",
+    "reference_history-2025-10.parquet": "fb620e73c4c6a2ace31f38eb4d922b577a484d936678e9e58a9471baee623277",
+    "matched_history-2025-10.parquet": "2c4e87e3ea19fa694bc24fafa327b691732626f291f39e5c2ae3ccb25005999e",
+    "metar_pairing_history-2025-10.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965"
+   }
+  },
+  {
+   "tag": "history-2025-11",
+   "release_id": 398897405,
+   "manifest_sha256": "bbf20fb117eb5f4855b8c6efe1faf8f2c1bf481852a12dfcf4242105c17147c0",
+   "processing_version": "m4.3-2",
+   "files": {
+    "forecasts_history-2025-11.parquet": "06287ccb884ae86c30dcf3c3787a33067b493222a59f61a5df9d3dfadfac02f0",
+    "reference_history-2025-11.parquet": "4bfe8fe4174e5540e884506ffed80f8d5a7598ed190872e4e6d29f93148cde7d",
+    "matched_history-2025-11.parquet": "322bf018517363f4b931aa8dd1f9fade2a09f03f0c90651a0053758b8685df94",
+    "metar_pairing_history-2025-11.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965"
+   }
+  },
+  {
+   "tag": "history-2025-12",
+   "release_id": 399707264,
+   "manifest_sha256": "91db37664435b708b9b1b80b2c0b278fd9640f16149f36d2c464aa8172cb239c",
+   "processing_version": "m4.3-2",
+   "files": {
+    "forecasts_history-2025-12.parquet": "e5935aac76ce39be9bf8fc8c505fa02d2dce894603957b120f442e2fd9e234c1",
+    "reference_history-2025-12.parquet": "2a8ac35b9d2fcf809780f124ea998e417e731ee248ab96a64f2831ee81dbb0dc",
+    "matched_history-2025-12.parquet": "021fd25eee5560351e2ec25dde9c3166a868f6a4ba676cfbc3e859eefae867ed",
+    "metar_pairing_history-2025-12.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965"
+   }
+  },
+  {
+   "tag": "history-2026-01",
+   "release_id": 399708716,
+   "manifest_sha256": "4c6739a7c41dea83c00f8eb3a692b6ff770c3a58361c443475e7b1a124acd386",
+   "processing_version": "m4.3-2",
+   "files": {
+    "forecasts_history-2026-01.parquet": "71f101db8d84c8250a2cd6853b5535a59f29f30952f453588d9ef612b6d60a88",
+    "reference_history-2026-01.parquet": "853b3cd5d6c4ca8c1538c50afd453af2041c889328320e4e3dda15c6697aa453",
+    "matched_history-2026-01.parquet": "3358b8aab0ec1c4030e899fbed9a2caaaccbb2ac745683bd7c66059756c8e1d5",
+    "metar_pairing_history-2026-01.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965"
+   }
+  },
+  {
+   "tag": "history-2026-02",
+   "release_id": 399709609,
+   "manifest_sha256": "829b93ea2b13b2a2a2da82a7541804cdf1bc3c1d00d51489d06856fa63f2ce19",
+   "processing_version": "m4.3-2",
+   "files": {
+    "forecasts_history-2026-02.parquet": "94a6c38494d5f11f5d604e62dc01c72b0a672f7383744cf40621c125de9cd5d0",
+    "reference_history-2026-02.parquet": "69c09f40d3a3e6685b72163acc3f3a27a4b035e8e329d045158dbeb51459fb00",
+    "matched_history-2026-02.parquet": "3cce98d0ac72241ebfa2376e4b0227f791b5ae6cd41d6c8655ce58440d0337a2",
+    "metar_pairing_history-2026-02.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965"
+   }
+  },
+  {
+   "tag": "history-2026-03",
+   "release_id": 399722261,
+   "manifest_sha256": "74627ae2d2365b9c2d0415498fc0ea68e74176dd560a4f7ce5b636f7a950f1b9",
+   "processing_version": "m4.3-2",
+   "files": {
+    "forecasts_history-2026-03.parquet": "1aa8ff7c9555f743115b649fb8880b046ce3fe9945fb240c325d5835dd7ef3ca",
+    "reference_history-2026-03.parquet": "86e3897a62d4275b7295d56354b1e324933327afcdd32f4281d94c9a9f2c12ae",
+    "matched_history-2026-03.parquet": "808a6e01f9758f34519707fc16f58516a0530ebb9965572908c13d0c702e7c82",
+    "metar_pairing_history-2026-03.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965"
+   }
+  },
+  {
+   "tag": "history-2026-04",
+   "release_id": 399723276,
+   "manifest_sha256": "f9ba41d3de7194e2dd59cd603f9e9b3aa2083ae58c9ce8d4dd8f4d1e8acf597f",
+   "processing_version": "m4.3-2",
+   "files": {
+    "forecasts_history-2026-04.parquet": "e1dbc918d256faefddda6782ea9bd9553b201e70dacade343c5433fd4e29ade8",
+    "reference_history-2026-04.parquet": "d3ea5a6dc568a7b7ff1db1b3ad9b2ae5aa54c686804270cd37a485104ec25f52",
+    "matched_history-2026-04.parquet": "0449bbf6a9928bec0fefb106da2089d5c489b9dbde8694eda6ec80e76378e02f",
+    "metar_pairing_history-2026-04.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965"
+   }
+  },
+  {
+   "tag": "history-2026-05",
+   "release_id": 399724229,
+   "manifest_sha256": "caf9fd22fd054a16ad6e0cffa4d3691656c33dc8ede26d82482411cc5ecbda81",
+   "processing_version": "m4.3-2",
+   "files": {
+    "forecasts_history-2026-05.parquet": "02e0a308f5394185f9cf512ceefe001ab236fa0a251c3d9cd9a6b3cae9574f88",
+    "reference_history-2026-05.parquet": "4a409b572152144670386bdc9225477a5946524dde0a5c6e2499ea5b59f5e7e5",
+    "matched_history-2026-05.parquet": "270cad94d2eaebef03dc1a9cdcee4c3f975e619addf4b59a3c658a32a0607548",
+    "metar_pairing_history-2026-05.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965"
+   }
+  },
+  {
+   "tag": "history-2026-06",
+   "release_id": 399725107,
+   "manifest_sha256": "b668564a324d09c60bffbd874f0e375628f3b88baf76c71c4b72d207e6c76200",
+   "processing_version": "m4.3-2",
+   "files": {
+    "forecasts_history-2026-06.parquet": "1195814989e036144cac55e93c32d6f27ef4c29510b65824748e460d5eb44a98",
+    "reference_history-2026-06.parquet": "9bc1d4d0f6210a2803fed4ed4f065c2783d063dbf1b2e359f9c8c9bdcb966ce9",
+    "matched_history-2026-06.parquet": "51e89d7587146d36887e3a71c394be753d9b6e85ee320a64dd54f293c8cab815",
+    "metar_pairing_history-2026-06.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965"
+   }
+  },
+  {
+   "tag": "history-2026-07",
+   "release_id": 399726064,
+   "manifest_sha256": "97aafb4b21ff988d0d87fcbffbe7018be05babd18cd0347328e37d23de524d7e",
+   "processing_version": "m4.3-2",
+   "files": {
+    "forecasts_history-2026-07.parquet": "c7918adbc4ad4eda0ca042b9a327fc2ec7faf06612e43b7924835a6e0a84edd2",
+    "reference_history-2026-07.parquet": "95cf524518c7f4c41605e2e9bf38cc8f2df5fdc6e72ab0ca4d60e1091eb68a10",
+    "matched_history-2026-07.parquet": "75adf3dce8a3254a607616fefb55fd843560650dbf3ac54ba8e9cc9083e2d83d",
+    "metar_pairing_history-2026-07.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965"
+   }
+  },
+  {
+   "tag": "history-2026-08",
+   "release_id": 399727033,
+   "manifest_sha256": "c81414816fe76ccb7aebd88444b1d3ff944e0bc7f50cea792ef3ae8b22990afb",
+   "processing_version": "m4.3-2",
+   "files": {
+    "forecasts_history-2026-08.parquet": "022f1b94a9a8026b4a61985df5e512e1b5a760dcd5dfa746205852a340cf8fa7",
+    "reference_history-2026-08.parquet": "4bf179b002a89f6228d3e0ea35b0386d9eefa1a9d8ac85835627967486e33fbd",
+    "matched_history-2026-08.parquet": "00106337f6f939fdcdf829c180617d1eef4867d61852a0afe5d3e5427151ee24",
+    "metar_pairing_history-2026-08.json": "84ed6359b2cd486c05fd0eb39b75e068b58479ccb6b92c0edf37a133cfbb5965"
+   }
+  }
+ ],
+ "annotations_applied": [
+  {
+   "month": "2024-02",
+   "annotation": "2024-02-ecmwf-archive-start",
+   "rows": 6804,
+   "from": "C",
+   "to": "B"
+  }
+ ],
+ "result_sha256": {
+  "census_cells.csv": "93e6574f2e66f0efc89d12e24886bdbff11ee83b2b2fa25084c83587ccae7ea2",
+  "census_exclusions.csv": "0fd1ce5477fa4fa6096d0d3c8b571baaafba5f7325743a283574fc79c91f1f03"
+ },
+ "totals": {
+  "A1": {
+   "pairs": 1425816,
+   "eligible": 1352952
+  },
+  "A2": {
+   "pairs": 1425816,
+   "eligible": 104794
+  },
+  "A3": {
+   "pairs": 712908,
+   "eligible": 473892
+  },
+  "A4": {
+   "pairs": 712908,
+   "eligible": 676260
+  }
+ }
+}

@@ -43,6 +43,7 @@ jobs:
         run: python -m pytest -q history/tests
       - name: Verification (M4.4) — offline tests
         run: python -m pytest -q verification/tests
+      - run: pip install -r reference/requirements.txt && python -m pytest -q reference/tests
 
   api-v2:
     name: API v2 — tests (offline, CORE fixtures)

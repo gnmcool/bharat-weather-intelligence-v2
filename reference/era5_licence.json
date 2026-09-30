@@ -1,0 +1,7 @@
+{
+ "licence": "Licence to use Copernicus Products (CC-BY per CDS dataset page)",
+ "dataset": "reanalysis-era5-single-levels",
+ "accepted_on": "2026-09-30",
+ "stated_by": "owner",
+ "note": "Date on which the owner accepted the ERA5/CDS dataset terms on the dataset page, as stated by the owner (D2 plan §10.6). No credentials are stored here."
+}

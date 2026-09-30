@@ -1,0 +1,51 @@
+# M4.4-D stage D2 (docs/M4.4-D2_PLAN.md, revision 3, frozen at 781d2e8): ERA5 secondary rain reference from the
+# Copernicus Climate Data Store -> immutable ref-era5-YYYY-MM releases with append-only archive-index provenance.
+# Runs ONLY when a commit on m4-history changes reference/era5_request.json. No schedule, no manual trigger (§9).
+# Each CDS job is submitted at most once and resumed by request id; at most two retrievals (four CDS jobs) per
+# month; R2 only for 2026-09; nothing partial is ever published. Never touches main, CORE, V2 or the daily archive.
+name: ERA5 reference (M4.4-D2)
+
+on:
+  push:
+    branches: ["m4-history"]
+    paths: ["reference/era5_request.json"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: era5-reference
+  cancel-in-progress: false
+
+jobs:
+  era5-reference:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: |
+            history/requirements.txt
+            reference/requirements.txt
+      - run: pip install -r history/requirements.txt -r reference/requirements.txt pytest
+      - name: Tests (reference + history + archive; offline)
+        run: python -m pytest -q reference/tests && python -m pytest -q history/tests && python -m pytest -q archive/tests
+      - name: Index branch checkout
+        run: |
+          git config --global user.name "bwi-archive"
+          git config --global user.email "bwi-archive@users.noreply.github.com"
+          IDX="$RUNNER_TEMP/index"
+          git fetch -q origin archive-index
+          git worktree add -q "$IDX" origin/archive-index && git -C "$IDX" checkout -q -B archive-index
+          echo "IDX=$IDX" >> "$GITHUB_ENV"
+      - name: Retrieve, validate and publish (committed request only)
+        env:
+          CDS_API_KEY: ${{ secrets.CDS_API_KEY }}
+        run: |
+          python reference/era5_run.py --request reference/era5_request.json --index "$IDX" \
+            --work "$RUNNER_TEMP/work" --run-id "$GITHUB_RUN_ID" --poll-deadline-min 300

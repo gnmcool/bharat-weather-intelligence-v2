@@ -32,7 +32,9 @@ FORECAST_SCHEMA = pa.schema([
 ])
 REQUIRED_NON_NULL = [f.name for f in FORECAST_SCHEMA if f.name != "value"]
 
-# ---- CORE snapshot tables (CORE output as shown; best-match values are a blend, so no model run time) ----
+# ---- CORE snapshot tables (CORE output as shown). CORE uses the Open-Meteo best-match forecast for its issued risk
+# values (no single model run time); model agreement is a separate contextual field based on the available model
+# forecasts. ----
 _CORE_RISK_FIELDS_V1 = [
     ("point_id", pa.string()),
     ("core_generated_at_utc", pa.timestamp("ms", tz="UTC")),

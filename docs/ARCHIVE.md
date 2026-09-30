@@ -10,7 +10,7 @@ fixed points in `archive/points.json`. It replaces the M0 monthly appendable rel
 | --- | --- | --- |
 | `forecasts_<D>.parquet` | ECMWF IFS 0.25° (`ecmwf_ifs025`), GFS global (`gfs_global`; identical to CORE's `gfs_seamless` over India, run time checked on both GFS grids), ICON global (`icon_global`) daily Tmax, Tmin, rain, max gust at the 36 points for the next 10 IST days, plus Earth2Studio GFS (CORE store, nearest 0.25° cell) | 36 × 4 variables × (10 + 10 + 10 + ~9) days ≈ 5,600 |
 | `core_risks_<D>.parquet` | All 11 CORE risk items per point exactly as CORE showed them (level, status, period, peak, agreement basis, matched official alert ids, CORE's per-model run note; from schema version 2: CORE's rule text `criterion` and flood's wet-soil flag) | 396 |
-| `core_daily_<D>.parquet` | CORE best-match daily values as shown (a blend: no single model run) | ~1,440 |
+| `core_daily_<D>.parquet` | CORE's displayed daily values: the Open-Meteo best-match forecast (no single model run time). CORE uses the Open-Meteo best-match forecast for its issued risk values; model agreement is a separate contextual field based on the available model forecasts. | ~1,440 |
 | `e2s_gfs_grid_<cycle>.nc` | Earth2Studio GFS daily grid over India (as in M0) | grid |
 | `manifest_<D>.json` | files, SHA-256, rows, sources, every model's run time and coverage, expectation spec | — |
 | `gap_report_<D>.json` | expected vs present, missing items, what the source does not provide | — |

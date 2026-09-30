@@ -1,6 +1,6 @@
 {
  "mode": "publish",
- "only_months": ["2025-09"],
- "budget": 700,
- "note": "Re-run of September 2025 only (owner-approved 29 Sep 2026) after the malformed-response retry fix (10c2832). The first attempt was refused in run 36525977989 (ICON response malformed, category D); that refusal record is retained as provenance."
+ "only_months": ["2025-12", "2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08"],
+ "budget": 5600,
+ "note": "Batch 3 (owner-approved 30 Sep 2026): exactly Dec 2025 - Aug 2026, processing version m4.3-2, ~5,481.3 planned counted calls; retry/refusal logic from 10c2832."
 }

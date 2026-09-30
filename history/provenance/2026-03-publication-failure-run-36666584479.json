@@ -1,0 +1,40 @@
+{
+ "id": "2026-03-publication-failure-run-36666584479",
+ "type": "provenance annotation (append-only; publication/infrastructure failure, NOT a data failure)",
+ "not_a_data_category": "This is not an A-G data/source category and does not reclassify any value. It is kept in history/provenance/, separate from history/refused/ (validation refusals) and history/annotations/ (category reclassifications read by the quality report).",
+ "created_utc": "2026-09-30T04:53:54+00:00",
+ "approved_by": "owner, 30 Sep 2026",
+ "month": "2026-03",
+ "failed_attempt": {
+  "workflow_run_id": 36666584479,
+  "workflow_run_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/actions/runs/36666584479",
+  "code_commit": "a9ca6f0b8373ec817653bc3d738b4e6098747456",
+  "validation": "passed (publishable true; 103,788 of 117,180 forecast values present; missing = category A 13,392; no retrieval errors; no anomalies)",
+  "manifest_sha256": "1a8b385557b952be6bdd3d291a475d14b359575985805fdbf291615e054f311e",
+  "gap_report_sha256": "e17b2aa9a32737c04566c1c3ffa1ef75bc05c943c243cdc22f2098f1976cfa7e",
+  "failure": "publication failed: gh release create history-2026-03 -> HTTP 422 Validation Failed, 'ReleaseAsset.name already exists' on reference_history-2026-03.parquet (duplicate asset upload)",
+  "failure_time_utc": "2026-09-30T04:08:05Z",
+  "result": "NO release was published from this attempt. A draft (release id 399711210, not immutable, no git tag) with all 6 assets remained; its 4 manifest-listed data files matched the manifest checksums. The draft was never edited or converted.",
+  "why_no_index_record_at_the_time": "the pre-fix batch code did not catch publication errors: the batch stopped without a refusal record or run summary, and April-August 2026 were not attempted",
+  "primary_evidence": "the GitHub Actions job log of run 36666584479 (traceback at 2026-09-30T04:08:05Z) is the primary historical evidence; this annotation is a secondary, after-the-fact summary"
+ },
+ "fix": {
+  "commit": "6f03a20",
+  "description": "retry-safe publication (draft first, assets individually, existing asset accepted only if its SHA-256 matches, full draft verification before publishing) and append-only recording of 'publication failure (data valid)'"
+ },
+ "resolution": {
+  "workflow_run_id": 36669287140,
+  "workflow_run_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/actions/runs/36669287140",
+  "code_commit": "05b9f8f (6f03a20 + request file only)",
+  "stale_draft": "deleted by the batch (release id 399711210) and March rebuilt from source; never converted",
+  "release": "history-2026-03",
+  "release_id": 399722261,
+  "release_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/releases/tag/history-2026-03",
+  "manifest_sha256": "74627ae2d2365b9c2d0415498fc0ea68e74176dd560a4f7ce5b636f7a950f1b9",
+  "index_record": "history/index/2026-03.json",
+  "independent_verification": "30 Sep 2026: published, immutable, 6 assets = manifest, all checksums match, manifest = index record; tamper attempts rejected",
+  "data_comparison_with_failed_attempt": "forecast (117,180 rows) and reference (7,068 rows) tables compared row by row with the unpublished draft: identical values, hours/obs counts and reasons; file checksums differ only because the rebuild is a new retrieval (retrieved_at timestamps)"
+ },
+ "values_changed": false,
+ "releases_changed": false
+}

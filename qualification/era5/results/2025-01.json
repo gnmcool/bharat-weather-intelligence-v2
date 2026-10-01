@@ -1,0 +1,124 @@
+{
+ "QUALIFICATION_NOTICE": "QUALIFICATION \u2014 not a D2 reference; never used in M4.4 metrics.",
+ "artifact_dir": "QUALIFICATION_era5_2025-01",
+ "code": {
+  "commit": "4b7efa6434e57b8c94611d2f9563ebcd87baf8b0",
+  "request_file_commit": null,
+  "versions": {
+   "eccodes": "2.48.0",
+   "ecmwf-datastores-client": "0.5.3",
+   "multiurl": "0.3.9"
+  },
+  "workflow_run_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/actions/runs/36818588932"
+ },
+ "expver": {
+  "boundary": {
+   "0001": 5
+  },
+  "month": {
+   "0001": 744
+  }
+ },
+ "grib_sha256": {
+  "retrieval_1": {
+   "boundary": "b499ee5095d71d2393c307072841984bae267c6ea05226b45bc72eca8bffef64",
+   "month": "75d3e151b12d908d6b9c9b0bb894720765f767c737c6dad5ebf217c2b77b34e4"
+  },
+  "retrieval_2": {
+   "boundary": "b499ee5095d71d2393c307072841984bae267c6ea05226b45bc72eca8bffef64",
+   "month": "75d3e151b12d908d6b9c9b0bb894720765f767c737c6dad5ebf217c2b77b34e4"
+  }
+ },
+ "ist_days": {
+  "E": 0,
+  "G": 0,
+  "complete": 1116,
+  "rows": 1116
+ },
+ "month": "2025-01",
+ "official": false,
+ "output_files_sha256": {
+  "QUALIFICATION_README.txt": "c381a4164eb9ee5dd6184e19a4e891d4e6b9cfa4814481c8c9b69560131eca5e",
+  "era5_cds_boundary_2025-01.grib": "b499ee5095d71d2393c307072841984bae267c6ea05226b45bc72eca8bffef64",
+  "era5_cds_month_2025-01.grib": "75d3e151b12d908d6b9c9b0bb894720765f767c737c6dad5ebf217c2b77b34e4",
+  "era5_cds_requests_2025-01.json": "f22433492c90881cb2393e287245fe0543c2dd3187d6c4f775ebe02e62701106",
+  "era5_hourly_2025-01.parquet": "85fd71b2ddc0b8e3a5169a7be93f0581410a0086a769fbab42825702c7731591",
+  "era5_ist_day_2025-01.parquet": "53987e292c1f74f6b14df62c325a51c6b5b10ecf3f5d6abd5c79e0e250965712",
+  "gap_report_ref-era5-2025-01.json": "d38b51f04966bd9948f97a4659fd29330532299264862ea678cd18eb78802b9b",
+  "manifest_ref-era5-2025-01.json": "3724f51eb21a72a5ed660a45ba1f4b7a3f805990ee1fc7a76378a364950ef3c1"
+ },
+ "passed": true,
+ "preflight": {
+  "licence_check": "partial: the account has accepted at least one dataset licence; the CDS client cannot tell which licence ERA5 requires, so this does not prove that the ERA5 terms were accepted",
+  "ok": true
+ },
+ "r2": {
+  "criterion": "hourly |v1-v2| <= q1/2 + q2/2 (q = GRIB packing step of each message); IST-day and monthly totals within the sum of the per-hour bounds; identical structure, expver, missing positions and E/G reasons",
+  "exceedances": {
+   "hourly": [],
+   "ist_day": [],
+   "monthly": []
+  },
+  "grib_sha256": {
+   "first": {
+    "boundary": "b499ee5095d71d2393c307072841984bae267c6ea05226b45bc72eca8bffef64",
+    "month": "75d3e151b12d908d6b9c9b0bb894720765f767c737c6dad5ebf217c2b77b34e4"
+   },
+   "repeat": {
+    "boundary": "b499ee5095d71d2393c307072841984bae267c6ea05226b45bc72eca8bffef64",
+    "month": "75d3e151b12d908d6b9c9b0bb894720765f767c737c6dad5ebf217c2b77b34e4"
+   }
+  },
+  "max_abs_diff_mm": {
+   "hourly": 0.0,
+   "ist_day": 0.0,
+   "monthly": 0.0
+  },
+  "packing_steps_m": [
+   7.450580596923828e-09,
+   1.4901161193847656e-08,
+   2.9802322387695312e-08,
+   5.960464477539063e-08,
+   1.1920928955078125e-07,
+   2.384185791015625e-07,
+   4.76837158203125e-07
+  ],
+  "passed": true,
+  "problems": [],
+  "table_sha256": {
+   "first": {
+    "hourly": "85fd71b2ddc0b8e3a5169a7be93f0581410a0086a769fbab42825702c7731591",
+    "ist_day": "53987e292c1f74f6b14df62c325a51c6b5b10ecf3f5d6abd5c79e0e250965712"
+   },
+   "repeat": {
+    "hourly": "85fd71b2ddc0b8e3a5169a7be93f0581410a0086a769fbab42825702c7731591",
+    "ist_day": "53987e292c1f74f6b14df62c325a51c6b5b10ecf3f5d6abd5c79e0e250965712"
+   }
+  },
+  "values_identical_after_decoding": true
+ },
+ "recorded_utc": "2026-10-01T05:16:14Z",
+ "request_ids": {
+  "retrieval_1": {
+   "boundary": "ef6cae37-52b7-454b-9d98-5e99c8fd94a0",
+   "month": "0d14b419-650b-4d56-8b2a-9dd6f88018ab"
+  },
+  "retrieval_2": {
+   "boundary": "b3cfa564-b0c7-4686-a5bd-3e5bd42f88e4",
+   "month": "a0591f4d-1f05-4c66-ba76-308c907df6e9"
+  }
+ },
+ "requests": {
+  "boundary": {
+   "canonical_json": "{\"area\":[34.0,72.25,8.25,94.75],\"data_format\":\"grib\",\"day\":[\"31\"],\"download_format\":\"unarchived\",\"month\":[\"12\"],\"product_type\":[\"reanalysis\"],\"time\":[\"19:00\",\"20:00\",\"21:00\",\"22:00\",\"23:00\"],\"variable\":[\"total_precipitation\"],\"year\":[\"2024\"]}",
+   "items": 5,
+   "request_sha256": "36b90c621bbcc0c49397db5875698bf911494316ec0c430e3ce118cedc79c464"
+  },
+  "month": {
+   "canonical_json": "{\"area\":[34.0,72.25,8.25,94.75],\"data_format\":\"grib\",\"day\":[\"01\",\"02\",\"03\",\"04\",\"05\",\"06\",\"07\",\"08\",\"09\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"16\",\"17\",\"18\",\"19\",\"20\",\"21\",\"22\",\"23\",\"24\",\"25\",\"26\",\"27\",\"28\",\"29\",\"30\",\"31\"],\"download_format\":\"unarchived\",\"month\":[\"01\"],\"product_type\":[\"reanalysis\"],\"time\":[\"00:00\",\"01:00\",\"02:00\",\"03:00\",\"04:00\",\"05:00\",\"06:00\",\"07:00\",\"08:00\",\"09:00\",\"10:00\",\"11:00\",\"12:00\",\"13:00\",\"14:00\",\"15:00\",\"16:00\",\"17:00\",\"18:00\",\"19:00\",\"20:00\",\"21:00\",\"22:00\",\"23:00\"],\"variable\":[\"total_precipitation\"],\"year\":[\"2025\"]}",
+   "items": 744,
+   "request_sha256": "dc0ec1d2ce85c6f7adc8fd9f808aee99edd0085f65d8280a2443259722d19892"
+  }
+ },
+ "run_id": "36818588932"
+}

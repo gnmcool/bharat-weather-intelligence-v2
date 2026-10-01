@@ -2,6 +2,7 @@
 
 Offline only: fake CDS, a temporary git worktree on branch era5-qualification. No GitHub client exists in this path.
 """
+import hashlib
 import json
 import pathlib
 import subprocess
@@ -161,8 +162,9 @@ def test_full_qualification_r1_r2_four_jobs_labelled(q):
     outdir = pathlib.Path(out["output_dir"])
     assert outdir.name == "QUALIFICATION_era5_2025-01"
     assert LABEL in (outdir / "QUALIFICATION_README.txt").read_text()
-    man = json.loads((outdir / "manifest_ref-era5-2025-01.json").read_text())
+    man = json.loads((outdir / "qualification_manifest_era5_2025-01.json").read_text())
     assert man["QUALIFICATION_NOTICE"] == LABEL and man["official"] is False
+    assert man["dataset"] == "era5_d2_pipeline_qualification_not_official"
     assert set(rec["output_files_sha256"]) == {p.name for p in outdir.iterdir()}
 
 
@@ -264,3 +266,53 @@ def test_cli_refuses_wrong_month_and_redacts(tmp_path, capsys, monkeypatch):
     rc = Q.main(["--request", str(req), "--index", str(idx), "--work", str(tmp_path / "w"), "--run-id", "1"])
     out = capsys.readouterr().out
     assert rc == 1 and "allow-list" in out and LABEL in out and KEY not in out
+
+
+# ---------------------------------------------------------------- hardening: names, commit messages, reproducibility
+def test_output_names_are_qualification_only(q):
+    out = pathlib.Path(q.run()["output_dir"])
+    names = sorted(p.name for p in out.iterdir())
+    assert "qualification_manifest_era5_2025-01.json" in names and "qualification_gap_report_era5_2025-01.json" in names
+    assert not any(n.startswith(("manifest_ref-era5", "gap_report_ref-era5")) for n in names)   # no official names
+    man = json.loads((out / "qualification_manifest_era5_2025-01.json").read_text())
+    assert {f["name"] for f in man["files"]} <= set(names)                       # manifest lists the renamed files
+    for f in man["files"]:
+        assert hashlib.sha256((out / f["name"]).read_bytes()).hexdigest() == f["sha256"]
+    assert man["dataset"] != "era5_reference_supplement" and "qualification" in man["dataset"]
+    assert man["official"] is False and man["QUALIFICATION_NOTICE"] == LABEL
+    rec = json.loads((q.index / "qualification/era5/results/2025-01.json").read_text())
+    assert set(rec["output_files_sha256"]) == set(names)
+
+
+def test_commit_messages_say_qualification(q):
+    q.run()
+    assert q.persisted and all(m.startswith("qualification/era5:") for m in q.persisted), q.persisted[:3]
+    assert not any("reference/era5" in m for m in q.persisted)
+
+
+def test_production_ledger_messages_unchanged(tmp_path):
+    msgs = []
+    from era5_ledger import Ledger
+    Ledger(tmp_path, "2026-09", "r", persist=msgs.append).append("intent", 1, "boundary")
+    assert msgs == ["reference/era5: 2026-09 r1 boundary intent (run r)"]       # official D2 wording untouched
+
+
+def test_tables_rebuild_byte_identically_from_output_grib(q, tmp_path):
+    """B17 within the pinned environment: tables re-derived from the output GRIB files are byte-identical."""
+    import era5_extract as X
+    import era5_grib as G
+    out = pathlib.Path(q.run()["output_dir"])
+    files = {r: G.decode(out / f"era5_cds_{r}_2025-01.grib") for r in C.ROLES}
+    X.build_tables(C.load_points(), files, "2025-01", tmp_path / "rebuilt")
+    for n in ("era5_hourly_2025-01.parquet", "era5_ist_day_2025-01.parquet"):
+        assert (tmp_path / "rebuilt" / n).read_bytes() == (out / n).read_bytes()
+
+
+def test_pandas_pyarrow_pinned_and_recorded():
+    from importlib import metadata
+    req = (REPO / "reference" / "requirements.txt").read_text()
+    pins = dict(l.split("==") for l in req.splitlines() if "==" in l and not l.startswith("#"))
+    assert pins["pandas"] == "3.0.6" and pins["pyarrow"] == "25.0.1"
+    assert metadata.version("pandas") == pins["pandas"] and metadata.version("pyarrow") == pins["pyarrow"]
+    vers = RUN._code_info()["versions"]
+    assert vers["pandas"] == "3.0.6" and vers["pyarrow"] == "25.0.1"

@@ -6,5 +6,7 @@ multiurl==0.3.9
 eccodes==2.48.0
 requests>=2.31
 numpy>=1.26
-pandas>=2.0
-pyarrow>=15
+# pandas and pyarrow are pinned for byte-reproducible Parquet tables (acceptance B17): pandas writes its version
+# into the Parquet metadata. Versions = those of the successful 2025-01 qualification (run 36818588932).
+pandas==3.0.6
+pyarrow==25.0.1

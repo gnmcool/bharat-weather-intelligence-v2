@@ -44,6 +44,7 @@ from era5_cds import redact  # noqa: E402
 from era5_ledger import Ledger, now_utc  # noqa: E402
 
 QUAL_LABEL = "QUALIFICATION — not a D2 reference; never used in M4.4 metrics."
+QUAL_DATASET = "era5_d2_pipeline_qualification_not_official"   # replaces the official dataset identifier
 ALLOWED_MONTHS = ("2025-01",)                      # explicit allow-list: nothing else can be qualified
 QUAL_BRANCH = "era5-qualification"                 # the only branch this driver will write to
 FORBIDDEN_BRANCHES = ("archive-index", "main", "m4-history")
@@ -59,7 +60,11 @@ class QualLedger(Ledger):
     """The production ledger, stored under qualification/era5/jobs/ instead of reference/era5/jobs/."""
 
     def __init__(self, index_root, month, run_id, persist=None, clock=now_utc):
-        super().__init__(index_root, month, run_id, persist=persist, clock=clock)
+        inner = persist or (lambda msg: None)
+
+        def qual_persist(msg: str) -> None:            # commit messages say qualification/era5, never reference/era5
+            inner(msg.replace("reference/era5:", "qualification/era5:", 1))
+        super().__init__(index_root, month, run_id, persist=qual_persist, clock=clock)
         self.path = pathlib.Path(index_root).joinpath(*QUAL_PREFIX, "jobs", f"{month}.jsonl")
 
 
@@ -107,16 +112,28 @@ def _write_record(deps: RUN.Deps, path: pathlib.Path, obj: dict, msg: str) -> No
     deps.persist(msg)
 
 
+def qual_names(month: str) -> dict:
+    """Qualification-only names for the manifest and gap report (official D2 names are never used for outputs)."""
+    return {f"manifest_{C.tag_for(month)}.json": f"qualification_manifest_era5_{month}.json",
+            f"gap_report_{C.tag_for(month)}.json": f"qualification_gap_report_era5_{month}.json"}
+
+
 def _label_outputs(out: pathlib.Path, month: str) -> None:
-    """Mark every qualification output as non-official."""
+    """Mark every qualification output as non-official and give the manifest / gap report qualification names."""
+    names = qual_names(month)
+    for old, new in names.items():
+        (out / old).rename(out / new)
     (out / "QUALIFICATION_README.txt").write_text(
         f"{QUAL_LABEL}\n\nERA5 D2 pipeline qualification for {month}. These files test the production D2 code and "
         "release format. They are not a D2 reference release, are not published, and must never be used as reference "
         "data or in any M4.4 verification metric.\n")
-    for man in out.glob("manifest_*.json"):
-        doc = json.loads(man.read_text())
-        doc = {"QUALIFICATION_NOTICE": QUAL_LABEL, "official": False, **doc}
-        man.write_text(json.dumps(doc, indent=1, sort_keys=True, default=str) + "\n")
+    man = out / names[f"manifest_{C.tag_for(month)}.json"]
+    doc = json.loads(man.read_text())
+    for f in doc.get("files", []):                     # same bytes and SHA-256, qualification name
+        f["name"] = names.get(f["name"], f["name"])
+    doc = {**doc, "QUALIFICATION_NOTICE": QUAL_LABEL, "official": False, "dataset": QUAL_DATASET,
+           "role": "pipeline qualification only (not a reference)"}
+    man.write_text(json.dumps(doc, indent=1, sort_keys=True, default=str) + "\n")
 
 
 # ================================================================== qualification run

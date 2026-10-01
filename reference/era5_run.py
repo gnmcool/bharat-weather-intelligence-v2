@@ -548,7 +548,7 @@ def _code_info() -> dict:
         return r.stdout.strip() or None
     from importlib import metadata
     vers = {}
-    for p in ("ecmwf-datastores-client", "multiurl", "eccodes"):
+    for p in ("ecmwf-datastores-client", "multiurl", "eccodes", "pandas", "pyarrow"):   # pandas/pyarrow: table bytes
         try:
             vers[p] = metadata.version(p)
         except metadata.PackageNotFoundError:

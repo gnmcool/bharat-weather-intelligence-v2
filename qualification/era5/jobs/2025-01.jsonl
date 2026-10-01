@@ -3,3 +3,4 @@
 {"event": "intent", "items": 744, "month": "2025-01", "request_sha256": "dc0ec1d2ce85c6f7adc8fd9f808aee99edd0085f65d8280a2443259722d19892", "retrieval": 1, "role": "month", "run_id": "36818588932", "utc": "2026-10-01T05:13:14Z"}
 {"event": "submitted", "month": "2025-01", "request_id": "0d14b419-650b-4d56-8b2a-9dd6f88018ab", "request_sha256": "dc0ec1d2ce85c6f7adc8fd9f808aee99edd0085f65d8280a2443259722d19892", "retrieval": 1, "role": "month", "run_id": "36818588932", "utc": "2026-10-01T05:13:21Z"}
 {"event": "status", "month": "2025-01", "request_id": "ef6cae37-52b7-454b-9d98-5e99c8fd94a0", "retrieval": 1, "role": "boundary", "run_id": "36818588932", "status": "accepted", "status_class": "queued", "utc": "2026-10-01T05:13:27Z"}
+{"event": "status", "month": "2025-01", "request_id": "ef6cae37-52b7-454b-9d98-5e99c8fd94a0", "retrieval": 1, "role": "boundary", "run_id": "36818588932", "status": "successful", "status_class": "successful", "utc": "2026-10-01T05:14:29Z"}

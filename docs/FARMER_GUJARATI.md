@@ -43,6 +43,14 @@ The tests check that every sentence and headline is translated field by field, t
 mode returns CORE text unchanged, that changed wording falls back to English, that the disclaimer keeps "not
 instructions" and "official", and that every crop, season, stage and crop note in CORE's `crops.yaml` has Gujarati.
 
+### Live check (daily)
+\`web/test/live-coverage.ts\` (workflow \`translation-coverage.yml\`) fetches today's real CORE output, read-only: 12
+dashboards (six in Gujarat, six in contrasting climates) and farmer reports for every crop × stage at two points. It
+fails if any string the Gujarati or Hindi farmer screens would show is still in English, and lists each one in the job
+summary. It runs every day at 07:45 IST once the workflow is on \`main\` (GitHub only schedules from the default
+branch), and on every push that changes the translation files. First run, 1 Oct 2026: 25 live events, 86 farmer
+reports, 3,888 strings checked, all translated in both languages. A deliberately reworded CORE headline was caught.
+
 ## 4. Before release: native-speaker review
 I drafted these strings; I cannot vouch for agricultural Gujarati. The reviewer should be a native Gujarati speaker
 who knows farm vocabulary (for example a KVK or AAU/JAU/NAU/SDAU extension contact). Strings I am least sure of:

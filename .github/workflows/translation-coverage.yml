@@ -1,0 +1,35 @@
+# Farmer-screen translation coverage against live CORE (docs/FARMER_GUJARATI.md, docs/FARMER_HINDI.md).
+# Read-only: GET requests to CORE's public API, no secrets, no writes. A red run means some CORE text would be shown
+# in English on the Gujarati or Hindi farmer screens; the job summary lists each string and where it was seen.
+# Note: GitHub runs the schedule only from the default branch, so the daily run starts once this file is on main.
+name: Translation coverage (live CORE)
+
+on:
+  schedule:
+    - cron: "15 2 * * *" # 07:45 IST, after CORE's morning model runs
+  push:
+    paths: ["web/src/i18n/**", "web/test/live-coverage.ts", ".github/workflows/translation-coverage.yml"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: translation-coverage
+  cancel-in-progress: true
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check live CORE text against the Gujarati and Hindi tables
+        env:
+          CORE_API_BASE: ${{ vars.CORE_API_BASE || 'https://bharat-weather-intelligence-brown.vercel.app/api/v1' }}
+        run: node --experimental-strip-types --no-warnings test/live-coverage.ts

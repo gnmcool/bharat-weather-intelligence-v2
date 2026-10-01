@@ -16,8 +16,8 @@ const asIst = (t: string) => (/[zZ]|[+-]\d\d:?\d\d$/.test(t) ? new Date(t) : new
 export const istTime = (t: string | null | undefined, opts: Intl.DateTimeFormatOptions = { hour: "numeric", minute: "2-digit" }) =>
   t ? asIst(t).toLocaleTimeString("en-IN", { timeZone: TZ, ...opts }) : "—";
 
-export const istDay = (t: string | null | undefined, opts: Intl.DateTimeFormatOptions = { weekday: "short", day: "numeric", month: "short" }) =>
-  t ? asIst(t).toLocaleDateString("en-IN", { timeZone: TZ, ...opts }) : "—";
+export const istDay = (t: string | null | undefined, opts: Intl.DateTimeFormatOptions = { weekday: "short", day: "numeric", month: "short" }, locale = "en-IN") =>
+  t ? asIst(t).toLocaleDateString(locale, { timeZone: TZ, ...opts }) : "—";
 
 export const istDateTime = (t: string | null | undefined) =>
   t ? `${asIst(t).toLocaleString("en-IN", { timeZone: TZ, day: "numeric", month: "short", hour: "numeric", minute: "2-digit" })} IST` : "—";

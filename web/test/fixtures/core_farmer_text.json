@@ -1,0 +1,719 @@
+{
+ "core_commit": "2840f8d",
+ "generated_by": "running CORE backend/app/engines/farmer.assess on synthetic weather",
+ "indicators": [
+  {
+   "id": "heavy_rain",
+   "label": "Heavy rain",
+   "value": "max 40 mm/day",
+   "rule": "IMD heavy rain ≥ 64.5 mm/day (Watch ≥ 35.6)"
+  },
+  {
+   "id": "dry_spell",
+   "label": "Dry spell",
+   "value": "1 days",
+   "rule": "Consecutive days < 2.5 mm"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "38 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy"
+  },
+  {
+   "id": "heavy_rain",
+   "label": "Heavy rain",
+   "value": "max 0 mm/day",
+   "rule": "IMD heavy rain ≥ 64.5 mm/day (Watch ≥ 35.6)"
+  },
+  {
+   "id": "dry_spell",
+   "label": "Dry spell",
+   "value": "67 days",
+   "rule": "Consecutive days < 2.5 mm"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "41 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy"
+  },
+  {
+   "id": "dry_spell",
+   "label": "Dry spell",
+   "value": "3 days",
+   "rule": "Consecutive days < 2.5 mm"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "30 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "34 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy"
+  },
+  {
+   "id": "heavy_rain",
+   "label": "Heavy rain",
+   "value": "max 80 mm/day",
+   "rule": "IMD heavy rain ≥ 64.5 mm/day (Watch ≥ 35.6)"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "47 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy"
+  },
+  {
+   "id": "heat_stress",
+   "label": "Heat stress for this stage",
+   "value": "3 of 7 days ≥ 32 °C",
+   "rule": "Tmax ≥ 32 °C at flowering"
+  },
+  {
+   "id": "cold_stress",
+   "label": "Cold / frost stress",
+   "value": "1 of 7 nights ≤ 3 °C",
+   "rule": "Tmin ≤ 3 °C at flowering"
+  },
+  {
+   "id": "dry_spell",
+   "label": "Dry spell",
+   "value": "0 days",
+   "rule": "Consecutive days < 2.5 mm"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "36 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy"
+  },
+  {
+   "id": "heat_stress",
+   "label": "Heat stress for this stage",
+   "value": "0 of 7 days ≥ 32 °C",
+   "rule": "Tmax ≥ 32 °C at flowering"
+  },
+  {
+   "id": "cold_stress",
+   "label": "Cold / frost stress",
+   "value": "0 of 7 nights ≤ 3 °C",
+   "rule": "Tmin ≤ 3 °C at flowering"
+  },
+  {
+   "id": "heat_stress",
+   "label": "Heat stress for this stage",
+   "value": "5 of 7 days ≥ 32 °C",
+   "rule": "Tmax ≥ 32 °C at flowering"
+  },
+  {
+   "id": "dry_spell",
+   "label": "Dry spell",
+   "value": "2 days",
+   "rule": "Consecutive days < 2.5 mm"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "29 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "40 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy"
+  },
+  {
+   "id": "heat_stress",
+   "label": "Heat stress for this stage",
+   "value": "3 of 7 days ≥ 34 °C",
+   "rule": "Tmax ≥ 34 °C at grain fill"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "33 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy"
+  },
+  {
+   "id": "heat_stress",
+   "label": "Heat stress for this stage",
+   "value": "0 of 7 days ≥ 34 °C",
+   "rule": "Tmax ≥ 34 °C at grain fill"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "43 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy"
+  },
+  {
+   "id": "heat_stress",
+   "label": "Heat stress for this stage",
+   "value": "4 of 7 days ≥ 34 °C",
+   "rule": "Tmax ≥ 34 °C at grain fill"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "31 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "35 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy"
+  },
+  {
+   "id": "harvest_window",
+   "label": "Dry harvest window",
+   "value": "longest dry run 1 days",
+   "rule": "days < 1.0 mm & rain prob < 30%"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "42 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "32 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy"
+  },
+  {
+   "id": "harvest_window",
+   "label": "Dry harvest window",
+   "value": "longest dry run 0 days",
+   "rule": "days < 1.0 mm & rain prob < 30%"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "39 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "44 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "51 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "37 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "50 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy"
+  },
+  {
+   "id": "heat_stress",
+   "label": "Heat stress for this stage",
+   "value": "4 of 7 days ≥ 35 °C",
+   "rule": "Tmax ≥ 35 °C at flowering"
+  },
+  {
+   "id": "cold_stress",
+   "label": "Cold / frost stress",
+   "value": "6 of 7 nights ≤ 15 °C",
+   "rule": "Tmin ≤ 15 °C at flowering"
+  },
+  {
+   "id": "heat_stress",
+   "label": "Heat stress for this stage",
+   "value": "0 of 7 days ≥ 35 °C",
+   "rule": "Tmax ≥ 35 °C at flowering"
+  },
+  {
+   "id": "cold_stress",
+   "label": "Cold / frost stress",
+   "value": "0 of 7 nights ≤ 15 °C",
+   "rule": "Tmin ≤ 15 °C at flowering"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "28 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy"
+  },
+  {
+   "id": "dry_spell",
+   "label": "Dry spell",
+   "value": "5 days",
+   "rule": "Consecutive days < 2.5 mm"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "45 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy"
+  },
+  {
+   "id": "dry_spell",
+   "label": "Dry spell",
+   "value": "6 days",
+   "rule": "Consecutive days < 2.5 mm"
+  },
+  {
+   "id": "heat_stress",
+   "label": "Heat stress for this stage",
+   "value": "5 of 7 days ≥ 38 °C",
+   "rule": "Tmax ≥ 38 °C at flowering"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "27 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy"
+  },
+  {
+   "id": "heat_stress",
+   "label": "Heat stress for this stage",
+   "value": "0 of 7 days ≥ 38 °C",
+   "rule": "Tmax ≥ 38 °C at flowering"
+  },
+  {
+   "id": "heat_stress",
+   "label": "Heat stress for this stage",
+   "value": "2 of 7 days ≥ 38 °C",
+   "rule": "Tmax ≥ 38 °C at flowering"
+  },
+  {
+   "id": "heat_stress",
+   "label": "Heat stress for this stage",
+   "value": "3 of 7 days ≥ 38 °C",
+   "rule": "Tmax ≥ 38 °C at boll development"
+  },
+  {
+   "id": "cold_stress",
+   "label": "Cold / frost stress",
+   "value": "6 of 7 nights ≤ 12 °C",
+   "rule": "Tmin ≤ 12 °C at boll development"
+  },
+  {
+   "id": "heat_stress",
+   "label": "Heat stress for this stage",
+   "value": "0 of 7 days ≥ 38 °C",
+   "rule": "Tmax ≥ 38 °C at boll development"
+  },
+  {
+   "id": "cold_stress",
+   "label": "Cold / frost stress",
+   "value": "0 of 7 nights ≤ 12 °C",
+   "rule": "Tmin ≤ 12 °C at boll development"
+  },
+  {
+   "id": "heat_stress",
+   "label": "Heat stress for this stage",
+   "value": "2 of 7 days ≥ 38 °C",
+   "rule": "Tmax ≥ 38 °C at boll development"
+  },
+  {
+   "id": "dry_spell",
+   "label": "Dry spell",
+   "value": "4 days",
+   "rule": "Consecutive days < 2.5 mm"
+  },
+  {
+   "id": "cold_stress",
+   "label": "Cold / frost stress",
+   "value": "5 of 7 nights ≤ 12 °C",
+   "rule": "Tmin ≤ 12 °C at boll development"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "24 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy"
+  },
+  {
+   "id": "dry_spell",
+   "label": "Dry spell",
+   "value": "9 days",
+   "rule": "Consecutive days < 2.5 mm"
+  },
+  {
+   "id": "harvest_window",
+   "label": "Dry harvest window",
+   "value": "longest dry run 2 days",
+   "rule": "days < 1.0 mm & rain prob < 30%"
+  },
+  {
+   "id": "heat_stress",
+   "label": "Heat stress for this stage",
+   "value": "5 of 7 days ≥ 35 °C",
+   "rule": "Tmax ≥ 35 °C at flowering"
+  },
+  {
+   "id": "heat_stress",
+   "label": "Heat stress for this stage",
+   "value": "4 of 7 days ≥ 35 °C",
+   "rule": "Tmax ≥ 35 °C at pegging"
+  },
+  {
+   "id": "heat_stress",
+   "label": "Heat stress for this stage",
+   "value": "0 of 7 days ≥ 35 °C",
+   "rule": "Tmax ≥ 35 °C at pegging"
+  },
+  {
+   "id": "dry_spell",
+   "label": "Dry spell",
+   "value": "7 days",
+   "rule": "Consecutive days < 2.5 mm"
+  },
+  {
+   "id": "heat_stress",
+   "label": "Heat stress for this stage",
+   "value": "1 of 7 days ≥ 40 °C",
+   "rule": "Tmax ≥ 40 °C at flowering"
+  },
+  {
+   "id": "cold_stress",
+   "label": "Cold / frost stress",
+   "value": "5 of 7 nights ≤ 10 °C",
+   "rule": "Tmin ≤ 10 °C at flowering"
+  },
+  {
+   "id": "heat_stress",
+   "label": "Heat stress for this stage",
+   "value": "0 of 7 days ≥ 40 °C",
+   "rule": "Tmax ≥ 40 °C at flowering"
+  },
+  {
+   "id": "cold_stress",
+   "label": "Cold / frost stress",
+   "value": "0 of 7 nights ≤ 10 °C",
+   "rule": "Tmin ≤ 10 °C at flowering"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "22 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy"
+  },
+  {
+   "id": "heat_stress",
+   "label": "Heat stress for this stage",
+   "value": "3 of 7 days ≥ 40 °C",
+   "rule": "Tmax ≥ 40 °C at flowering"
+  },
+  {
+   "id": "cold_stress",
+   "label": "Cold / frost stress",
+   "value": "1 of 7 nights ≤ 10 °C",
+   "rule": "Tmin ≤ 10 °C at flowering"
+  },
+  {
+   "id": "dry_spell",
+   "label": "Dry spell",
+   "value": "15 days",
+   "rule": "Consecutive days < 2.5 mm"
+  },
+  {
+   "id": "heat_stress",
+   "label": "Heat stress for this stage",
+   "value": "2 of 7 days ≥ 42 °C",
+   "rule": "Tmax ≥ 42 °C at flowering"
+  },
+  {
+   "id": "heat_stress",
+   "label": "Heat stress for this stage",
+   "value": "0 of 7 days ≥ 42 °C",
+   "rule": "Tmax ≥ 42 °C at flowering"
+  },
+  {
+   "id": "heat_stress",
+   "label": "Heat stress for this stage",
+   "value": "1 of 7 days ≥ 42 °C",
+   "rule": "Tmax ≥ 42 °C at flowering"
+  },
+  {
+   "id": "dry_spell",
+   "label": "Dry spell",
+   "value": "12 days",
+   "rule": "Consecutive days < 2.5 mm"
+  },
+  {
+   "id": "cold_stress",
+   "label": "Cold / frost stress",
+   "value": "1 of 7 nights ≤ 4 °C",
+   "rule": "Tmin ≤ 4 °C at flowering"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "33 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy; stage-sensitive for this crop"
+  },
+  {
+   "id": "cold_stress",
+   "label": "Cold / frost stress",
+   "value": "0 of 7 nights ≤ 4 °C",
+   "rule": "Tmin ≤ 4 °C at flowering"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "31 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy; stage-sensitive for this crop"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "27 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy; stage-sensitive for this crop"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "43 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy; stage-sensitive for this crop"
+  },
+  {
+   "id": "heat_stress",
+   "label": "Heat stress for this stage",
+   "value": "4 of 7 days ≥ 32 °C",
+   "rule": "Tmax ≥ 32 °C at seed development"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "45 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy; stage-sensitive for this crop"
+  },
+  {
+   "id": "heat_stress",
+   "label": "Heat stress for this stage",
+   "value": "0 of 7 days ≥ 32 °C",
+   "rule": "Tmax ≥ 32 °C at seed development"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "36 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy; stage-sensitive for this crop"
+  },
+  {
+   "id": "heat_stress",
+   "label": "Heat stress for this stage",
+   "value": "6 of 7 days ≥ 32 °C",
+   "rule": "Tmax ≥ 32 °C at seed development"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "37 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy; stage-sensitive for this crop"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "32 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy; stage-sensitive for this crop"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "48 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy"
+  },
+  {
+   "id": "cold_stress",
+   "label": "Cold / frost stress",
+   "value": "2 of 7 nights ≤ 3 °C",
+   "rule": "Tmin ≤ 3 °C at flowering"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "34 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy; stage-sensitive for this crop"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "42 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy; stage-sensitive for this crop"
+  },
+  {
+   "id": "heat_stress",
+   "label": "Heat stress for this stage",
+   "value": "7 of 7 days ≥ 30 °C",
+   "rule": "Tmax ≥ 30 °C at pod fill"
+  },
+  {
+   "id": "cold_stress",
+   "label": "Cold / frost stress",
+   "value": "2 of 7 nights ≤ 3 °C",
+   "rule": "Tmin ≤ 3 °C at pod fill"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "48 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy; stage-sensitive for this crop"
+  },
+  {
+   "id": "heat_stress",
+   "label": "Heat stress for this stage",
+   "value": "0 of 7 days ≥ 30 °C",
+   "rule": "Tmax ≥ 30 °C at pod fill"
+  },
+  {
+   "id": "cold_stress",
+   "label": "Cold / frost stress",
+   "value": "0 of 7 nights ≤ 3 °C",
+   "rule": "Tmin ≤ 3 °C at pod fill"
+  },
+  {
+   "id": "heat_stress",
+   "label": "Heat stress for this stage",
+   "value": "6 of 7 days ≥ 30 °C",
+   "rule": "Tmax ≥ 30 °C at pod fill"
+  },
+  {
+   "id": "cold_stress",
+   "label": "Cold / frost stress",
+   "value": "1 of 7 nights ≤ 3 °C",
+   "rule": "Tmin ≤ 3 °C at pod fill"
+  },
+  {
+   "id": "disease_weather",
+   "label": "Disease-favourable weather",
+   "value": "29 humid hours (RH ≥ 85%, 15–30 °C)",
+   "rule": "Leaf-wetness proxy; stage-sensitive for this crop"
+  }
+ ],
+ "paragraphs": {
+  "disclaimer": "SYSTEM-DERIVED WEATHER INDICATORS — computed automatically from forecast models using unvalidated thresholds. They are not farming instructions. Follow the official Agromet Advisory for decisions.",
+  "official_title": "Official Agromet Advisory (IMD × ICAR — Gramin Krishi Mausam Sewa)",
+  "official_note": "District Agromet Advisory Service bulletins are issued every Tuesday and Friday by IMD with State Agricultural Universities / KVKs. They are the authoritative source for farm operations.",
+  "official_integration": "Not yet ingested automatically — requires IMD Agromet data access (see docs/ARCHITECTURE.md).",
+  "validation_status": "unvalidated"
+ },
+ "link_labels": [
+  "IMD — Agromet services",
+  "Meghdoot app (IMD/ICAR/IITM) — district advisories",
+  "Kisan Call Centre — 1800-180-1551"
+ ],
+ "crops": {
+  "wheat": {
+   "label": "Wheat",
+   "season": "Rabi",
+   "stages": [
+    "sowing",
+    "vegetative",
+    "flowering",
+    "grain_fill",
+    "harvest"
+   ],
+   "note": "Terminal heat after anthesis shortens grain filling (Porter & Gawith 1999 review of wheat temperature responses)."
+  },
+  "paddy": {
+   "label": "Rice (paddy)",
+   "season": "Kharif",
+   "stages": [
+    "nursery",
+    "transplanting",
+    "vegetative",
+    "flowering",
+    "grain_fill",
+    "harvest"
+   ],
+   "note": "Temperatures above ~35 °C at anthesis increase spikelet sterility (Jagadish et al. 2007)."
+  },
+  "cotton": {
+   "label": "Cotton",
+   "season": "Kharif",
+   "stages": [
+    "sowing",
+    "vegetative",
+    "squaring",
+    "flowering",
+    "boll_development",
+    "harvest"
+   ],
+   "note": "High heat at flowering raises square and boll shedding; validate local thresholds."
+  },
+  "groundnut": {
+   "label": "Groundnut",
+   "season": "Kharif / Summer",
+   "stages": [
+    "sowing",
+    "vegetative",
+    "flowering",
+    "pegging",
+    "pod_fill",
+    "harvest"
+   ],
+   "note": "Heat stress at flowering/pegging reduces pod set."
+  },
+  "castor": {
+   "label": "Castor",
+   "season": "Kharif",
+   "stages": [
+    "sowing",
+    "vegetative",
+    "flowering",
+    "capsule_development",
+    "harvest"
+   ],
+   "note": "Relatively heat tolerant; cold nights slow spike development."
+  },
+  "bajra": {
+   "label": "Pearl millet (bajra)",
+   "season": "Kharif / Summer",
+   "stages": [
+    "sowing",
+    "vegetative",
+    "flowering",
+    "grain_fill",
+    "harvest"
+   ],
+   "note": "Heat tolerant; very high temperature at flowering reduces seed set."
+  },
+  "cumin": {
+   "label": "Cumin (jeera)",
+   "season": "Rabi",
+   "stages": [
+    "sowing",
+    "vegetative",
+    "flowering",
+    "seed_development",
+    "harvest"
+   ],
+   "note": "Cloudy, humid spells at flowering favour blight (Alternaria) — a major Gujarat concern."
+  },
+  "mustard": {
+   "label": "Mustard",
+   "season": "Rabi",
+   "stages": [
+    "sowing",
+    "vegetative",
+    "flowering",
+    "pod_fill",
+    "harvest"
+   ],
+   "note": "Frost at flowering/pod fill damages pods; cloudy humid weather favours aphids."
+  }
+ }
+}

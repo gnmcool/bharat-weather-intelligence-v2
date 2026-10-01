@@ -444,7 +444,7 @@ export const EVENT_EXACT: Record<string, ByLang<string>> = {
     hi: "गर्म, सूखा और तेज़ हवा वाला मौसम सूखे खेतों और फसल अवशेषों में आग के लिए महत्वपूर्ण हो सकता है।",
   },
   "A rainfall deficit during this period may be relevant to soil moisture and irrigation.": {
-    gu: "આ સમયગાળાની વરસાદની ઘટ જમીનના ભેજ અને સિંચાઈ માટે મહત્ત્વની હોઈ શકે.",
+    gu: "આ સમયગાળાની વરસાદની ઘટ જમીનના ભેજ અને પિયત માટે મહત્ત્વની હોઈ શકે.",
     hi: "इस अवधि की वर्षा की कमी मिट्टी की नमी और सिंचाई के लिए महत्वपूर्ण हो सकती है।",
   },
   "Timing not provided by CORE for this risk; see the headline.": {

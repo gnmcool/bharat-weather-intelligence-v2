@@ -185,7 +185,7 @@ replaced by Gujarati time words. Mark each row OK or give the correction (247 ro
 | 52 | Event text | Accumulated rain may be relevant to waterlogging in low-lying fields. | એકઠો થયેલો વરસાદ નીચાણવાળા ખેતરોમાં પાણી ભરાવા માટે મહત્ત્વનો હોઈ શકે. |  |
 | 53 | Event text | Low visibility may affect early-morning field work and transport. | ઓછી દૃશ્યતા વહેલી સવારના ખેતરના કામ અને વાહનવ્યવહારને અસર કરી શકે. |  |
 | 54 | Event text | Hot, dry and windy conditions may be relevant to fire in dry fields and crop residue. | ગરમ, સૂકું અને પવનવાળું હવામાન સૂકા ખેતરો અને પાકના અવશેષોમાં આગ માટે મહત્ત્વનું હોઈ શકે. |  |
-| 55 | Event text | A rainfall deficit during this period may be relevant to soil moisture and irrigation. | આ સમયગાળાની વરસાદની ઘટ જમીનના ભેજ અને સિંચાઈ માટે મહત્ત્વની હોઈ શકે. |  |
+| 55 | Event text | A rainfall deficit during this period may be relevant to soil moisture and irrigation. | આ સમયગાળાની વરસાદની ઘટ જમીનના ભેજ અને પિયત માટે મહત્ત્વની હોઈ શકે. |  |
 | 56 | Event text | Timing not provided by CORE for this risk; see the headline. | CORE એ આ જોખમનો સમય આપ્યો નથી; મુખ્ય વાક્ય જુઓ. |  |
 | 57 | Event text | Model agreement: not assessed | મોડેલોની સહમતી: આકારણી નથી |  |
 | 58 | Weekday | Mon | સોમ |  |

@@ -19,3 +19,4 @@
 {"event": "closed", "month": "2025-01", "note": "qualification run (not published)", "outcome": "evidence", "retrieval": 1, "role": "boundary", "run_id": "36818588932", "utc": "2026-10-01T05:16:09Z"}
 {"event": "closed", "month": "2025-01", "note": "qualification run (not published)", "outcome": "evidence", "retrieval": 1, "role": "month", "run_id": "36818588932", "utc": "2026-10-01T05:16:10Z"}
 {"event": "closed", "month": "2025-01", "note": "qualification run (not published)", "outcome": "evidence", "retrieval": 2, "role": "boundary", "run_id": "36818588932", "utc": "2026-10-01T05:16:11Z"}
+{"event": "closed", "month": "2025-01", "note": "qualification run (not published)", "outcome": "evidence", "retrieval": 2, "role": "month", "run_id": "36818588932", "utc": "2026-10-01T05:16:13Z"}

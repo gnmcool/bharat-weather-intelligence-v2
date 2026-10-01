@@ -73,6 +73,7 @@ class Deps:
     secrets: tuple = ()
     deadline: float | None = None
     now: object = now_utc                      # UTC ISO timestamp for records (injectable in tests)
+    preflight_result: dict | None = None       # credential preflight, run at most once per workflow run
 
     def red(self, x) -> str:
         return redact(x, self.secrets)
@@ -412,6 +413,55 @@ def publish_month(deps: Deps, month: str, res: dict, requests: dict, ledger: Led
     return rec
 
 
+# ================================================================== credential preflight
+LICENCE_CHECK_NOTE = ("partial: the account has accepted at least one dataset licence; the CDS client cannot tell "
+                      "which licence ERA5 requires, so this does not prove that the ERA5 terms were accepted")
+
+
+def preflight(deps: Deps) -> dict:
+    """Verify the CDS credential before any ledger intent or submission (no job is created, no data downloaded).
+
+    Calls only the account endpoints: POST /profiles/v1/account/verification/pat and
+    GET /profiles/v1/account/licences?scope=dataset. Runs at most once per workflow run (the result, including a
+    failure, is cached). A failure raises Refused(..., "credentials") and writes nothing to the job ledger, so no
+    retrieval slot is used. The authentication response is never recorded (it may contain account details)."""
+    if deps.preflight_result is None:
+        deps.preflight_result = _run_preflight(deps)
+    res = deps.preflight_result
+    if not res["ok"]:
+        raise Refused(res["reason"], "credentials")
+    return res
+
+
+def _run_preflight(deps: Deps) -> dict:
+    if deps.cds is None:
+        return {"ok": False, "reason": "CDS_API_KEY is not available to the workflow; nothing submitted"}
+    try:
+        deps.cds.check_authentication()
+    except CDSHTTPError as e:
+        if e.status in (401, 403):
+            return {"ok": False, "reason": f"credentials: authentication failed (HTTP {e.status}); nothing submitted"}
+        if 400 <= e.status < 500 and e.status != 429:
+            return {"ok": False, "reason": deps.red(f"credentials: authentication check rejected (HTTP {e.status}): "
+                                                   f"{e}; nothing submitted")}
+        return {"ok": False, "reason": deps.red(f"credentials: preflight unavailable ({e}); nothing submitted")}
+    except CDSError as e:
+        return {"ok": False, "reason": deps.red(f"credentials: preflight unavailable ({e}); nothing submitted")}
+    try:
+        licences = deps.cds.accepted_dataset_licences()
+    except CDSHTTPError as e:
+        if 400 <= e.status < 500 and e.status != 429:
+            return {"ok": False, "reason": deps.red(f"credentials: licence check rejected (HTTP {e.status}): {e}; "
+                                                   "nothing submitted")}
+        return {"ok": False, "reason": deps.red(f"credentials: preflight unavailable ({e}); nothing submitted")}
+    except CDSError as e:
+        return {"ok": False, "reason": deps.red(f"credentials: preflight unavailable ({e}); nothing submitted")}
+    if not licences:
+        return {"ok": False, "reason": "credentials: no dataset licence accepted on this CDS account; nothing submitted"}
+    return {"ok": True, "authentication": "ok", "accepted_dataset_licences": licences,
+            "licence_check": LICENCE_CHECK_NOTE}
+
+
 # ================================================================== one month
 def process_month(deps: Deps, month: str, repeat_check: bool) -> dict:
     tag = C.tag_for(month)
@@ -446,6 +496,7 @@ def process_month(deps: Deps, month: str, repeat_check: bool) -> dict:
             raise Refused(decision["reason"], "submission uncertain")
         if decision["action"] == "refuse":
             raise Refused(decision["reason"], "retrieval limit")
+        preflight(deps)                      # before any ledger write or submit; raises Refused("credentials")
         r = decision["retrieval"]
         if not repeat_check:
             res = run_retrieval(deps, ledger, month, r, requests)
@@ -553,8 +604,12 @@ def main(argv=None) -> int:
     for m in doc["months"]:
         deps.work = pathlib.Path(a.work) / m
         out.append(process_month(deps, m, doc["repeat_check"]))
-    print(redact(json.dumps({"run_id": a.run_id, "purpose": doc["purpose"], "months": out}, indent=1, default=str),
-                 secrets))
+    pf = deps.preflight_result
+    pf_summary = None if pf is None else {"ok": pf["ok"], "reason": pf.get("reason"),
+                                          "accepted_dataset_licences": len(pf.get("accepted_dataset_licences", [])),
+                                          "licence_check": pf.get("licence_check")}
+    print(redact(json.dumps({"run_id": a.run_id, "purpose": doc["purpose"], "preflight": pf_summary, "months": out},
+                            indent=1, default=str), secrets))
     return 1 if any(o["outcome"] == "refused" for o in out) else 0
 
 

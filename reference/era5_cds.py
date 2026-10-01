@@ -121,6 +121,27 @@ class CDSClient:
             raise CDSDownloadError(f"downloaded {got} bytes, announced {size}")
         return {"announced_bytes": size}
 
+    # ------------------------------------------------------------ credential preflight (no job, no data)
+    def check_authentication(self) -> None:
+        """POST {api}/profiles/v1/account/verification/pat (one attempt). Raises a CDSError on failure.
+
+        The response may contain account details; it is deliberately discarded and never returned or recorded."""
+        try:
+            self._c.check_authentication()
+        except Exception as e:  # noqa: BLE001
+            raise _classify(e, self._secrets) from None
+
+    def accepted_dataset_licences(self) -> list[dict]:
+        """GET {api}/profiles/v1/account/licences?scope=dataset (one attempt): [{"id", "revision"}, ...].
+
+        PARTIAL check only: the client cannot tell which licence a dataset requires, so a non-empty list does not
+        prove that the ERA5 terms specifically were accepted."""
+        try:
+            lic = self._c.get_accepted_licences(scope="dataset")
+        except Exception as e:  # noqa: BLE001
+            raise _classify(e, self._secrets) from None
+        return [{"id": str(x.get("id")), "revision": x.get("revision")} for x in (lic or []) if isinstance(x, dict)]
+
     def redact(self, text: object) -> str:
         return redact(text, self._secrets)
 

@@ -113,3 +113,74 @@ def test_redact():
 def test_status_classes():
     assert [E.status_class(s) for s in ("accepted", "running", "successful", "failed", "rejected", "weird")] == \
         ["queued", "queued", "successful", "failed", "failed", "unknown"]
+
+
+# ---------------------------------------------------------------- credential preflight (account endpoints only)
+@pytest.fixture
+def account_http(monkeypatch):
+    """Intercepts HTTP: account endpoints answer from `replies` (status or exception); every call is recorded."""
+    calls, replies = [], {"auth": 200, "licences": 200, "licence_body": {"licences": [{"id": "x", "revision": 3}]}}
+
+    def fake(self, method, url, *a, **k):
+        method, tail = method.upper(), url.split("/api/")[1]
+        calls.append((method, tail, k.get("params")))
+        r = requests.Response()
+        r.url, r.request = url, requests.Request(method, url).prepare()
+        r.headers["content-type"] = "application/json"
+        if tail.startswith("catalogue/v1/messages"):
+            r.status_code, r._content = 200, b'{"messages": []}'
+            return r
+        key = "auth" if tail == "profiles/v1/account/verification/pat" else \
+            "licences" if tail == "profiles/v1/account/licences" else None
+        x = replies.get(key, 500)
+        if isinstance(x, Exception):
+            raise x
+        body = {"id": "account-id", "email": "someone@example.invalid"} if key == "auth" else replies["licence_body"]
+        if x != 200:
+            body = {"title": f"error {KEY}"}
+        r.status_code, r.reason, r._content = x, "scripted", json.dumps(body).encode()
+        return r
+
+    monkeypatch.setattr(requests.Session, "request", fake)
+    return calls, replies
+
+
+def test_check_authentication_endpoint_single_attempt_no_retrieve(account_http):
+    calls, replies = account_http
+    c = E.CDSClient(KEY)
+    assert c.check_authentication() is None                       # response (account details) is discarded
+    auth = [x for x in calls if x[1] == "profiles/v1/account/verification/pat"]
+    assert [x[0] for x in auth] == ["POST"]
+    assert not any(x[1].startswith("retrieve/") for x in calls)   # no job endpoint touched
+
+
+@pytest.mark.parametrize("status", [401, 403, 500, 503, 429])
+def test_check_authentication_failures_are_classified_once(account_http, status):
+    calls, replies = account_http
+    replies["auth"] = status
+    with pytest.raises(E.CDSHTTPError) as ei:
+        E.CDSClient(KEY).check_authentication()
+    assert ei.value.status == status and KEY not in str(ei.value)
+    assert sum(1 for x in calls if x[1] == "profiles/v1/account/verification/pat") == 1
+    assert not any(x[1].startswith("retrieve/") for x in calls)
+
+
+def test_check_authentication_transport_error(account_http):
+    calls, replies = account_http
+    replies["auth"] = requests.ConnectionError(f"reset PRIVATE-TOKEN: {KEY}")
+    with pytest.raises(E.CDSTransportError) as ei:
+        E.CDSClient(KEY).check_authentication()
+    assert KEY not in str(ei.value)
+
+
+def test_accepted_dataset_licences(account_http):
+    calls, replies = account_http
+    c = E.CDSClient(KEY)
+    assert c.accepted_dataset_licences() == [{"id": "x", "revision": 3}]
+    lic = [x for x in calls if x[1] == "profiles/v1/account/licences"]
+    assert len(lic) == 1 and lic[0][0] == "GET" and lic[0][2] == {"scope": "dataset"}
+    replies["licence_body"] = {"licences": []}
+    assert c.accepted_dataset_licences() == []
+    assert not any(x[1].startswith("retrieve/") for x in calls)
+    assert "does not" in E.CDSClient.accepted_dataset_licences.__doc__ and "PARTIAL" in \
+        E.CDSClient.accepted_dataset_licences.__doc__

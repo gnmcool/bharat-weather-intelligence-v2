@@ -115,11 +115,25 @@ class FakeCDS:
         self.download_script = {}           # role -> list of exceptions / "truncate" before a good download
         self.grib_kwargs = grib_kwargs or {}  # role or (retrieval_no, role) -> write_grib kwargs
         self.observer = None                # callable(event, rid) run at submit time (e.g. check the ledger)
+        self.auth_errors = []               # exceptions raised by successive check_authentication calls
+        self.licence_errors = []            # exceptions raised by successive accepted_dataset_licences calls
+        self.licences = [{"id": "licence-for-tests", "revision": 1}]   # accepted dataset licences (fake)
         self._n = 0
         self._cache = {}
 
     def _role(self, request):
         return "boundary" if len(request["time"]) == 5 else "month"
+
+    def check_authentication(self):
+        self.calls.append(("auth", None))
+        if self.auth_errors:
+            raise self.auth_errors.pop(0)
+
+    def accepted_dataset_licences(self):
+        self.calls.append(("licences", None))
+        if self.licence_errors:
+            raise self.licence_errors.pop(0)
+        return list(self.licences)
 
     def submit(self, request):
         self.calls.append(("submit", C.request_sha256(request)))

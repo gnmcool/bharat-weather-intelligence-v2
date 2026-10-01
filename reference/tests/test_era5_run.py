@@ -433,3 +433,139 @@ def test_cli_redacts_and_validates_request_file(tmp_path, capsys, monkeypatch):
         bad.write_text(json.dumps(doc))
         with pytest.raises(C.ReferenceError_):
             RUN.read_request(bad)
+
+
+# ---------------------------------------------------------------- credential preflight (no job, no ledger, no slot)
+def _calls(env, kind):
+    return [c for c in env.cds.calls if c[0] == kind]
+
+
+def test_preflight_runs_before_any_ledger_intent_or_submit(env):
+    order = []
+    env.cds.observer = lambda event, request: order.append(("submit", [c[0] for c in env.cds.calls]))
+    assert env.run()["outcome"] == "published"
+    kinds = [c[0] for c in env.cds.calls]
+    assert kinds[:2] == ["auth", "licences"] and kinds.index("submit") > 1
+    assert order[0][1][:2] == ["auth", "licences"]                  # both checks happened before the first submit
+    assert env.cds.submits() == 2 and len(_calls(env, "auth")) == 1
+
+
+@pytest.mark.parametrize("status", [401, 403])
+def test_failed_authentication_creates_no_job_and_no_ledger_entry(env, status):
+    env.cds.auth_errors = [http(status, "invalid token")]
+    out = env.run()
+    assert out["outcome"] == "refused" and out["check"] == "credentials"
+    assert f"authentication failed (HTTP {status})" in out["reason"]
+    assert env.cds.submits() == 0 and not _calls(env, "status") and not _calls(env, "download")
+    assert env.ledger() == []                                       # no intent: no retrieval slot used
+    assert env.refusals() == ["credentials"] and env.gh.rel == {}
+    assert RUN.plan_next(RUN.Ledger(env.index, M, "next"), M, False)["action"] == "start"
+
+
+@pytest.mark.parametrize("err,fragment", [(transport(), "preflight unavailable"), (http(503), "preflight unavailable"),
+                                          (http(400), "authentication check rejected")])
+def test_preflight_other_failures_stop_before_ledger(env, err, fragment):
+    env.cds.auth_errors = [err]
+    out = env.run()
+    assert out["check"] == "credentials" and fragment in out["reason"]
+    assert env.cds.submits() == 0 and env.ledger() == []
+
+
+def test_empty_licence_list_is_refused_before_ledger(env):
+    env.cds.licences = []
+    out = env.run()
+    assert out["check"] == "credentials" and "no dataset licence accepted" in out["reason"]
+    assert env.cds.submits() == 0 and env.ledger() == []
+
+
+def test_licence_check_error_stops_before_ledger(env):
+    env.cds.licence_errors = [http(403, "forbidden")]
+    out = env.run()
+    assert out["check"] == "credentials" and "licence check rejected" in out["reason"]
+    assert env.cds.submits() == 0 and env.ledger() == []
+
+
+def test_licence_check_is_recorded_as_partial(env):
+    env.run()
+    pf = env.deps.preflight_result
+    assert pf["ok"] and pf["authentication"] == "ok"
+    assert pf["licence_check"].startswith("partial") and "does not prove that the ERA5 terms were accepted" in \
+        pf["licence_check"]
+    assert "email" not in json.dumps(pf) and "account-id" not in json.dumps(pf)   # auth response never kept
+
+
+def test_september_failed_preflight_keeps_both_slots(tmp_path):
+    e = Env(tmp_path, today=date(2026, 12, 9))
+    e.cds.auth_errors = [http(401)]
+    assert e.run(V, True)["check"] == "credentials" and e.ledger(V) == []
+    later = e.again("run2")                                         # token fixed; new committed request
+    out = later.run(V, True)
+    assert out["outcome"] == "published" and e.cds.submits() == 4   # retrieval 1 + R2, nothing lost
+    assert {x["retrieval"] for x in e.ledger(V) if x["event"] == "intent"} == {1, 2}
+
+
+def test_successful_preflight_uses_no_slot(env):
+    env.run()
+    intents = [x for x in env.ledger() if x["event"] == "intent"]
+    assert len(intents) == 2 and {x["retrieval"] for x in intents} == {1}   # only the 2 jobs of retrieval 1
+
+
+def test_preflight_once_per_run_and_cached_failure(tmp_path):
+    e = Env(tmp_path, today=date(2027, 2, 8))                       # both 2026-10 and 2026-11 eligible
+    assert e.run(M)["outcome"] == "published"
+    e.deps.work = tmp_path / "work2"
+    assert e.run("2026-11", False)["outcome"] == "published"
+    assert len(_calls(e, "auth")) == 1 and len(_calls(e, "licences")) == 1 and e.cds.submits() == 4
+    f = Env(tmp_path / "f")
+    f.cds.auth_errors = [http(401)]
+    f.run(M)
+    f.deps.today = date(2027, 2, 8)
+    f.run("2026-11")
+    assert len(_calls(f, "auth")) == 1 and f.cds.submits() == 0     # failure cached, not re-tried in the run
+
+
+def test_no_preflight_when_no_cds_work_is_needed(tmp_path):
+    e = Env(tmp_path, today=date(2027, 1, 8))                       # not yet eligible
+    e.run()
+    assert e.cds.calls == []
+    p = Env(tmp_path / "p")
+    p.run()
+    n = len(p.cds.calls)
+    assert p.again("run2").run()["outcome"] == "done" and len(p.cds.calls) == n   # published: no preflight
+
+
+def test_preflight_failure_paths_never_expose_the_key(tmp_path, capsys):
+    envs = []
+    for k, err in enumerate([http(401, "bad token"), http(403, "denied"), transport(), http(400, "bad")]):
+        e = Env(tmp_path / f"e{k}")
+        e.cds.auth_errors = [err]
+        out = e.run()
+        assert KEY not in json.dumps(out)
+        envs.append(e)
+    l = Env(tmp_path / "l")
+    l.cds.licence_errors = [http(403, "nope")]
+    assert KEY not in json.dumps(l.run())
+    envs.append(l)
+    assert scan_for_secret(*[x.index for x in envs if x.index.exists()]) == []
+    assert KEY not in capsys.readouterr().out
+
+
+def test_cli_preflight_summary_has_no_secret(tmp_path, capsys, monkeypatch):
+    """CLI path with the real driver but a fake CDS: the printed summary carries the partial-licence note only."""
+    req = tmp_path / "req.json"
+    req.write_text(json.dumps({"months": ["2025-01"], "purpose": "test", "repeat_check": False}))   # eligible by real clock
+    fake = FakeCDS(tmp_path / "cds")
+    fake.auth_errors = [http(401, "bad")]
+    monkeypatch.setenv("CDS_API_KEY", KEY)
+    monkeypatch.setattr(RUN, "_code_info", lambda: {"commit": "t"})
+    import era5_cds
+    monkeypatch.setattr(era5_cds, "CDSClient", lambda key: fake)
+    monkeypatch.setattr(RUN, "RefGH", FakeGH)
+    import history.backfill as HB
+    monkeypatch.setattr(HB, "commit_index", lambda idx, msg: None)
+    rc = RUN.main(["--request", str(req), "--index", str(tmp_path / "idx"), "--work", str(tmp_path / "w"),
+                   "--run-id", "9"])
+    out = capsys.readouterr().out
+    assert KEY not in out, out
+    assert rc == 1 and '"ok": false' in out and fake.submits() == 0, out
+    assert not (tmp_path / "idx" / "reference" / "era5" / "jobs").exists()

@@ -111,8 +111,8 @@ export function SystemRisk({ r, open: openInit = false }: { r: CoreRiskItem; ope
   );
 }
 
-export function SystemLabel() {
-  return <span className="rounded bg-system/25 px-1.5 py-0.5 text-[10.5px] font-semibold uppercase tracking-wide text-slate-200">System assessment</span>;
+export function SystemLabel({ label = "System assessment" }: { label?: string }) {
+  return <span className="rounded bg-system/25 px-1.5 py-0.5 text-[10.5px] font-semibold uppercase tracking-wide text-slate-200">{label}</span>;
 }
 
 /** Provenance list, verbatim from CORE. */

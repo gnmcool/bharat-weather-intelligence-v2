@@ -1,0 +1,232 @@
+{
+ "core_commit": "2840f8d",
+ "generated_by": "running CORE backend/app/engines/risk.assess on synthetic weather (event headlines, level >= 1)",
+ "headlines": {
+  "cold": [
+   "Cold-wave conditions Mon 05 Oct",
+   "Cold-wave conditions Tue 06 Oct",
+   "Cold-wave conditions Wed 07 Oct",
+   "Cold-wave conditions today",
+   "Cold-wave conditions tomorrow",
+   "Severe cold wave Mon 05 Oct",
+   "Severe cold wave Tue 06 Oct",
+   "Severe cold wave Wed 07 Oct",
+   "Severe cold wave today",
+   "Severe cold wave tomorrow"
+  ],
+  "drought": [
+   "Last 30 days: 52 mm vs normal 120 mm (-57%, Deficient)",
+   "Last 30 days: 0 mm vs normal 150 mm (-100%, No rain)",
+   "Last 30 days: 0 mm vs normal 30 mm (-100%, No rain)",
+   "Last 30 days: 10 mm vs normal 90 mm (-89%, Large deficient)",
+   "Last 30 days: 14 mm vs normal 90 mm (-84%, Large deficient)",
+   "Last 30 days: 16 mm vs normal 90 mm (-82%, Large deficient)",
+   "Last 30 days: 17 mm vs normal 90 mm (-81%, Large deficient)",
+   "Last 30 days: 18 mm vs normal 90 mm (-80%, Large deficient)",
+   "Last 30 days: 20 mm vs normal 120 mm (-83%, Large deficient)",
+   "Last 30 days: 24 mm vs normal 120 mm (-80%, Large deficient)",
+   "Last 30 days: 24 mm vs normal 90 mm (-73%, Large deficient)",
+   "Last 30 days: 28 mm vs normal 120 mm (-77%, Large deficient)",
+   "Last 30 days: 32 mm vs normal 120 mm (-73%, Large deficient)",
+   "Last 30 days: 40 mm vs normal 120 mm (-67%, Large deficient)"
+  ],
+  "fire": [
+   "Hot, dry and windy spells ahead",
+   "Hot, dry and windy spells ahead"
+  ],
+  "flood": [
+   "72-h rain up to 130 mm (incl. past 2 days) — flooding possible",
+   "72-h rain up to 140 mm (incl. past 2 days) — flooding possible",
+   "72-h rain up to 150 mm (incl. past 2 days) — flooding possible",
+   "72-h rain up to 180 mm (incl. past 2 days) — flooding possible",
+   "72-h rain up to 230 mm (incl. past 2 days) — flooding possible",
+   "72-h rain up to 240 mm (incl. past 2 days) — flooding possible",
+   "72-h rain up to 250 mm (incl. past 2 days) — flooding possible",
+   "72-h rain up to 270 mm (incl. past 2 days) — flooding possible",
+   "72-h rain up to 300 mm (incl. past 2 days) — flooding possible",
+   "72-h rain up to 350 mm (incl. past 2 days) — flooding possible",
+   "72-h rain up to 390 mm (incl. past 2 days) — flooding possible",
+   "72-h rain up to 400 mm (incl. past 2 days) — flooding possible",
+   "72-h rain up to 420 mm (incl. past 2 days) — flooding possible",
+   "72-h rain up to 450 mm (incl. past 2 days) — flooding possible",
+   "72-h rain up to 460 mm (incl. past 2 days) — flooding possible",
+   "72-h rain up to 510 mm (incl. past 2 days) — flooding possible",
+   "72-h rain up to 570 mm (incl. past 2 days) — flooding possible",
+   "72-h rain up to 630 mm (incl. past 2 days) — flooding possible",
+   "72-h rain up to 650 mm (incl. past 2 days) — flooding possible",
+   "72-h rain up to 670 mm (incl. past 2 days) — flooding possible",
+   "72-h rain up to 690 mm (incl. past 2 days) — flooding possible"
+  ],
+  "fog": [
+   "Visibility down to 600 m around Thu 01 AM",
+   "Visibility down to 600 m around Thu 02 AM",
+   "Visibility down to 600 m around Thu 04 AM",
+   "Visibility down to 600 m around Thu 12 AM",
+   "Visibility down to 100 m around Thu 01 AM",
+   "Visibility down to 100 m around Thu 02 AM",
+   "Visibility down to 100 m around Thu 04 AM",
+   "Visibility down to 100 m around Thu 12 AM",
+   "Visibility down to 30 m around Thu 01 AM",
+   "Visibility down to 30 m around Thu 02 AM",
+   "Visibility down to 30 m around Thu 04 AM",
+   "Visibility down to 30 m around Thu 12 AM"
+  ],
+  "heat": [
+   "Heat-wave conditions Sat 03 Oct",
+   "Heat-wave conditions tomorrow",
+   "Severe heat-wave conditions Mon 05 Oct",
+   "Severe heat-wave conditions Sat 03 Oct",
+   "Severe heat-wave conditions Sun 04 Oct",
+   "Severe heat-wave conditions Tue 06 Oct",
+   "Severe heat-wave conditions Wed 07 Oct",
+   "Severe heat-wave conditions today",
+   "Severe heat-wave conditions tomorrow"
+  ],
+  "lightning": [
+   "Lightning risk present from Thu 1 Oct, 12 AM",
+   "Lightning risk present from Thu 1 Oct, 1 AM",
+   "Lightning risk present from Thu 1 Oct, 12 AM",
+   "Lightning risk present from Thu 1 Oct, 2 AM",
+   "Lightning risk present from Thu 1 Oct, 6 AM",
+   "Lightning risk high from Thu 1 Oct, 1 AM",
+   "Lightning risk high from Thu 1 Oct, 12 AM",
+   "Lightning risk high from Thu 1 Oct, 2 AM",
+   "Lightning risk high from Thu 1 Oct, 6 AM"
+  ],
+  "rain": [
+   "Rather heavy rain Sat 03 Oct (50 mm)",
+   "Rather heavy rain Tue 06 Oct (50 mm)",
+   "Rather heavy rain today (40 mm)",
+   "Rather heavy rain today (50 mm)",
+   "Heavy rain Sat 03 Oct (90 mm)",
+   "Heavy rain Tue 06 Oct (90 mm)",
+   "Heavy rain today (70 mm)",
+   "Heavy rain today (90 mm)",
+   "Extremely heavy rain Sat 03 Oct (210 mm)",
+   "Extremely heavy rain Sat 03 Oct (230 mm)",
+   "Extremely heavy rain Tue 06 Oct (210 mm)",
+   "Extremely heavy rain Tue 06 Oct (230 mm)",
+   "Extremely heavy rain today (210 mm)",
+   "Extremely heavy rain today (230 mm)",
+   "Extremely heavy rain tomorrow (210 mm)",
+   "Very heavy rain Sat 03 Oct (150 mm)",
+   "Very heavy rain Tue 06 Oct (150 mm)",
+   "Very heavy rain today (120 mm)",
+   "Very heavy rain today (150 mm)",
+   "Very heavy rain tomorrow (150 mm)"
+  ],
+  "thunderstorm": [
+   "Thunderstorm possible from Thu 1 Oct, 12 AM",
+   "Thunderstorm likely from Thu 1 Oct, 1 AM",
+   "Thunderstorm likely from Thu 1 Oct, 12 AM",
+   "Thunderstorm likely from Thu 1 Oct, 2 AM",
+   "Thunderstorm likely from Thu 1 Oct, 6 AM",
+   "Thunderstorm likely from Thu 1 Oct, 1 AM",
+   "Thunderstorm likely from Thu 1 Oct, 12 AM",
+   "Thunderstorm likely from Thu 1 Oct, 2 AM",
+   "Thunderstorm likely from Thu 1 Oct, 6 AM"
+  ],
+  "wind": [
+   "Gusts up to 57 km/h Tue 06 Oct",
+   "Gusts up to 58 km/h Mon 05 Oct",
+   "Gusts up to 58 km/h Sun 04 Oct",
+   "Gusts up to 59 km/h Sun 04 Oct",
+   "Gusts up to 59 km/h tomorrow",
+   "Gusts up to 60 km/h Sat 03 Oct",
+   "Gusts up to 60 km/h Tue 06 Oct",
+   "Gusts up to 60 km/h today",
+   "Gusts up to 60 km/h tomorrow",
+   "Gusts up to 79 km/h Tue 06 Oct",
+   "Gusts up to 80 km/h Mon 05 Oct",
+   "Gusts up to 81 km/h Sun 04 Oct",
+   "Gusts up to 83 km/h Sun 04 Oct",
+   "Gusts up to 84 km/h Sat 03 Oct",
+   "Gusts up to 84 km/h Tue 06 Oct",
+   "Gusts up to 84 km/h today",
+   "Gusts up to 84 km/h tomorrow",
+   "Gusts up to 85 km/h Tue 06 Oct",
+   "Gusts up to 85 km/h tomorrow",
+   "Gusts up to 100 km/h Sat 03 Oct",
+   "Gusts up to 100 km/h Tue 06 Oct",
+   "Gusts up to 100 km/h today",
+   "Gusts up to 100 km/h tomorrow",
+   "Gusts up to 97 km/h Tue 06 Oct",
+   "Gusts up to 98 km/h Mon 05 Oct",
+   "Gusts up to 98 km/h Sun 04 Oct",
+   "Gusts up to 99 km/h Sun 04 Oct",
+   "Gusts up to 99 km/h tomorrow"
+  ]
+ },
+ "v2_titles": {
+  "heat": "Heat",
+  "cold": "Cold",
+  "rain": "Heavy rain",
+  "wind": "Strong wind",
+  "thunderstorm": "Thunderstorm potential — model derived",
+  "lightning": "Lightning potential — model derived",
+  "flood": "Flood-related risk (rainfall accumulation)",
+  "drought": "Dry spell / rainfall deficit",
+  "fog": "Fog",
+  "fire": "Fire weather",
+  "cyclone": "Cyclone (official alert logic)"
+ },
+ "v2_context_farmer": {
+  "heat": "Heat during this period may be relevant to field work and to crops at heat-sensitive stages.",
+  "cold": "Low night temperatures during this period may be relevant to crops at cold-sensitive stages.",
+  "rain": "Rain during this period may affect field operations.",
+  "wind": "Strong wind during this period may affect field operations and tall standing crops.",
+  "thunderstorm": "If thunderstorms develop, they may interrupt field operations.",
+  "lightning": "Lightning potential is most relevant to people working in open fields.",
+  "flood": "Accumulated rain may be relevant to waterlogging in low-lying fields.",
+  "fog": "Low visibility may affect early-morning field work and transport.",
+  "fire": "Hot, dry and windy conditions may be relevant to fire in dry fields and crop residue.",
+  "drought": "A rainfall deficit during this period may be relevant to soil moisture and irrigation."
+ },
+ "v2_context_label": "Potential relevance — general context, not an impact forecast",
+ "live_headlines": {
+  "cold": [
+   "Severe cold wave Tue 29 Sep"
+  ],
+  "drought": [
+   "Last 30 days: 100 mm vs normal 133 mm (-25%, Deficient)",
+   "Last 30 days: 124 mm vs normal 160 mm (-22%, Deficient)"
+  ],
+  "flood": [
+   "72-h rain up to 142 mm (incl. past 2 days) — flooding possible"
+  ],
+  "fog": [
+   "Visibility down to 340 m around Sun 10 PM",
+   "Visibility down to 60 m around Tue 01 AM"
+  ],
+  "lightning": [
+   "Lightning risk present from Mon 28 Sep, 2 PM",
+   "Lightning risk present from Tue 29 Sep, 10 AM"
+  ],
+  "rain": [
+   "Rather heavy rain today (58 mm)"
+  ],
+  "thunderstorm": [
+   "Thunderstorm possible from Mon 28 Sep, 2 PM",
+   "Thunderstorm possible from Tue 29 Sep, 10 AM"
+  ]
+ },
+ "live_anomaly_words": [
+  "Above normal",
+  "Below normal",
+  "Deficient",
+  "Excess",
+  "Large deficient",
+  "Large excess",
+  "Max temperature",
+  "Max temperature (7-day mean)",
+  "Min temperature",
+  "Near normal",
+  "Next 7 days",
+  "Next 7 days (forecast)",
+  "Normal",
+  "Past 30 days (model analysis)",
+  "Rainfall",
+  "Today"
+ ],
+ "live_source": "api-v2/tests/fixtures/dashboard_*.json (captured CORE /api/v1/dashboard responses) through api-v2 build_events"
+}

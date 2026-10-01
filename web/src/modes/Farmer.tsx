@@ -22,7 +22,7 @@ function Tx({ o, lang }: { o: Out; lang: Lang }) {
   return <>{o.text}</>;
 }
 
-function LangSwitch() {
+export function LangSwitch() {
   const { lang, setLang } = useLang();
   const t = uiText(lang);
   return (
@@ -63,8 +63,7 @@ export default function FarmerWorkflow() {
   );
 
   return (
-    <div className="space-y-6" data-testid="farmer" lang={lang === "gu" ? "gu" : "en"}>
-      <LangSwitch />
+    <div className="space-y-6" data-testid="farmer" lang={lang}>
       <Section title={t.field_title}>
         <ol className="grid gap-3 text-[13px] sm:grid-cols-2 lg:grid-cols-4">
           <li>
@@ -200,27 +199,25 @@ export default function FarmerWorkflow() {
 /**
  * M2: SYSTEM ASSESSMENT → potential crop relevance → existing CORE crop indicator → official advisory.
  * Uses the same /api/v2/events records and evidence drawer as Citizen and Government. No new agronomic rules.
- * Event cards themselves are not yet translated; in Gujarati they are shown in English under a notice.
  */
 function FarmerEvents({ report, lang, cropLabel, stage }: { report: CoreFarmerReport; lang: Lang; cropLabel: Out; stage: Out }) {
   const place = useApp((s) => s.place);
   const t = uiText(lang);
   const ev = useCore<V2Events>(`events:${place.lat},${place.lon},${place.name}`, () => v2.events(place));
   return (
-    <Section title={t.rel_title} right={<SystemLabel />}>
+    <Section title={t.rel_title} right={<SystemLabel label={t.system_label} />}>
       <Load s={ev} lines={3}>
         {(d) => {
           const events = d.events.filter((e) => e.classification === "system");
           if (!events.length) return <p className="text-[13px] text-muted" data-testid="farmer-events-none">{t.rel_none}</p>;
           return (
             <div className="space-y-3" data-testid="farmer-events">
-              {t.events_english && <p className="text-[12px] text-muted" data-testid="farmer-events-english">{t.events_english}</p>}
               {events.map((e) => {
                 const link = FARMER_LINK[e.type];
                 const inds = link ? report.indicators.filter((i) => link.ids.includes(i.id)) : [];
                 return (
                   <div key={e.id} className="grid gap-2 rounded-xl border border-line p-2.5 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]" data-testid="farmer-event-chain" data-event-type={e.type}>
-                    <div lang="en"><EventCard e={e} audience="farmer" /></div>
+                    <EventCard e={e} audience="farmer" lang={lang} />
                     <div className="space-y-1.5 text-[12.5px]">
                       <div className="text-[11px] font-semibold uppercase tracking-wide text-muted">{t.rel_head}</div>
                       {inds.length ? (

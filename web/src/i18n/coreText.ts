@@ -157,7 +157,7 @@ export function indicatorText(i: IndicatorIn, lang: Lang): IndicatorOut {
 
 // ── Fixed CORE paragraphs: exact-match only ────────────────────────────────────
 
-const EXACT: Record<string, string> = {
+export const EXACT: Record<string, string> = {
   // farmer.py disclaimer
   "SYSTEM-DERIVED WEATHER INDICATORS — computed automatically from forecast models using unvalidated thresholds. They are not farming instructions. Follow the official Agromet Advisory for decisions.":
     "સિસ્ટમ-આધારિત હવામાન સૂચકાંકો — ફોરકાસ્ટ મોડેલોમાંથી, ચકાસણી ન થયેલી મર્યાદાઓ (થ્રેશોલ્ડ) વડે આપમેળે ગણાયેલા. આ ખેતી માટેની સૂચના નથી. નિર્ણય માટે સત્તાવાર કૃષિ-હવામાન સલાહ (Agromet Advisory) અનુસરો.",
@@ -189,12 +189,199 @@ const EXACT: Record<string, string> = {
     "ફૂલ/શીંગ ભરાવાની અવસ્થાએ હિમ શીંગોને નુકસાન કરે છે; વાદળછાયું ભેજવાળું હવામાન મોલો-મશી (એફિડ) ને અનુકૂળ છે.",
   // crops.yaml validation_status
   unvalidated: "ચકાસણી બાકી",
+  // CORE anomaly.py labels, periods and categories (farmer home, "Departure from normal")
+  "Max temperature": "મહત્તમ તાપમાન",
+  "Min temperature": "લઘુત્તમ તાપમાન",
+  "Max temperature (7-day mean)": "મહત્તમ તાપમાન (7 દિવસની સરેરાશ)",
+  Rainfall: "વરસાદ",
+  Today: "આજે",
+  "Next 7 days": "આવતા 7 દિવસ",
+  "Next 7 days (forecast)": "આવતા 7 દિવસ (આગાહી)",
+  "Past 30 days (model analysis)": "છેલ્લા 30 દિવસ (મોડેલ વિશ્લેષણ)",
+  "Above normal": "સામાન્યથી વધુ",
+  "Below normal": "સામાન્યથી ઓછું",
+  "Near normal": "લગભગ સામાન્ય",
+  "Large excess": "ઘણો વધુ",
+  Excess: "વધુ",
+  Normal: "સામાન્ય",
+  Deficient: "ઓછો",
+  "Large deficient": "ઘણો ઓછો",
+  "No rain": "વરસાદ નહીં",
+  "Dry season": "સૂકી ઋતુ",
+  "Rain in dry season": "સૂકી ઋતુમાં વરસાદ",
+  // CORE current-conditions fields (services.py source, terrain.py classes)
+  "Open-Meteo best-match (model analysis, not a station observation)": "Open-Meteo best-match (મોડેલ વિશ્લેષણ, હવામાન મથકનું અવલોકન નથી)",
+  plains: "મેદાની વિસ્તાર",
+  coastal: "દરિયાકાંઠો",
+  hills: "પહાડી વિસ્તાર",
+  // V2 format.wmoText (WMO 4677 groups)
+  Clear: "ચોખ્ખું આકાશ",
+  "Partly cloudy": "આંશિક વાદળછાયું",
+  Overcast: "ઘેરાં વાદળ",
+  Fog: "ધુમ્મસ",
+  Drizzle: "ઝરમર",
+  Rain: "વરસાદ",
+  "Heavy rain": "ભારે વરસાદ",
+  Snow: "હિમવર્ષા",
+  Showers: "ઝાપટાં",
+  "Violent showers": "ખૂબ ભારે ઝાપટાં",
+  Thunderstorm: "ગાજવીજ સાથે વાવાઝોડું",
+  "Thunderstorm with hail": "કરા સાથે ગાજવીજ અને વાવાઝોડું",
+  // V2 api-v2 events.py what_to_know.message
+  "No significant weather event detected.": "કોઈ મહત્ત્વની હવામાન ઘટના મળી નથી.",
 };
 
 /** A fixed CORE paragraph in Gujarati if it matches CORE's text exactly; otherwise CORE's English. */
 export function coreText(s: string | null | undefined, lang: Lang): Out {
   const v = s ?? "";
   return lang === "gu" && EXACT[v] ? g(EXACT[v]) : en(v);
+}
+
+// ── Weather-event cards (V2 /api/v2/events over CORE risks; CORE 2840f8d risk.py headlines) ─────────────────
+
+export const WD: Record<string, string> = { Mon: "સોમ", Tue: "મંગળ", Wed: "બુધ", Thu: "ગુરુ", Fri: "શુક્ર", Sat: "શનિ", Sun: "રવિ" };
+export const MO: Record<string, string> = {
+  Jan: "જાન્યુ", Feb: "ફેબ્રુ", Mar: "માર્ચ", Apr: "એપ્રિલ", May: "મે", Jun: "જૂન",
+  Jul: "જુલાઈ", Aug: "ઑગસ્ટ", Sep: "સપ્ટે", Oct: "ઑક્ટો", Nov: "નવે", Dec: "ડિસે",
+};
+const WDS = Object.keys(WD).join("|");
+const MOS = Object.keys(MO).join("|");
+/** CORE _fmt_day: "today" | "tomorrow" | "Sat 03 Oct". */
+const DAY = `(today|tomorrow|(?:${WDS}) \\d{2} (?:${MOS}))`;
+const dayGu = (s: string) =>
+  s === "today" ? "આજે" : s === "tomorrow" ? "આવતીકાલે" : s.replace(/^(\w{3}) (\d{2}) (\w{3})$/, (_, w, d, m) => `${WD[w]} ${d} ${MO[m]}`);
+/** CORE thunderstorm time: "Thu 1 Oct, 2 PM". AM/PM kept as written (review item). */
+const WHEN = `((?:${WDS}) \\d{1,2} (?:${MOS}), \\d{1,2} (?:AM|PM))`;
+const whenGu = (s: string) => s.replace(/^(\w{3}) (\d{1,2}) (\w{3}), /, (_, w, d, m) => `${WD[w]} ${d} ${MO[m]}, `);
+/** CORE fog time: "Thu 02 AM". */
+const HOUR = `((?:${WDS}) \\d{2} (?:AM|PM))`;
+const hourGu = (s: string) => s.replace(/^(\w{3}) /, (_, w) => `${WD[w]} `);
+
+const HEAT: Record<string, string> = {
+  "Heat watch": "ગરમી પર નજર રાખો",
+  "Heat-wave conditions": "હીટવેવ (લૂ) ની સ્થિતિ",
+  "Severe heat-wave conditions": "ગંભીર હીટવેવ (લૂ) ની સ્થિતિ",
+};
+const COLD: Record<string, string> = {
+  "Cold watch": "ઠંડી પર નજર રાખો",
+  "Cold-wave conditions": "શીતલહેરની સ્થિતિ",
+  "Severe cold wave": "ગંભીર શીતલહેર",
+};
+const RAIN_CAT: Record<string, string> = {
+  "Very light": "ખૂબ હળવો", Light: "હળવો", Moderate: "મધ્યમ", "Rather heavy": "સાધારણ ભારે",
+  Heavy: "ભારે", "Very heavy": "અતિ ભારે", "Extremely heavy": "અત્યંત ભારે",
+};
+const DEP_CAT: Record<string, string> = {
+  "Large excess": "ઘણો વધુ", Excess: "વધુ", Normal: "સામાન્ય", Deficient: "ઓછો", "Large deficient": "ઘણો ઓછો", "No rain": "વરસાદ નહીં",
+};
+const alt = (o: Record<string, string>) => Object.keys(o).map((k) => k.replace(/[-]/g, "\\-")).join("|");
+
+const HEADLINE: Record<string, Pattern[]> = {
+  heat: [P(`(${alt(HEAT)}) ${DAY}`, (m) => `${dayGu(m[2])} ${HEAT[m[1]]}`)],
+  cold: [P(`(${alt(COLD)}) ${DAY}`, (m) => `${dayGu(m[2])} ${COLD[m[1]]}`)],
+  rain: [P(`(${alt(RAIN_CAT)}) rain ${DAY} \\(${N} mm\\)`, (m) => `${dayGu(m[2])} ${RAIN_CAT[m[1]]} વરસાદ (${m[3]} મિમી)`)],
+  wind: [
+    P(`Gusts up to ${N} km/h ${DAY}`, (m) => `${dayGu(m[2])} ${m[1]} કિમી/કલાક સુધીના પવનના ઝાટકા`),
+    P(`Gusts up to ${N} km/h`, (m) => `${m[1]} કિમી/કલાક સુધીના પવનના ઝાટકા`),
+  ],
+  thunderstorm: [
+    P(`Thunderstorm likely from ${WHEN}`, (m) => `${whenGu(m[1])} થી ગાજવીજ સાથે વાવાઝોડાની વધુ શક્યતા`),
+    P(`Thunderstorm possible from ${WHEN}`, (m) => `${whenGu(m[1])} થી ગાજવીજ સાથે વાવાઝોડાની શક્યતા`),
+  ],
+  lightning: [
+    P(`Lightning risk high from ${WHEN}`, (m) => `${whenGu(m[1])} થી વીજળી પડવાનું વધુ જોખમ`),
+    P(`Lightning risk present from ${WHEN}`, (m) => `${whenGu(m[1])} થી વીજળી પડવાનું જોખમ`),
+  ],
+  flood: [
+    P(`72-h rain up to ${N} mm \\(incl\\. past 2 days\\) — flooding possible`, (m) => `72 કલાકમાં ${m[1]} મિમી સુધી વરસાદ (છેલ્લા 2 દિવસ સહિત) — પૂર શક્ય`),
+    P(`72-h rain up to ${N} mm \\(incl\\. past 2 days\\)`, (m) => `72 કલાકમાં ${m[1]} મિમી સુધી વરસાદ (છેલ્લા 2 દિવસ સહિત)`),
+  ],
+  drought: [
+    P(`Last 30 days: ${N} mm vs normal ${N} mm \\(([+-]\\d+)%, (${alt(DEP_CAT)})\\)`,
+      (m) => `છેલ્લા 30 દિવસ: ${m[1]} મિમી, સામાન્ય ${m[2]} મિમી (${m[3]}%, ${DEP_CAT[m[4]]})`),
+  ],
+  fog: [P(`Visibility down to ${N} m around ${HOUR}`, (m) => `${hourGu(m[2])} આસપાસ દૃશ્યતા ઘટીને ${m[1]} મીટર`)],
+  fire: [P(`Hot, dry and windy spells ahead`, () => "આગળના દિવસોમાં ગરમ, સૂકા અને પવનવાળા ગાળા")],
+};
+
+/** V2 event titles (api-v2 catalogue.TITLE), keyed by event type and checked against the English. */
+export const EVENT_TITLE: Record<string, [string, string]> = {
+  heat: ["Heat", "ગરમી"],
+  cold: ["Cold", "ઠંડી"],
+  rain: ["Heavy rain", "ભારે વરસાદ"],
+  wind: ["Strong wind", "તેજ પવન"],
+  thunderstorm: ["Thunderstorm potential — model derived", "ગાજવીજ સાથે વાવાઝોડાની સંભાવના — મોડેલ આધારિત"],
+  lightning: ["Lightning potential — model derived", "વીજળી પડવાની સંભાવના — મોડેલ આધારિત"],
+  flood: ["Flood-related risk (rainfall accumulation)", "પૂર સંબંધિત જોખમ (એકઠો થયેલો વરસાદ)"],
+  drought: ["Dry spell / rainfall deficit", "વરસાદ વગરનો ગાળો / વરસાદની ઘટ"],
+  fog: ["Fog", "ધુમ્મસ"],
+  fire: ["Fire weather", "આગ માટે અનુકૂળ હવામાન"],
+};
+
+/** V2 farmer context (api-v2 catalogue.CONTEXT[...][1]); exact match only. */
+export const EVENT_EXACT: Record<string, string> = {
+  "Heat during this period may be relevant to field work and to crops at heat-sensitive stages.":
+    "આ સમયગાળાની ગરમી ખેતરના કામ અને ગરમી પ્રત્યે સંવેદનશીલ અવસ્થાના પાક માટે મહત્ત્વની હોઈ શકે.",
+  "Low night temperatures during this period may be relevant to crops at cold-sensitive stages.":
+    "આ સમયગાળાનું રાત્રિનું નીચું તાપમાન ઠંડી પ્રત્યે સંવેદનશીલ અવસ્થાના પાક માટે મહત્ત્વનું હોઈ શકે.",
+  "Rain during this period may affect field operations.": "આ સમયગાળાનો વરસાદ ખેતરના કામને અસર કરી શકે.",
+  "Strong wind during this period may affect field operations and tall standing crops.":
+    "આ સમયગાળાનો તેજ પવન ખેતરના કામ અને ઊંચા ઊભા પાકને અસર કરી શકે.",
+  "If thunderstorms develop, they may interrupt field operations.": "જો ગાજવીજ સાથે વાવાઝોડું થાય, તો ખેતરનું કામ અટકી શકે.",
+  "Lightning potential is most relevant to people working in open fields.":
+    "વીજળી પડવાની સંભાવના ખુલ્લા ખેતરમાં કામ કરતા લોકો માટે સૌથી વધુ મહત્ત્વની છે.",
+  "Accumulated rain may be relevant to waterlogging in low-lying fields.":
+    "એકઠો થયેલો વરસાદ નીચાણવાળા ખેતરોમાં પાણી ભરાવા માટે મહત્ત્વનો હોઈ શકે.",
+  "Low visibility may affect early-morning field work and transport.": "ઓછી દૃશ્યતા વહેલી સવારના ખેતરના કામ અને વાહનવ્યવહારને અસર કરી શકે.",
+  "Hot, dry and windy conditions may be relevant to fire in dry fields and crop residue.":
+    "ગરમ, સૂકું અને પવનવાળું હવામાન સૂકા ખેતરો અને પાકના અવશેષોમાં આગ માટે મહત્ત્વનું હોઈ શકે.",
+  "A rainfall deficit during this period may be relevant to soil moisture and irrigation.":
+    "આ સમયગાળાની વરસાદની ઘટ જમીનના ભેજ અને સિંચાઈ માટે મહત્ત્વની હોઈ શકે.",
+  "Timing not provided by CORE for this risk; see the headline.": "CORE એ આ જોખમનો સમય આપ્યો નથી; મુખ્ય વાક્ય જુઓ.",
+  "Model agreement: not assessed": "મોડેલોની સહમતી: આકારણી નથી",
+};
+const AGREE = P(`Model agreement: (\\d+) of (\\d+)`, (m) => `મોડેલોની સહમતી: ${m[2]} માંથી ${m[1]}`);
+
+export interface EventIn {
+  type: string;
+  title: string;
+  headline: string | null;
+  severity: { level: number; status: string };
+  timing_note: string | null;
+  model_agreement: { text: string };
+  context: { farmer: string } | null;
+}
+export interface EventOut {
+  title: Out;
+  headline: Out;
+  status: Out;
+  timing: Out;
+  agreement: Out;
+  context: Out;
+}
+
+/** Render a V2 event card's text. Each field falls back to the English independently. */
+export function eventText(e: EventIn, lang: Lang): EventOut {
+  const ex = (s: string | null | undefined): Out => {
+    const v = s ?? "";
+    return lang === "gu" && EVENT_EXACT[v] ? g(EVENT_EXACT[v]) : en(v);
+  };
+  if (lang !== "gu") {
+    return { title: en(e.title), headline: en(e.headline ?? ""), status: en(e.severity.status), timing: en(e.timing_note ?? ""),
+      agreement: en(e.model_agreement.text), context: en(e.context?.farmer ?? "") };
+  }
+  const t = EVENT_TITLE[e.type];
+  const h = match(HEADLINE[e.type], e.headline ?? "");
+  const lv = ["No risk", "Watch", "Alert", "Severe"].indexOf(e.severity.status);
+  const ag = e.model_agreement.text.match(AGREE.re);
+  return {
+    title: t && t[0] === e.title ? g(t[1]) : en(e.title),
+    headline: h ? g(h) : en(e.headline ?? ""),
+    status: lv >= 0 ? g(LEVEL_GU[lv]) : en(e.severity.status),
+    timing: ex(e.timing_note),
+    agreement: ag ? g(AGREE.gu(ag)!) : ex(e.model_agreement.text),
+    context: ex(e.context?.farmer),
+  };
 }
 
 /** Number of Gujarati strings, for the review list. */
@@ -206,4 +393,9 @@ export const STRING_COUNT =
   Object.keys(LABEL).length +
   Object.values(VALUE).flat().length +
   Object.values(RULE).flat().length +
-  Object.keys(EXACT).length;
+  Object.keys(EXACT).length +
+  Object.values(HEADLINE).flat().length +
+  Object.keys(EVENT_TITLE).length +
+  Object.keys(EVENT_EXACT).length +
+  Object.keys(WD).length +
+  Object.keys(MO).length;

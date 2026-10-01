@@ -19,8 +19,8 @@ export const istTime = (t: string | null | undefined, opts: Intl.DateTimeFormatO
 export const istDay = (t: string | null | undefined, opts: Intl.DateTimeFormatOptions = { weekday: "short", day: "numeric", month: "short" }, locale = "en-IN") =>
   t ? asIst(t).toLocaleDateString(locale, { timeZone: TZ, ...opts }) : "—";
 
-export const istDateTime = (t: string | null | undefined) =>
-  t ? `${asIst(t).toLocaleString("en-IN", { timeZone: TZ, day: "numeric", month: "short", hour: "numeric", minute: "2-digit" })} IST` : "—";
+export const istDateTime = (t: string | null | undefined, locale = "en-IN") =>
+  t ? `${asIst(t).toLocaleString(locale, { timeZone: TZ, day: "numeric", month: "short", hour: "numeric", minute: "2-digit" })} IST` : "—";
 
 /** Model run label, e.g. "27 Sep 06Z (11:30 IST)". */
 export const runLabel = (iso: string | null | undefined) => {

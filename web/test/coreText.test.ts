@@ -93,3 +93,64 @@ test("every crop, season, stage and crop note in CORE's crops.yaml has Gujarati"
 test("four levels, matching CORE's 0–3 scale", () => {
   assert.equal(LEVEL_GU.length, 4);
 });
+
+// ── Event cards (step 6). Fixture: CORE 2840f8d risk.assess headlines (level >= 1) + api-v2 catalogue text. ──
+import { eventText } from "../src/i18n/coreText.ts";
+const ev = JSON.parse(readFileSync(new URL("./fixtures/core_event_text.json", import.meta.url), "utf8"));
+const mkEvent = (type: string, headline: string, level = 2) => ({
+  type, title: ev.v2_titles[type], headline, severity: { level, status: ["No risk", "Watch", "Alert", "Severe"][level] },
+  timing_note: null, model_agreement: { text: "Model agreement: 2 of 3" }, context: { farmer: ev.v2_context_farmer[type] },
+});
+
+test("event fixture comes from frozen CORE and covers every system event type", () => {
+  assert.equal(ev.core_commit, "2840f8d");
+  assert.deepEqual(Object.keys(ev.headlines).sort(), ["cold", "drought", "fire", "flood", "fog", "heat", "lightning", "rain", "thunderstorm", "wind"]);
+});
+
+test("every CORE event headline, title, status, agreement and farmer context is translated", () => {
+  for (const [type, hs] of Object.entries<string[]>(ev.headlines)) {
+    for (const h of hs) {
+      const o = eventText(mkEvent(type, h), "gu");
+      for (const f of ["title", "headline", "status", "agreement", "context"] as const) {
+        assert.ok(o[f].gu, `${type}.${f} not translated: ${f === "headline" ? h : ""}`);
+        assert.match(o[f].text, GUJ);
+      }
+      assert.equal(nums(o.headline.text), nums(h), `${h} → ${o.headline.text}`);
+      assert.doesNotMatch(o.headline.text, /\b(Mon|Tue|Wed|Thu|Fri|Sat|Sun|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|today|tomorrow)\b/);
+    }
+  }
+});
+
+test("watch-level heat and cold headlines (not produced by the synthetic run) are covered", () => {
+  assert.equal(eventText(mkEvent("heat", "Heat watch tomorrow", 1), "gu").headline.text, "આવતીકાલે ગરમી પર નજર રાખો");
+  assert.equal(eventText(mkEvent("cold", "Cold watch Sat 03 Oct", 1), "gu").headline.text, "શનિ 03 ઑક્ટો ઠંડી પર નજર રાખો");
+  assert.equal(eventText(mkEvent("wind", "Gusts up to 55 km/h", 1), "gu").headline.text, "55 કિમી/કલાક સુધીના પવનના ઝાટકા");
+});
+
+test("model agreement keeps k and n in the right places", () => {
+  const e = { ...mkEvent("rain", ev.headlines.rain[0]), model_agreement: { text: "Model agreement: 1 of 3" } };
+  assert.equal(eventText(e, "gu").agreement.text, "મોડેલોની સહમતી: 3 માંથી 1");
+  assert.ok(eventText({ ...e, model_agreement: { text: "Model agreement: not assessed" } }, "gu").agreement.gu);
+});
+
+test("event text: English unchanged; unknown wording, titles and types fall back to English", () => {
+  const e = mkEvent("heat", ev.headlines.heat[0]);
+  const o = eventText(e, "en");
+  assert.deepEqual([o.title.text, o.headline.text, o.status.text], [e.title, e.headline, "Alert"]);
+  assert.ok(!o.headline.gu);
+  assert.ok(!eventText({ ...e, headline: "Heat wave expected on Saturday" }, "gu").headline.gu);
+  assert.ok(!eventText({ ...e, title: "Heat (renamed)" }, "gu").title.gu);
+  assert.ok(!eventText({ ...e, type: "cyclone", title: "Cyclone (official alert logic)" }, "gu").headline.gu);
+  assert.ok(!eventText({ ...e, context: { farmer: "New context sentence." } }, "gu").context.gu);
+});
+
+test("headlines and anomaly words from captured live CORE dashboards are translated", () => {
+  for (const [type, hs] of Object.entries<string[]>(ev.live_headlines)) {
+    for (const h of hs) {
+      const o = eventText(mkEvent(type, h), "gu");
+      assert.ok(o.headline.gu, `live ${type}: ${h}`);
+      assert.equal(nums(o.headline.text), nums(h));
+    }
+  }
+  for (const w of ev.live_anomaly_words) assert.ok(coreText(w, "gu").gu, `anomaly word: ${w}`);
+});

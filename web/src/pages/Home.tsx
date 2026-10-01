@@ -2,7 +2,8 @@ import { Provenance } from "../components/ui";
 import type { Mode } from "../lib/store";
 import { useMedia } from "../lib/useMedia";
 import { lazy, Suspense } from "react";
-import FarmerWorkflow from "../modes/Farmer";
+import FarmerWorkflow, { LangSwitch } from "../modes/Farmer";
+import { uiText, useLang } from "../i18n/lang";
 import GovernmentStateTable from "../modes/GovernmentStateTable";
 import { CurrentWeather, EventsWhen, ForecastPreview, InsightsPreview, Load, RiskSummary, RunLine, Section, useDashboard, WhatToKnow } from "./blocks";
 
@@ -56,13 +57,15 @@ function CitizenHome() {
 
 function FarmerHome() {
   const dash = useDashboard();
+  const lang = useLang((s) => s.lang);
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" lang={lang}>
+      <LangSwitch />
       <Load s={dash} lines={4}>
         {(d) => (
           <>
-            <CurrentWeather d={d} />
-            <Section title="What should you know?"><WhatToKnow d={d} limit={2} /></Section>
+            <CurrentWeather d={d} lang={lang} />
+            <Section title={uiText(lang).wtk_title}><WhatToKnow d={d} limit={2} audience="farmer" lang={lang} /></Section>
           </>
         )}
       </Load>

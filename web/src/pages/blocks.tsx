@@ -13,6 +13,8 @@ import { compass, istDateTime, istDay, istTime, num, signed, wmoText } from "../
 import { navigate } from "../lib/router";
 import { useApp } from "../lib/store";
 import { useCore } from "../lib/useCore";
+import { coreText, type Lang } from "../i18n/coreText";
+import { uiText } from "../i18n/lang";
 
 export function useDashboard() {
   const place = useApp((s) => s.place);
@@ -21,34 +23,36 @@ export function useDashboard() {
 
 const v = (d: CoreDashboard, k: string) => d.current.values[k]?.value ?? null;
 
-export function CurrentWeather({ d }: { d: CoreDashboard }) {
+export function CurrentWeather({ d, lang = "en" }: { d: CoreDashboard; lang?: Lang }) {
   const place = useApp((s) => s.place);
+  const t = uiText(lang);
+  const w = (x: string | null | undefined) => coreText(x, lang).text;
   const loc = d.location;
   const point = place.via === "gps" || place.via === "map" || !!loc.taluka || place.via === "search";
   return (
     <div data-testid="current">
       <div className="text-[12.5px] text-muted">
         {[loc.district, loc.state].filter(Boolean).join(", ")}
-        {loc.elevation_m !== null && <> · {num(loc.elevation_m)} m</>} · {d.current.terrain}
+        {loc.elevation_m !== null && <> · {num(loc.elevation_m)} m</>} · {w(d.current.terrain)}
       </div>
       <div className="mt-1 flex items-end gap-4">
         <div className="text-[56px] font-light leading-none tabular-nums tracking-tight" data-testid="cur-temp">{num(v(d, "temperature_2m"), 1)}°</div>
         <div className="pb-1.5">
-          <div className="text-[16px] font-medium">{wmoText(v(d, "weather_code"))}</div>
-          <div className="text-[13px] text-muted">Feels like <span data-testid="cur-feels">{num(v(d, "apparent_temperature"), 1)}</span>°C</div>
+          <div className="text-[16px] font-medium">{w(wmoText(v(d, "weather_code")))}</div>
+          <div className="text-[13px] text-muted">{t.feels} <span data-testid="cur-feels">{num(v(d, "apparent_temperature"), 1)}</span>°C</div>
         </div>
       </div>
       <div className="mt-4 grid grid-cols-3 gap-x-4 gap-y-3 sm:grid-cols-6">
-        <Stat label="Rain now" value={<><span data-testid="cur-rain">{num(v(d, "precipitation"), 1)}</span> mm</>} />
-        <Stat label="Humidity" value={<><span data-testid="cur-rh">{num(v(d, "relative_humidity_2m"))}</span>%</>} />
-        <Stat label="Wind" value={<><span data-testid="cur-wind">{num(v(d, "wind_speed_10m"))}</span> km/h</>} sub={`${compass(v(d, "wind_direction_10m"))} · gusts ${num(v(d, "wind_gusts_10m"))}`} />
-        <Stat label="Pressure" value={<><span data-testid="cur-msl">{num(v(d, "pressure_msl"))}</span> hPa</>} />
-        <Stat label="Cloud" value={`${num(v(d, "cloud_cover"))}%`} />
-        <Stat label="Visibility" value={d.current.visibility_m !== null ? `${num(d.current.visibility_m / 1000, 1)} km` : "—"} />
+        <Stat label={t.rain_now} value={<><span data-testid="cur-rain">{num(v(d, "precipitation"), 1)}</span> {t.u_mm}</>} />
+        <Stat label={t.humidity} value={<><span data-testid="cur-rh">{num(v(d, "relative_humidity_2m"))}</span>%</>} />
+        <Stat label={t.wind} value={<><span data-testid="cur-wind">{num(v(d, "wind_speed_10m"))}</span> {t.u_kmh}</>} sub={`${compass(v(d, "wind_direction_10m"))} · ${t.gusts} ${num(v(d, "wind_gusts_10m"))}`} />
+        <Stat label={t.pressure} value={<><span data-testid="cur-msl">{num(v(d, "pressure_msl"))}</span> hPa</>} />
+        <Stat label={t.cloud} value={`${num(v(d, "cloud_cover"))}%`} />
+        <Stat label={t.visibility} value={d.current.visibility_m !== null ? `${num(d.current.visibility_m / 1000, 1)} ${t.u_km}` : "—"} />
       </div>
       <p className="mt-3 text-[11.5px] text-muted">
-        As of {istTime(d.current.time)} IST · {d.current.source}
-        {point && <> · point forecast at model-grid resolution</>}
+        {t.as_of} {istTime(d.current.time)} IST · {w(d.current.source)}
+        {point && <> · {t.point_note}</>}
       </p>
     </div>
   );
@@ -64,12 +68,12 @@ export function useEvents() {
   return useCore<V2Events>(`events:${place.lat},${place.lon},${place.name}`, () => v2.events(place));
 }
 
-export function WhatToKnow({ limit = 3, audience = "citizen" }: { d?: CoreDashboard; limit?: number; audience?: Audience }) {
+export function WhatToKnow({ limit = 3, audience = "citizen", lang = "en" }: { d?: CoreDashboard; limit?: number; audience?: Audience; lang?: Lang }) {
   const ev = useEvents();
   return (
     <div data-testid="what-to-know">
-      <Load s={ev} lines={3}>{(d) => <WhatToKnowBody d={d} limit={limit} audience={audience} />}</Load>
-      {ev.state === "error" && <p className="mt-2 text-[12px] text-muted">The V2 event service is unavailable. CORE's own risk list is still under Risks &amp; alerts.</p>}
+      <Load s={ev} lines={3}>{(d) => <WhatToKnowBody d={d} limit={limit} audience={audience} lang={lang} />}</Load>
+      {ev.state === "error" && <p className="mt-2 text-[12px] text-muted">{uiText(lang).v2_down}</p>}
     </div>
   );
 }
@@ -83,8 +87,11 @@ export function EventsWhen() {
   return <EventTimeline events={sys} />;
 }
 
-function WhatToKnowBody({ d, limit, audience }: { d: V2Events; limit: number; audience: Audience }) {
+function WhatToKnowBody({ d, limit, audience, lang }: { d: V2Events; limit: number; audience: Audience; lang: Lang }) {
   const [more, setMore] = useState(false);
+  const t = uiText(lang);
+  const w = (x: string | null | undefined) => coreText(x, lang).text;
+  const u = (x: string) => (x === "mm" ? t.u_mm : x);
   const byId = new Map(d.events.map((e) => [e.id, e]));
   const official = d.official_alerts;
   const officialEvents = d.what_to_know.items.filter((i) => i.kind === "official_event").map((i) => byId.get(i.ref)!).filter(Boolean);
@@ -95,42 +102,42 @@ function WhatToKnowBody({ d, limit, audience }: { d: V2Events; limit: number; au
   return (
     <div className="space-y-3">
       <p className="text-[12.5px] text-muted" data-testid="wtk-summary">
-        <span className="text-text">{d.location.name}:</span> {official.length} official alert{official.length === 1 ? "" : "s"} · {system.length} system assessment{system.length === 1 ? "" : "s"} at Watch or above
-        {system.length > 0 && ` (${["Severe", "Alert", "Watch"].map((n, i) => bySev[i] ? `${bySev[i]} ${n}` : "").filter(Boolean).join(", ")})`} · next 7 days
+        <span className="text-text">{d.location.name}:</span> {t.wtk_summary(official.length, system.length, t.sev_names.map((n, i) => bySev[i] ? `${bySev[i]} ${n}` : "").filter(Boolean).join(", "))}
       </p>
       {d.what_to_know.message && (
         <div className="flex items-start gap-2.5 rounded-lg border border-line bg-surface px-3 py-3 text-[14px]" data-testid="wtk-none">
           <CircleCheck size={18} className="mt-0.5 shrink-0 text-emerald-400" />
           <div>
-            <div className="font-medium">{d.what_to_know.message}</div>
-            <div className="mt-1 text-[12px] text-muted">No official alert for this location and no CORE risk at Watch level or above in the next 7 days.</div>
+            <div className="font-medium">{w(d.what_to_know.message)}</div>
+            <div className="mt-1 text-[12px] text-muted">{t.none_detail}</div>
           </div>
         </div>
       )}
       {(official.length > 0 || officialEvents.length > 0) && (
         <div className="space-y-2" data-testid="wtk-official">
-          <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-red-200">Official alert</div>
-          {official.slice(0, limit).map((w) => <OfficialAlert key={w.id} w={w} compact />)}
-          {officialEvents.map((e) => <EventCard key={e.id} e={e} audience={audience} />)}
-          {official.length > limit && <button onClick={() => navigate({ screen: "risks" })} className="text-[12.5px] text-accent">+{official.length - limit} more official alerts</button>}
+          <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-red-200">{t.official_alert}</div>
+          {t.alerts_note && official.length > 0 && <p className="text-[12px] text-muted">{t.alerts_note}</p>}
+          <div className="space-y-2" lang="en">{official.slice(0, limit).map((a) => <OfficialAlert key={a.id} w={a} compact />)}</div>
+          {officialEvents.map((e) => <EventCard key={e.id} e={e} audience={audience} lang={lang} />)}
+          {official.length > limit && <button onClick={() => navigate({ screen: "risks" })} className="text-[12.5px] text-accent">{t.more_official(official.length - limit)}</button>}
         </div>
       )}
       {system.length > 0 && (
         <div className="space-y-2" data-testid="wtk-system">
-          <div className="flex items-center gap-2"><SystemLabel /><span className="text-[12px] text-muted">CORE risk rules · next 7 days · not official warnings</span></div>
-          {system.slice(0, n).map((e) => <EventCard key={e.id} e={e} audience={audience} />)}
-          {system.length > n && <button onClick={() => setMore(true)} className="text-[12.5px] text-accent">Show {system.length - n} more system assessments</button>}
+          <div className="flex items-center gap-2"><SystemLabel label={t.system_label} /><span className="text-[12px] text-muted">{t.system_note}</span></div>
+          {system.slice(0, n).map((e) => <EventCard key={e.id} e={e} audience={audience} lang={lang} />)}
+          {system.length > n && <button onClick={() => setMore(true)} className="text-[12.5px] text-accent">{t.show_more(system.length - n)}</button>}
         </div>
       )}
       {anomalies.length > 0 && (
         <div className="space-y-1" data-testid="wtk-anomalies">
-          <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted">Departure from normal <span className="font-normal normal-case tracking-normal">· not a hazard on its own</span></div>
+          <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted">{t.dep_title} <span className="font-normal normal-case tracking-normal">{t.dep_sub}</span></div>
           {anomalies.slice(0, more ? 99 : 2).map((a) => (
             <p key={a.id} className="text-[13px]" data-testid="wtk-anomaly" data-id={a.id}>
-              <span className="text-muted">{a.label} ({a.period}):</span> forecast {num(a.value, 1)} {a.unit}, normal {num(a.normal, 1)} {a.unit} → <b className="font-medium">{signed(a.departure)} {a.unit}</b>{a.category ? ` · ${a.category}` : ""}
+              <span className="text-muted">{w(a.label)} ({w(a.period)}):</span> {t.forecast} {num(a.value, 1)} {u(a.unit)}, {t.normal} {num(a.normal, 1)} {u(a.unit)} → <b className="font-medium">{signed(a.departure)} {u(a.unit)}</b>{a.category ? ` · ${w(a.category)}` : ""}
             </p>
           ))}
-          <p className="text-[11px] text-muted">Normal: NASA POWER 1991–2020 (MERRA-2 reanalysis), indicative — not IMD normals.</p>
+          <p className="text-[11px] text-muted">{t.normal_note}</p>
         </div>
       )}
       <DataQualityNotices list={d.data_quality} />

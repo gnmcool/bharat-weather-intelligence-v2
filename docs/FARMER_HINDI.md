@@ -2,7 +2,7 @@
 
 | Item | Value |
 | --- | --- |
-| Status | built on `feature/farmer-gujarati`; **not released**. Release needs (1) native-speaker sign-off of every string below and (2) owner approval to merge to `main` |
+| Status | **released 1 Oct 2026** on the owner's sign-off. The owner (CA Gaurav N. Makwana) reviewed the full app with the Hindi screens on a private preview of this code and approved publication. No row-level marks were recorded, so the rows below carry no individual OK; the "least sure" terms in §4 remain the first to verify with farmers or a KVK |
 | Scope | the same as Gujarati: the whole Farmer home (current weather, "What should you know?", event cards) and the field workflow (steps 1–7). The switch reads English · ગુજરાતી · हिन्दी |
 | Method | identical to Gujarati (`docs/FARMER_GUJARATI.md` §1–3): CORE's English is matched against CORE's fixed patterns, numbers are copied unchanged, anything that does not match stays English. Same exclusions: official IMD warnings, place names, the evidence drawer, data-quality notices |
 | Code | `web/src/i18n/coreText.ts` (`hi` column), `web/src/i18n/lang.ts` (`hi` labels) |

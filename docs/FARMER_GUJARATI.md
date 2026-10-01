@@ -4,7 +4,7 @@ Hindi uses the same method and code; see `docs/FARMER_HINDI.md` for its review s
 
 | Item | Value |
 | --- | --- |
-| Status | built on `feature/farmer-gujarati`; **not released**. Release needs (1) native-speaker sign-off of every string below and (2) owner approval to merge to `main` |
+| Status | **released 1 Oct 2026** on the owner's sign-off. The owner (CA Gaurav N. Makwana) reviewed the full app with the Gujarati screens on a private preview of this code and approved publication. No row-level marks were recorded, so the rows below carry no individual OK; the "least sure" terms in §4 remain the first to verify with farmers or a KVK |
 | Scope | the whole Farmer home: current weather, "What should you know?" (with event cards), and the field workflow (steps 1–7). The switch sits at the top of the Farmer home. Citizen and Government screens, the evidence drawer, Hindi and other languages: later |
 | Code | `web/src/i18n/coreText.ts` (CORE and V2 event text; Gujarati and Hindi columns over the same English patterns), `web/src/i18n/lang.ts` (switch, V2 labels), `web/src/modes/Farmer.tsx`, `web/src/pages/blocks.tsx` and `Home.tsx` (farmer home), `web/src/components/EventCard.tsx`, `web/test/coreText.test.ts` |
 | CORE | unchanged (core-v1.0, 2840f8d). No new rules, thresholds or advice |

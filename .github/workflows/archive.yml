@@ -98,7 +98,7 @@ jobs:
           [ "$INJECT" = "none" ] || { echo "Injected fault passed validation — refusing"; exit 1; }
           S="$RUNNER_TEMP/stage"
           gh release create "$TAG" --draft --latest=false --title "Forecast archive $DAY" \
-            --notes "Immutable daily forecast archive for $DAY (IST). Manifest SHA-256 and gap report are committed to the archive-index branch. Data, not a software release." \
+            --notes "Immutable daily forecast archive for $DAY (IST). Manifest SHA-256 and gap report are committed to the archive-index branch. Data, not a software release. Contains weather data by Open-Meteo.com, licensed CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/); keep this attribution when redistributing." \
             "$S"/forecasts_*.parquet "$S"/core_risks_*.parquet "$S"/core_daily_*.parquet "$S"/e2s_gfs_grid_*.nc "$S"/manifest_*.json "$S"/gap_report_*.json
           python archive/verify_release.py --tag "$TAG" --stage "$S" --out "$RUNNER_TEMP/pre.json"
           gh release edit "$TAG" --draft=false --latest=false

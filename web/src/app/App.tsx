@@ -67,6 +67,10 @@ export default function App() {
         <p className="text-[11.5px] text-amber-200/80">
           Preview of V2, built on the same data as <a className="underline" href={config.coreSite}>Bharat Weather Intelligence</a>. Official warnings come only from IMD, CWC and SDMAs; everything else is a system assessment.
         </p>
+        <p className="mt-0.5 text-[11px] text-muted">
+          Weather data by <a className="underline" href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo.com</a>{" "}
+          (<a className="underline" href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">CC BY 4.0</a>).
+        </p>
       </div>
 
       <main className="mx-auto max-w-[1400px] px-4 pt-4 sm:px-6">

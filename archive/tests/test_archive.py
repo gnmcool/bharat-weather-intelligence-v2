@@ -288,3 +288,11 @@ def test_d1_existing_v1_releases_remain_readable_and_flagged(tmp_path):
 def test_d1_flood_flag_parser(text, flag):
     assert common.flood_wet_soil_flag(text) is flag
 
+
+
+def test_manifest_carries_open_meteo_attribution(tmp_path, store, monkeypatch):
+    stage = run_collect(tmp_path, store, monkeypatch=monkeypatch)
+    man = json.loads(next(stage.glob("manifest_*.json")).read_text())
+    lic = man["data_licences"]
+    assert lic[0]["licence"] == "CC BY 4.0" and lic[0]["attribution"] == "Weather data by Open-Meteo.com"
+    assert lic[0]["licence_url"] == "https://creativecommons.org/licenses/by/4.0/"

@@ -35,6 +35,14 @@ from common import (CORE_DAILY_SCHEMA, CORE_RISK_SCHEMA, DAILY_VARS, FORECAST_SC
                     ArchiveError, day_fully_covered, lead_day, sha256, write_json)
 
 OPEN_METEO = "https://api.open-meteo.com/v1/forecast"
+# Attribution that must travel with redistributed data (CC BY 4.0). Recorded in every manifest; also in release notes.
+DATA_LICENCES = [{
+    "source": "Open-Meteo forecast API (per-model forecasts and model run metadata)",
+    "licence": "CC BY 4.0", "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "Weather data by Open-Meteo.com", "source_url": "https://open-meteo.com/",
+    "note": "Keep this attribution when redistributing these files. Other sources in this archive (CORE output, "
+            "Earth2Studio GFS grid) are not covered by this entry.",
+}]
 OM_META = "https://api.open-meteo.com/data/{}/static/meta.json"
 CORE_API = "https://bharat-weather-intelligence-brown.vercel.app/api/v1"
 CORE_STORE_URL = "https://github.com/gnmcool/bharat-weather-intelligence/releases/download/forecast/gfs_latest.nc"
@@ -283,6 +291,7 @@ def main() -> int:
         "expected": {"forecasts": specs, "core": core_spec},
         "files": [{"kind": k, "name": p.name, "bytes": p.stat().st_size, "rows": r, "sha256": sha256(p)} for k, p, r in files],
         "collection_errors": errors, "http": dict(STATS), "duration_s": round(time.time() - t0, 1),
+        "data_licences": DATA_LICENCES,
     }
     if a.inject == "checksum":  # corrupt the forecasts file AFTER its checksum was recorded
         f = out / f"forecasts_{day}.parquet"

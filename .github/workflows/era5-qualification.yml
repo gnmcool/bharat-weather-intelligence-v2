@@ -1,0 +1,63 @@
+# D2 pipeline QUALIFICATION — not a D2 reference; never used in M4.4 metrics. (docs/M4.4-D2_QUALIFICATION.md)
+# Runs ONLY when a commit on m4-history changes reference/era5_qualification_request.json. No schedule, no manual
+# trigger. Exercises the production D2 code on the already-final month 2025-01 (allow-list in era5_qualify.py):
+# preflight, boundary + month requests, R1 + R2 (at most four CDS jobs), validation, extraction, R2 comparison.
+# Publishes nothing: no release, no archive-index, no reference/era5/. Records go to the separate branch
+# era5-qualification; output files are uploaded as Actions artifacts labelled as qualification.
+name: ERA5 qualification (D2, not a reference)
+
+on:
+  push:
+    branches: ["m4-history"]
+    paths: ["reference/era5_qualification_request.json"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: era5-qualification
+  cancel-in-progress: false
+
+jobs:
+  era5-qualification:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: |
+            history/requirements.txt
+            reference/requirements.txt
+      - run: pip install -r history/requirements.txt -r reference/requirements.txt pytest
+      - name: Tests (reference; offline)
+        run: python -m pytest -q reference/tests
+      - name: Qualification branch worktree (era5-qualification only)
+        run: |
+          git config --global user.name "bwi-archive"
+          git config --global user.email "bwi-archive@users.noreply.github.com"
+          Q="$RUNNER_TEMP/qualification"
+          if git ls-remote --exit-code --heads origin era5-qualification >/dev/null; then
+            git fetch -q origin era5-qualification
+            git worktree add -q "$Q" origin/era5-qualification && git -C "$Q" checkout -q -B era5-qualification
+          else
+            git worktree add -q --detach "$Q" && git -C "$Q" checkout -q --orphan era5-qualification
+            git -C "$Q" rm -rq --cached . && git -C "$Q" clean -fdxq
+          fi
+          echo "QIDX=$Q" >> "$GITHUB_ENV"
+      - name: Qualify (2025-01 only; never published)
+        env:
+          CDS_API_KEY: ${{ secrets.CDS_API_KEY }}
+        run: |
+          python reference/era5_qualify.py --request reference/era5_qualification_request.json --index "$QIDX" \
+            --work "$RUNNER_TEMP/qwork" --run-id "$GITHUB_RUN_ID" --poll-deadline-min 300
+      - name: Upload qualification outputs (artifact, not a release)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: QUALIFICATION-not-a-D2-reference-era5-run-${{ github.run_id }}
+          path: ${{ runner.temp }}/qwork/QUALIFICATION_era5_*
+          if-no-files-found: ignore
+          retention-days: 90

@@ -4,7 +4,8 @@ import type { Lang } from "./coreText";
 const KEY = "bwi2.lang";
 const initial = (): Lang => {
   try {
-    return localStorage.getItem(KEY) === "gu" ? "gu" : "en";
+    const v = localStorage.getItem(KEY);
+    return v === "gu" || v === "hi" ? v : "en";
   } catch {
     return "en";
   }
@@ -23,7 +24,7 @@ export const useLang = create<{ lang: Lang; setLang: (l: Lang) => void }>((set) 
   },
 }));
 
-/** Farmer-screen labels written by V2 (not CORE). Same keys in both languages. */
+/** Farmer-screen labels written by V2 (not CORE). Same keys in every language. */
 const UI = {
   en: {
     wtk_title: "What should you know?",
@@ -144,10 +145,78 @@ const UI = {
     english_kept: "અંગ્રેજીમાં (અનુવાદ ઉપલબ્ધ નથી)",
     why: { "daily maximum temperature": "દૈનિક મહત્તમ તાપમાન", "daily minimum temperature": "દૈનિક લઘુત્તમ તાપમાન", "daily rainfall": "દૈનિક વરસાદ", "consecutive dry days": "સળંગ કોરા દિવસો" } as Record<string, string>,
   },
+  hi: {
+    wtk_title: "आपको क्या जानना चाहिए?",
+    feels: "महसूस होने वाला तापमान",
+    rain_now: "अभी वर्षा", humidity: "आर्द्रता", wind: "हवा", gusts: "झोंके", pressure: "वायुदाब", cloud: "बादल", visibility: "दृश्यता",
+    u_mm: "मिमी", u_kmh: "किमी/घंटा", u_km: "किमी",
+    as_of: "समय:", point_note: "मॉडल-ग्रिड के एक बिंदु का पूर्वानुमान",
+    wtk_summary: (off: number, sys: number, sev: string) =>
+      `${off} आधिकारिक चेतावनी · ${sys} सिस्टम आकलन 'नज़र रखें' या उससे ऊपर के स्तर पर${sev ? ` (${sev})` : ""} · अगले 7 दिन`,
+    sev_names: ["गंभीर", "सावधान", "नज़र रखें"],
+    none_detail: "इस स्थान के लिए कोई आधिकारिक चेतावनी नहीं है और अगले 7 दिनों में CORE का कोई जोखिम 'नज़र रखें' या उससे ऊपर के स्तर पर नहीं है।",
+    official_alert: "आधिकारिक चेतावनी",
+    more_official: (n: number) => `+${n} और आधिकारिक चेतावनियाँ`,
+    system_note: "CORE के जोखिम नियम · अगले 7 दिन · आधिकारिक चेतावनी नहीं",
+    show_more: (n: number) => `${n} और सिस्टम आकलन दिखाएँ`,
+    dep_title: "सामान्य से अंतर", dep_sub: "· अपने-आप में खतरा नहीं", forecast: "पूर्वानुमान", normal: "सामान्य",
+    normal_note: "सामान्य: NASA POWER 1991–2020 (MERRA-2 रीएनालिसिस), अनुमानित — IMD के सामान्य आँकड़े नहीं।",
+    v2_down: "V2 घटना सेवा अभी उपलब्ध नहीं है। CORE की अपनी जोखिम सूची 'Risks & alerts' में है।",
+    system_label: "सिस्टम आकलन",
+    lang_switch: "भाषा",
+    field_title: "आपका खेत — स्थान, फसल, फसल की अवस्था",
+    loc_state: "1 · स्थान — राज्य",
+    loc_district: "1 · स्थान — ज़िला",
+    sel_state: "राज्य चुनें",
+    sel_district: "ज़िला चुनें",
+    crop: "2 · फसल",
+    sel_crop: "फसल चुनें",
+    stage: "3 · फसल की अवस्था",
+    sel_stage: "अवस्था चुनें",
+    field_location: "खेत का स्थान:",
+    field_help: "गाँव के लिए ऊपर की स्थान-खोज का उपयोग करें; पूर्वानुमान मॉडल-ग्रिड के एक बिंदु के लिए है।",
+    official_later: "आधिकारिक कृषि सलाह चरण 7 में अलग से दिखाई गई है।",
+    choose_prompt: "अपने खेत के मौसम संकेतक देखने के लिए फसल और फसल की अवस्था चुनें।",
+    weather_title: "4 · मौसम — आपके खेत पर आने वाले दिन",
+    th_day: "दिन",
+    th_temp: "अधिकतम / न्यूनतम °C",
+    th_rain: "वर्षा मिमी",
+    th_chance: "संभावना",
+    th_spray: "छिड़काव के लिए उपयुक्त घंटे*",
+    th_disease: "रोग के अनुकूल घंटे*",
+    weather_note: "पूर्वानुमान के आँकड़े CORE से। *छिड़काव और रोग के घंटे CORE की सीमाओं से निकाले गए सिस्टम-आधारित, बिना सत्यापित संकेतक हैं।",
+    ind_title: "5 · सिस्टम संकेतक",
+    badge_system: "सिस्टम-आधारित",
+    badge_unvalidated: "सत्यापित नहीं",
+    core_status: "CORE स्थिति:",
+    rule: "नियम:",
+    rule_suffix: "सिस्टम-आधारित, सत्यापित नहीं",
+    rel_title: "6 · फसल पर संभावित असर — मौसम की घटनाएँ",
+    rel_head: "फसल पर संभावित असर",
+    rel_none: "CORE के 7 दिन के आकलन में इस खेत के लिए कोई महत्वपूर्ण मौसम घटना नहीं मिली।",
+    rel_uses: (_n: number, crop: string, stage: string, why: string) => `${crop} (${stage}) के लिए CORE के मौजूदा संकेतक, जो ${why} पर आधारित हैं:`,
+    rel_no_ind: (crop: string) => `इस अवस्था में ${crop} के लिए CORE का कोई संकेतक इस संकेत का उपयोग नहीं करता। V2 खेती के नए नियम नहीं जोड़ता।`,
+    rel_official: (title: string) => `आधिकारिक सलाह: ${title} — नीचे चरण 7।`,
+    off_head: "7 · आधिकारिक कृषि सलाह",
+    off_sep: "चरण 5 और 6 सिस्टम का परिणाम हैं, आधिकारिक कृषि सलाह नहीं। खेती के निर्णयों के लिए आधिकारिक सलाह का पालन करें।",
+    alerts_title: "इस क्षेत्र के लिए आधिकारिक मौसम चेतावनियाँ",
+    alerts_note: "आधिकारिक चेतावनियाँ जारी की गई भाषा में ही दिखाई गई हैं; उनका अनुवाद नहीं किया जाता।",
+    english_kept: "अंग्रेज़ी में (अनुवाद उपलब्ध नहीं)",
+    why: { "daily maximum temperature": "दैनिक अधिकतम तापमान", "daily minimum temperature": "दैनिक न्यूनतम तापमान", "daily rainfall": "दैनिक वर्षा", "consecutive dry days": "लगातार सूखे दिन" } as Record<string, string>,
+  },
 };
 
 export type UiText = (typeof UI)["en"];
 export const uiText = (lang: Lang): UiText => UI[lang];
 
-/** Locale for dates (weekday and month names). Digits stay Western in both languages. */
-export const dateLocale = (lang: Lang) => (lang === "gu" ? "gu-IN-u-nu-latn" : "en-IN");
+/** Locale for dates (weekday and month names). Digits stay Western (0–9) in every language. */
+export const dateLocale = (lang: Lang) => (lang === "gu" ? "gu-IN-u-nu-latn" : lang === "hi" ? "hi-IN-u-nu-latn" : "en-IN");
+
+/** Event-card labels (EventCard.tsx). */
+export const EVENT_CARD = {
+  gu: { when: "ક્યારે:", experimental: "પ્રાયોગિક", context: "સંભવિત સુસંગતતા · સામાન્ય સંદર્ભ, અસરની આગાહી નથી", evidence: "પુરાવા જુઓ (અંગ્રેજીમાં)" },
+  hi: { when: "कब:", experimental: "प्रायोगिक", context: "संभावित प्रासंगिकता · सामान्य संदर्भ, असर का पूर्वानुमान नहीं", evidence: "प्रमाण देखें (अंग्रेज़ी में)" },
+} as const;
+
+/** Switch labels, each in its own script. */
+export const LANG_LABEL: Record<Lang, string> = { en: "English", gu: "ગુજરાતી", hi: "हिन्दी" };

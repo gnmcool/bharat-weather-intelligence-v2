@@ -1,10 +1,12 @@
 # Farmer screens in Gujarati
 
+Hindi uses the same method and code; see `docs/FARMER_HINDI.md` for its review sheet.
+
 | Item | Value |
 | --- | --- |
 | Status | built on `feature/farmer-gujarati`; **not released**. Release needs (1) native-speaker sign-off of every string below and (2) owner approval to merge to `main` |
 | Scope | the whole Farmer home: current weather, "What should you know?" (with event cards), and the field workflow (steps 1–7). The switch sits at the top of the Farmer home. Citizen and Government screens, the evidence drawer, Hindi and other languages: later |
-| Code | `web/src/i18n/coreText.ts` (CORE and V2 event text), `web/src/i18n/lang.ts` (switch, V2 labels), `web/src/modes/Farmer.tsx`, `web/src/pages/blocks.tsx` and `Home.tsx` (farmer home), `web/src/components/EventCard.tsx`, `web/test/coreText.test.ts` |
+| Code | `web/src/i18n/coreText.ts` (CORE and V2 event text; Gujarati and Hindi columns over the same English patterns), `web/src/i18n/lang.ts` (switch, V2 labels), `web/src/modes/Farmer.tsx`, `web/src/pages/blocks.tsx` and `Home.tsx` (farmer home), `web/src/components/EventCard.tsx`, `web/test/coreText.test.ts` |
 | CORE | unchanged (core-v1.0, 2840f8d). No new rules, thresholds or advice |
 
 ## 1. What CORE gives the farmer screen
@@ -51,7 +53,7 @@ replaced by Gujarati time words. Mark each row OK or give the correction (247 ro
 
 ### 4a. Farmer report — CORE text (63 strings)
 
-| # | Kind | English | Gujarati shown | OK? |
+| # | Kind | English | Shown | OK? |
 | --- | --- | --- | --- | --- |
 | 1 | Level | No risk | જોખમ નથી |  |
 | 2 | Level | Watch | નજર રાખો |  |
@@ -119,7 +121,7 @@ replaced by Gujarati time words. Mark each row OK or give the correction (247 ro
 
 ### 4b. Weather events — CORE headlines and V2 event text (76 strings)
 
-| # | Kind | English | Gujarati shown | OK? |
+| # | Kind | English | Shown | OK? |
 | --- | --- | --- | --- | --- |
 | 1 | Event title (heat) | Heat | ગરમી |  |
 | 2 | Event title (cold) | Cold | ઠંડી |  |
@@ -200,7 +202,7 @@ replaced by Gujarati time words. Mark each row OK or give the correction (247 ro
 
 ### 4c. Farmer home — CORE weather words (36 strings)
 
-| # | Kind | English | Gujarati shown | OK? |
+| # | Kind | English | Shown | OK? |
 | --- | --- | --- | --- | --- |
 | 1 | Word | Max temperature | મહત્તમ તાપમાન |  |
 | 2 | Word | Min temperature | લઘુત્તમ તાપમાન |  |
@@ -239,10 +241,9 @@ replaced by Gujarati time words. Mark each row OK or give the correction (247 ro
 | 35 | Word | Thunderstorm with hail | કરા સાથે ગાજવીજ અને વાવાઝોડું |  |
 | 36 | Word | No significant weather event detected. | કોઈ મહત્ત્વની હવામાન ઘટના મળી નથી. |  |
 
-
 ### 4d. Screen labels written by V2 (72 strings)
 
-| # | Key | English | Gujarati shown | OK? |
+| # | Key | English | Shown | OK? |
 | --- | --- | --- | --- | --- |
 | 1 | wtk_title | What should you know? | તમારે શું જાણવું જોઈએ? |  |
 | 2 | feels | Feels like | અનુભવાતું તાપમાન |  |
@@ -258,7 +259,7 @@ replaced by Gujarati time words. Mark each row OK or give the correction (247 ro
 | 12 | u_km | km | કિમી |  |
 | 13 | as_of | As of | સમય: |  |
 | 14 | point_note | point forecast at model-grid resolution | મોડેલ-ગ્રીડના એક બિંદુની આગાહી |  |
-| 15 | wtk_summary | 1 official alert · 2 system assessments at Watch or above (1 Alert, 1 Watch) · next 7 days | 1 સત્તાવાર ચેતવણી · 2 સિસ્ટમ મૂલ્યાંકન 'નજર રાખો' કે તેથી ઉપરના સ્તરે (1 સાવધાન, 1 નજર રાખો) · આવતા 7 દિવસ |  |
+| 15 | wtk_summary | 1 official alert · 2 system assessments at Watch or above (…) · next 7 days | 1 સત્તાવાર ચેતવણી · 2 સિસ્ટમ મૂલ્યાંકન 'નજર રાખો' કે તેથી ઉપરના સ્તરે (…) · આવતા 7 દિવસ |  |
 | 16 | sev_names | Severe / Alert / Watch | ગંભીર / સાવધાન / નજર રાખો |  |
 | 17 | none_detail | No official alert for this location and no CORE risk at Watch level or above in the next 7 days. | આ સ્થળ માટે કોઈ સત્તાવાર ચેતવણી નથી અને આવતા 7 દિવસમાં CORE નું કોઈ જોખમ 'નજર રાખો' કે તેથી ઉપરના સ્તરે નથી. |  |
 | 18 | official_alert | Official alert | સત્તાવાર ચેતવણી |  |
@@ -303,9 +304,9 @@ replaced by Gujarati time words. Mark each row OK or give the correction (247 ro
 | 57 | rel_title | 6 · Potential crop relevance — weather events | 6 · પાક પર સંભવિત અસર — હવામાનની ઘટનાઓ |  |
 | 58 | rel_head | Potential crop relevance | પાક પર સંભવિત અસર |  |
 | 59 | rel_none | No significant weather event detected for this field in CORE's 7-day assessment. | CORE ના 7 દિવસના મૂલ્યાંકનમાં આ ખેતર માટે કોઈ મહત્ત્વની હવામાન ઘટના મળી નથી. |  |
-| 60 | rel_uses | Existing CORE indicators for X (Y) that use Z: | X (Y) માટેના CORE ના હાલના સૂચકાંકો, જે Z પર આધારિત છે: |  |
-| 61 | rel_no_ind | No existing CORE crop indicator for 3 at this stage uses this signal. V2 does not add agronomic rules. | આ અવસ્થાએ 3 માટે CORE નો કોઈ સૂચકાંક આ સંકેતનો ઉપયોગ કરતો નથી. V2 ખેતીના નવા નિયમો ઉમેરતું નથી. |  |
-| 62 | rel_official | Official advisory: 3 — step 7 below. | સત્તાવાર સલાહ: 3 — નીચે પગલું 7. |  |
+| 60 | rel_uses | Existing CORE indicators for Cotton (…) that use …: | કપાસ (…) માટેના CORE ના હાલના સૂચકાંકો, જે … પર આધારિત છે: |  |
+| 61 | rel_no_ind | No existing CORE crop indicator for Cotton at this stage uses this signal. V2 does not add agronomic rules. | આ અવસ્થાએ કપાસ માટે CORE નો કોઈ સૂચકાંક આ સંકેતનો ઉપયોગ કરતો નથી. V2 ખેતીના નવા નિયમો ઉમેરતું નથી. |  |
+| 62 | rel_official | Official advisory: … — step 7 below. | સત્તાવાર સલાહ: … — નીચે પગલું 7. |  |
 | 63 | off_head | 7 · Official agricultural advisory | 7 · સત્તાવાર કૃષિ સલાહ |  |
 | 64 | off_sep | Steps 5 and 6 are system output, not an official agricultural advisory. For farm decisions, follow the official advisory. | પગલાં 5 અને 6 સિસ્ટમનું પરિણામ છે, સત્તાવાર કૃષિ સલાહ નથી. ખેતીના નિર્ણયો માટે સત્તાવાર સલાહ અનુસરો. |  |
 | 65 | alerts_title | Official weather alerts for this area | આ વિસ્તાર માટે સત્તાવાર હવામાન ચેતવણીઓ |  |

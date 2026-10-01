@@ -10,15 +10,15 @@ import { istDay, num } from "../lib/format";
 import { FARMER_LINK, LEVEL } from "../lib/present";
 import { useApp } from "../lib/store";
 import { useCore } from "../lib/useCore";
-import { coreText, cropName, indicatorText, LEVEL_GU, seasonName, stageName, type Lang, type Out } from "../i18n/coreText";
-import { dateLocale, uiText, useLang } from "../i18n/lang";
+import { coreText, cropName, indicatorText, levelName, seasonName, stageName, type Lang, type Out } from "../i18n/coreText";
+import { dateLocale, LANG_LABEL, uiText, useLang } from "../i18n/lang";
 
 /**
  * A rendered string. When Gujarati was asked for but only CORE's English exists, the English is shown as is,
  * marked lang="en" so it is never mistaken for a translation.
  */
 function Tx({ o, lang }: { o: Out; lang: Lang }) {
-  if (lang === "gu" && !o.gu && o.text) return <span lang="en" data-untranslated title={uiText("gu").english_kept}>{o.text}</span>;
+  if (lang !== "en" && !o.tr && o.text) return <span lang="en" data-untranslated title={uiText(lang).english_kept}>{o.text}</span>;
   return <>{o.text}</>;
 }
 
@@ -27,10 +27,10 @@ export function LangSwitch() {
   const t = uiText(lang);
   return (
     <div className="flex items-center justify-end gap-1 text-[13px]" role="group" aria-label={t.lang_switch} data-testid="farmer-lang">
-      {(["en", "gu"] as const).map((l) => (
+      {(["en", "gu", "hi"] as const).map((l) => (
         <button key={l} type="button" onClick={() => setLang(l)} aria-pressed={lang === l} data-lang={l}
           className={`h-8 rounded-md border px-3 ${lang === l ? "border-accent bg-accent/15 text-text" : "border-line text-muted hover:text-text"}`}>
-          {l === "en" ? "English" : "ગુજરાતી"}
+          {LANG_LABEL[l]}
         </button>
       ))}
     </div>
@@ -154,7 +154,7 @@ export default function FarmerWorkflow() {
                         <div key={i.id} className="flex items-start gap-2.5 rounded-lg border border-line bg-surface px-3 py-2" data-testid="farmer-indicator" data-id={i.id} data-level={i.level}>
                           <LevelDot level={i.level} />
                           <div className="min-w-0 text-[13px]">
-                            <div><span className="font-medium"><Tx o={x.label} lang={lang} /></span> <span className={LEVEL[i.level]?.text}>{lang === "gu" ? LEVEL_GU[i.level] : LEVEL[i.level]?.name}</span></div>
+                            <div><span className="font-medium"><Tx o={x.label} lang={lang} /></span> <span className={LEVEL[i.level]?.text}>{levelName(i.level, lang) ?? LEVEL[i.level]?.name}</span></div>
                             <div className="text-muted"><Tx o={x.value} lang={lang} /></div>
                             <div className="text-[11.5px] text-muted">{t.rule} <Tx o={x.rule} lang={lang} /> · {t.rule_suffix}</div>
                           </div>
@@ -228,7 +228,7 @@ function FarmerEvents({ report, lang, cropLabel, stage }: { report: CoreFarmerRe
                             return (
                               <div key={i.id} className="flex items-start gap-2 rounded-lg border border-system/40 bg-system/[0.07] px-2.5 py-1.5" data-testid="farmer-linked-indicator" data-id={i.id} data-level={i.level}>
                                 <LevelDot level={i.level} />
-                                <div><span className="font-medium"><Tx o={x.label} lang={lang} /></span> <span className={LEVEL[i.level]?.text}>{lang === "gu" ? LEVEL_GU[i.level] : LEVEL[i.level]?.name}</span> · <Tx o={x.value} lang={lang} /><div className="text-[11px] text-muted">{t.rule} <Tx o={x.rule} lang={lang} /> · <Tx o={coreText(report.validation_status, lang)} lang={lang} /></div></div>
+                                <div><span className="font-medium"><Tx o={x.label} lang={lang} /></span> <span className={LEVEL[i.level]?.text}>{levelName(i.level, lang) ?? LEVEL[i.level]?.name}</span> · <Tx o={x.value} lang={lang} /><div className="text-[11px] text-muted">{t.rule} <Tx o={x.rule} lang={lang} /> · <Tx o={coreText(report.validation_status, lang)} lang={lang} /></div></div>
                               </div>
                             );
                           })}

@@ -1,0 +1,295 @@
+{
+ "archive_date_ist": "2026-10-02",
+ "checks": {
+  "checksums": {
+   "core_daily_2026-10-02.parquet": {
+    "downloaded": "d7014d47b326cc67be9f4c59b6a02b144ccd9a7e17e63d31a5c92a61999ea73e",
+    "manifest": "d7014d47b326cc67be9f4c59b6a02b144ccd9a7e17e63d31a5c92a61999ea73e",
+    "match": true
+   },
+   "core_risks_2026-10-02.parquet": {
+    "downloaded": "ea26bbd3018fdb04f7171d20767bb384362ddd7e271a4866bbe39785a6f3789a",
+    "manifest": "ea26bbd3018fdb04f7171d20767bb384362ddd7e271a4866bbe39785a6f3789a",
+    "match": true
+   },
+   "e2s_gfs_grid_2026100200.nc": {
+    "downloaded": "104f42e794cf30e1f44b2a227c997eb0219c008e20d53bfb8a57d414c8fd2716",
+    "manifest": "104f42e794cf30e1f44b2a227c997eb0219c008e20d53bfb8a57d414c8fd2716",
+    "match": true
+   },
+   "forecasts_2026-10-02.parquet": {
+    "downloaded": "0e0ec52e5df74919b8b1163be00045b4b73ea65d977f259b0bbb6645ca91178f",
+    "manifest": "0e0ec52e5df74919b8b1163be00045b4b73ea65d977f259b0bbb6645ca91178f",
+    "match": true
+   },
+   "gap_report_2026-10-02.json": {
+    "match": true
+   },
+   "manifest_2026-10-02.json": {
+    "match": true
+   }
+  },
+  "immutability": {
+   "add_new_asset": {
+    "message": "HTTP 422: Cannot upload assets to an immutable release. (https://uploads.github.com/repos/gnmcool/bharat-weather-intelligence-v2/releases/401751168/assets?label=&name=immutability_probe.txt)",
+    "rejected": true
+   },
+   "delete_asset": {
+    "message": "HTTP 422: Validation Failed (https://api.github.com/repos/gnmcool/bharat-weather-intelligence-v2/releases/assets/605440716)\nCannot delete asset from an immutable release",
+    "rejected": true
+   },
+   "draft": false,
+   "github_immutable_flag": true,
+   "overwrite_asset": {
+    "message": "HTTP 422: Validation Failed (https://api.github.com/repos/gnmcool/bharat-weather-intelligence-v2/releases/assets/605440716)\nCannot delete asset from an immutable release",
+    "rejected": true
+   },
+   "unchanged_after_attempts": true
+  },
+  "ok": true,
+  "published": true,
+  "tag": "archive-daily-2026-10-02"
+ },
+ "gap_report": {
+  "archive_date_ist": "2026-10-02",
+  "collection_errors": [],
+  "expected_counts": {
+   "e2s_gfs025": 1296,
+   "ecmwf_ifs025": 1296,
+   "gfs_global": 1296,
+   "icon_global": 576
+  },
+  "http": {
+   "http_errors": 0,
+   "network_errors": 0,
+   "rate_limited": 0,
+   "requests": 47,
+   "retries": 0
+  },
+  "missing": [],
+  "not_provided_by_source": [
+   {
+    "leads": [
+     0
+    ],
+    "model": "ecmwf_ifs025",
+    "reason": "outside the run's full-day coverage (partial or beyond its last valid time)"
+   },
+   {
+    "leads": [
+     0
+    ],
+    "model": "gfs_global",
+    "reason": "outside the run's full-day coverage (partial or beyond its last valid time)"
+   },
+   {
+    "leads": [
+     0,
+     5,
+     6,
+     7,
+     8,
+     9
+    ],
+    "model": "icon_global",
+    "reason": "outside the run's full-day coverage (partial or beyond its last valid time)"
+   }
+  ],
+  "partial_days_stored": 1152,
+  "present_counts": {
+   "e2s_gfs025": 1296,
+   "ecmwf_ifs025": 1296,
+   "gfs_global": 1296,
+   "icon_global": 576
+  },
+  "problems": [],
+  "publishable": true,
+  "test_injection": "none"
+ },
+ "gap_report_sha256": "bd6d9ace070b254569f1a1c4c48e0dcc5e4744e2f4330c02156fbc358ec3922a",
+ "manifest": {
+  "archive_date_ist": "2026-10-02",
+  "collection_errors": [],
+  "created_utc": "2026-10-02T11:14:24+00:00",
+  "data_licences": [
+   {
+    "attribution": "Weather data by Open-Meteo.com",
+    "licence": "CC BY 4.0",
+    "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+    "note": "Keep this attribution when redistributing these files. Other sources in this archive (CORE output, Earth2Studio GFS grid) are not covered by this entry.",
+    "source": "Open-Meteo forecast API (per-model forecasts and model run metadata)",
+    "source_url": "https://open-meteo.com/"
+   }
+  ],
+  "duration_s": 31.4,
+  "expected": {
+   "core": {
+    "points": 36,
+    "risks_per_point": 11,
+    "source": "https://bharat-weather-intelligence-brown.vercel.app/api/v1/dashboard"
+   },
+   "forecasts": [
+    {
+     "data_end_utc": "2026-10-17T03:00:00+00:00",
+     "expected_leads": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+     ],
+     "metadata_ids": [
+      "ecmwf_ifs025"
+     ],
+     "model": "ecmwf_ifs025",
+     "open_meteo_model": "ecmwf_ifs025",
+     "points": 36,
+     "run_available_utc": "2026-10-02T08:00:51+00:00",
+     "run_time_utc": "2026-10-02T00:00:00+00:00",
+     "step_hours": 3,
+     "variables": [
+      "tmax",
+      "tmin",
+      "precip",
+      "gust_max"
+     ]
+    },
+    {
+     "data_end_utc": "2026-10-18T01:00:00+00:00",
+     "expected_leads": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+     ],
+     "metadata_ids": [
+      "ncep_gfs013",
+      "ncep_gfs025"
+     ],
+     "model": "gfs_global",
+     "open_meteo_model": "gfs_global",
+     "points": 36,
+     "run_available_utc": "2026-10-02T05:49:42+00:00",
+     "run_time_utc": "2026-10-02T00:00:00+00:00",
+     "step_hours": 1,
+     "variables": [
+      "tmax",
+      "tmin",
+      "precip",
+      "gust_max"
+     ]
+    },
+    {
+     "data_end_utc": "2026-10-07T07:00:00+00:00",
+     "expected_leads": [
+      1,
+      2,
+      3,
+      4
+     ],
+     "metadata_ids": [
+      "dwd_icon"
+     ],
+     "model": "icon_global",
+     "open_meteo_model": "icon_global",
+     "points": 36,
+     "run_available_utc": "2026-10-02T09:35:06+00:00",
+     "run_time_utc": "2026-10-02T06:00:00+00:00",
+     "step_hours": 1,
+     "variables": [
+      "tmax",
+      "tmin",
+      "precip",
+      "gust_max"
+     ]
+    },
+    {
+     "expected_leads": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+     ],
+     "grid_file": "e2s_gfs_grid_2026100200.nc",
+     "model": "e2s_gfs025",
+     "points": 36,
+     "run_time_utc": "2026-10-02T00:00:00+00:00",
+     "variables": [
+      "precip",
+      "tmax",
+      "tmin",
+      "gust_max"
+     ]
+    }
+   ]
+  },
+  "files": [
+   {
+    "bytes": 17809,
+    "kind": "forecasts",
+    "name": "forecasts_2026-10-02.parquet",
+    "rows": 5616,
+    "sha256": "0e0ec52e5df74919b8b1163be00045b4b73ea65d977f259b0bbb6645ca91178f"
+   },
+   {
+    "bytes": 11254,
+    "kind": "core_risks",
+    "name": "core_risks_2026-10-02.parquet",
+    "rows": 396,
+    "sha256": "ea26bbd3018fdb04f7171d20767bb384362ddd7e271a4866bbe39785a6f3789a"
+   },
+   {
+    "bytes": 5407,
+    "kind": "core_daily",
+    "name": "core_daily_2026-10-02.parquet",
+    "rows": 1440,
+    "sha256": "d7014d47b326cc67be9f4c59b6a02b144ccd9a7e17e63d31a5c92a61999ea73e"
+   },
+   {
+    "bytes": 2211486,
+    "kind": "e2s_grid",
+    "name": "e2s_gfs_grid_2026100200.nc",
+    "rows": null,
+    "sha256": "104f42e794cf30e1f44b2a227c997eb0219c008e20d53bfb8a57d414c8fd2716"
+   }
+  ],
+  "http": {
+   "http_errors": 0,
+   "network_errors": 0,
+   "rate_limited": 0,
+   "requests": 47,
+   "retries": 0
+  },
+  "lead_day_definition": "valid_date_ist minus the IST calendar date of run_time_utc",
+  "points": 36,
+  "points_file": "archive/points.json",
+  "producer": {
+   "git_sha": "e435027e8be7c8ddaefd842245bf1679fc7bb156",
+   "run_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/actions/runs/36999876729",
+   "script": "archive/collect.py",
+   "test_injection": "none"
+  },
+  "run_time_policy": "forecasts table: run_time_utc is the exact model initialisation from Open-Meteo run metadata (checked before and after the request) or the Earth2Studio store issue time; run_time_known is always true. CORE tables record CORE's generated_at; CORE best-match is a blend and has no single run time.",
+  "schema_version": 2
+ },
+ "manifest_sha256": "1362760e4cd16db3d1ac5085004b49bffd220dd8795ac61591ec40c4c5fb63a1",
+ "recorded_utc": "2026-10-02T11:15:04+00:00",
+ "release_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/releases/tag/archive-daily-2026-10-02",
+ "run_id": "36999876729",
+ "status": "published",
+ "tag": "archive-daily-2026-10-02"
+}

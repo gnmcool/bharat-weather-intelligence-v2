@@ -1,0 +1,214 @@
+{
+ "archive_date_ist": "2026-10-06",
+ "checks": null,
+ "gap_report": {
+  "archive_date_ist": "2026-10-06",
+  "collection_errors": [
+   "gfs_global: exact run time could not be established (run changed or grids disagree)"
+  ],
+  "expected_counts": {
+   "e2s_gfs025": 1296,
+   "ecmwf_ifs025": 720,
+   "icon_global": 1008
+  },
+  "http": {
+   "http_errors": 0,
+   "network_errors": 0,
+   "rate_limited": 0,
+   "requests": 57,
+   "retries": 3
+  },
+  "missing": [],
+  "not_provided_by_source": [
+   {
+    "leads": [
+     0,
+     6,
+     7,
+     8,
+     9
+    ],
+    "model": "ecmwf_ifs025",
+    "reason": "outside the run's full-day coverage (partial or beyond its last valid time)"
+   },
+   {
+    "leads": [
+     0,
+     8,
+     9
+    ],
+    "model": "icon_global",
+    "reason": "outside the run's full-day coverage (partial or beyond its last valid time)"
+   }
+  ],
+  "partial_days_stored": 1152,
+  "present_counts": {
+   "e2s_gfs025": 1296,
+   "ecmwf_ifs025": 720,
+   "icon_global": 1008
+  },
+  "problems": [
+   "model gfs_global missing entirely",
+   "collection errors: ['gfs_global: exact run time could not be established (run changed or grids disagree)']"
+  ],
+  "publishable": false,
+  "test_injection": "none"
+ },
+ "gap_report_sha256": "087619f9f185c089d831b2d5d61a3feafa1928720781255f6572d2eaeeaa8f30",
+ "manifest": {
+  "archive_date_ist": "2026-10-06",
+  "collection_errors": [
+   "gfs_global: exact run time could not be established (run changed or grids disagree)"
+  ],
+  "created_utc": "2026-10-05T18:45:19+00:00",
+  "data_licences": [
+   {
+    "attribution": "Weather data by Open-Meteo.com",
+    "licence": "CC BY 4.0",
+    "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+    "note": "Keep this attribution when redistributing these files. Other sources in this archive (CORE output, Earth2Studio GFS grid) are not covered by this entry.",
+    "source": "Open-Meteo forecast API (per-model forecasts and model run metadata)",
+    "source_url": "https://open-meteo.com/"
+   }
+  ],
+  "duration_s": 396.0,
+  "expected": {
+   "core": {
+    "points": 36,
+    "risks_per_point": 11,
+    "source": "https://bharat-weather-intelligence-brown.vercel.app/api/v1/dashboard"
+   },
+   "forecasts": [
+    {
+     "data_end_utc": "2026-10-11T09:00:00+00:00",
+     "expected_leads": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "metadata_ids": [
+      "ecmwf_ifs025"
+     ],
+     "model": "ecmwf_ifs025",
+     "open_meteo_model": "ecmwf_ifs025",
+     "points": 36,
+     "run_available_utc": "2026-10-05T13:07:23+00:00",
+     "run_time_utc": "2026-10-05T06:00:00+00:00",
+     "step_hours": 3,
+     "variables": [
+      "tmax",
+      "tmin",
+      "precip",
+      "gust_max"
+     ]
+    },
+    {
+     "data_end_utc": "2026-10-13T01:00:00+00:00",
+     "expected_leads": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+     ],
+     "metadata_ids": [
+      "dwd_icon"
+     ],
+     "model": "icon_global",
+     "open_meteo_model": "icon_global",
+     "points": 36,
+     "run_available_utc": "2026-10-05T15:47:50+00:00",
+     "run_time_utc": "2026-10-05T12:00:00+00:00",
+     "step_hours": 1,
+     "variables": [
+      "tmax",
+      "tmin",
+      "precip",
+      "gust_max"
+     ]
+    },
+    {
+     "expected_leads": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+     ],
+     "grid_file": "e2s_gfs_grid_2026100506.nc",
+     "model": "e2s_gfs025",
+     "points": 36,
+     "run_time_utc": "2026-10-05T06:00:00+00:00",
+     "variables": [
+      "precip",
+      "tmax",
+      "tmin",
+      "gust_max"
+     ]
+    }
+   ]
+  },
+  "files": [
+   {
+    "bytes": 15924,
+    "kind": "forecasts",
+    "name": "forecasts_2026-10-06.parquet",
+    "rows": 4176,
+    "sha256": "7e1230311a824812d03bf574d6ed70a8cf5cbf18dbb65d2130096ed25bddb4e7"
+   },
+   {
+    "bytes": 10378,
+    "kind": "core_risks",
+    "name": "core_risks_2026-10-06.parquet",
+    "rows": 396,
+    "sha256": "4f02173525ce3b7fc2c90b427475149de7b8b1b19c4db773c3af591cddebf613"
+   },
+   {
+    "bytes": 5252,
+    "kind": "core_daily",
+    "name": "core_daily_2026-10-06.parquet",
+    "rows": 1296,
+    "sha256": "690f4cc431528e58f89d9a7c942bd665985f50d76c151615c158c8119e2f59c4"
+   },
+   {
+    "bytes": 2196854,
+    "kind": "e2s_grid",
+    "name": "e2s_gfs_grid_2026100506.nc",
+    "rows": null,
+    "sha256": "b848c19c1870dd64b75b6fbee9d50f24fbe14c393b95cc3ace9f52934142a81b"
+   }
+  ],
+  "http": {
+   "http_errors": 0,
+   "network_errors": 0,
+   "rate_limited": 0,
+   "requests": 57,
+   "retries": 3
+  },
+  "lead_day_definition": "valid_date_ist minus the IST calendar date of run_time_utc",
+  "points": 36,
+  "points_file": "archive/points.json",
+  "producer": {
+   "git_sha": "e435027e8be7c8ddaefd842245bf1679fc7bb156",
+   "run_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/actions/runs/37358073367",
+   "script": "archive/collect.py",
+   "test_injection": "none"
+  },
+  "run_time_policy": "forecasts table: run_time_utc is the exact model initialisation from Open-Meteo run metadata (checked before and after the request) or the Earth2Studio store issue time; run_time_known is always true. CORE tables record CORE's generated_at; CORE best-match is a blend and has no single run time.",
+  "schema_version": 2
+ },
+ "manifest_sha256": "8d5f75b02f2ab25e6704b689de7d64fe1d15b0a14fabd0269915c20aabed2e40",
+ "recorded_utc": "2026-10-05T18:51:56+00:00",
+ "release_url": null,
+ "run_id": "37358073367",
+ "status": "refused",
+ "tag": null
+}

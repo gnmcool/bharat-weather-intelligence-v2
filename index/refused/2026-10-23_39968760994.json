@@ -1,0 +1,248 @@
+{
+ "archive_date_ist": "2026-10-23",
+ "checks": null,
+ "gap_report": {
+  "archive_date_ist": "2026-10-23",
+  "collection_errors": [],
+  "expected_counts": {
+   "e2s_gfs025": 1296,
+   "ecmwf_ifs025": 720,
+   "gfs_global": 1296,
+   "icon_global": 576
+  },
+  "http": {
+   "http_errors": 0,
+   "network_errors": 0,
+   "rate_limited": 0,
+   "requests": 47,
+   "retries": 0
+  },
+  "missing": [],
+  "not_provided_by_source": [
+   {
+    "leads": [
+     0,
+     6,
+     7,
+     8,
+     9
+    ],
+    "model": "ecmwf_ifs025",
+    "reason": "outside the run's full-day coverage (partial or beyond its last valid time)"
+   },
+   {
+    "leads": [
+     0
+    ],
+    "model": "gfs_global",
+    "reason": "outside the run's full-day coverage (partial or beyond its last valid time)"
+   },
+   {
+    "leads": [
+     0,
+     5,
+     6,
+     7,
+     8,
+     9
+    ],
+    "model": "icon_global",
+    "reason": "outside the run's full-day coverage (partial or beyond its last valid time)"
+   }
+  ],
+  "partial_days_stored": 1728,
+  "present_counts": {
+   "e2s_gfs025": 1296,
+   "ecmwf_ifs025": 720,
+   "gfs_global": 1296,
+   "icon_global": 576
+  },
+  "problems": [
+   "8 precip values outside the plausible range 0..1500"
+  ],
+  "publishable": false,
+  "test_injection": "none"
+ },
+ "gap_report_sha256": "357c1cc035a6b3fd7bd7e1ee2b1382619890c92fa03d19a7fbd47d0d48af1768",
+ "manifest": {
+  "archive_date_ist": "2026-10-23",
+  "collection_errors": [],
+  "created_utc": "2026-10-23T14:20:36+00:00",
+  "data_licences": [
+   {
+    "attribution": "Weather data by Open-Meteo.com",
+    "licence": "CC BY 4.0",
+    "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+    "note": "Keep this attribution when redistributing these files. Other sources in this archive (CORE output, Earth2Studio GFS grid) are not covered by this entry.",
+    "source": "Open-Meteo forecast API (per-model forecasts and model run metadata)",
+    "source_url": "https://open-meteo.com/"
+   }
+  ],
+  "duration_s": 33.0,
+  "expected": {
+   "core": {
+    "points": 36,
+    "risks_per_point": 11,
+    "source": "https://bharat-weather-intelligence-brown.vercel.app/api/v1/dashboard"
+   },
+   "forecasts": [
+    {
+     "data_end_utc": "2026-10-29T09:00:00+00:00",
+     "expected_leads": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "metadata_ids": [
+      "ecmwf_ifs025"
+     ],
+     "model": "ecmwf_ifs025",
+     "open_meteo_model": "ecmwf_ifs025",
+     "points": 36,
+     "run_available_utc": "2026-10-23T13:31:54+00:00",
+     "run_time_utc": "2026-10-23T06:00:00+00:00",
+     "step_hours": 3,
+     "variables": [
+      "tmax",
+      "tmin",
+      "precip",
+      "gust_max"
+     ]
+    },
+    {
+     "data_end_utc": "2026-11-08T07:00:00+00:00",
+     "expected_leads": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+     ],
+     "metadata_ids": [
+      "ncep_gfs013",
+      "ncep_gfs025"
+     ],
+     "model": "gfs_global",
+     "open_meteo_model": "gfs_global",
+     "points": 36,
+     "run_available_utc": "2026-10-23T12:41:12+00:00",
+     "run_time_utc": "2026-10-23T06:00:00+00:00",
+     "step_hours": 1,
+     "variables": [
+      "tmax",
+      "tmin",
+      "precip",
+      "gust_max"
+     ]
+    },
+    {
+     "data_end_utc": "2026-10-28T07:00:00+00:00",
+     "expected_leads": [
+      1,
+      2,
+      3,
+      4
+     ],
+     "metadata_ids": [
+      "dwd_icon"
+     ],
+     "model": "icon_global",
+     "open_meteo_model": "icon_global",
+     "points": 36,
+     "run_available_utc": "2026-10-23T09:24:35+00:00",
+     "run_time_utc": "2026-10-23T06:00:00+00:00",
+     "step_hours": 1,
+     "variables": [
+      "tmax",
+      "tmin",
+      "precip",
+      "gust_max"
+     ]
+    },
+    {
+     "expected_leads": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+     ],
+     "grid_file": "e2s_gfs_grid_2026102300.nc",
+     "model": "e2s_gfs025",
+     "points": 36,
+     "run_time_utc": "2026-10-23T00:00:00+00:00",
+     "variables": [
+      "precip",
+      "tmax",
+      "tmin",
+      "gust_max"
+     ]
+    }
+   ]
+  },
+  "files": [
+   {
+    "bytes": 18035,
+    "kind": "forecasts",
+    "name": "forecasts_2026-10-23.parquet",
+    "rows": 5616,
+    "sha256": "b138031a644197081a5ecba821f6b2cd64bd91a2824ad2bb7d84461fec2f2eea"
+   },
+   {
+    "bytes": 10551,
+    "kind": "core_risks",
+    "name": "core_risks_2026-10-23.parquet",
+    "rows": 396,
+    "sha256": "c5979b31514d7155f4b5acdd19f19cf78149aa95c68198b371d5a8ba19a2dc24"
+   },
+   {
+    "bytes": 5462,
+    "kind": "core_daily",
+    "name": "core_daily_2026-10-23.parquet",
+    "rows": 1440,
+    "sha256": "a8bd742d1d7892baeed43cfb1f475007976058944a2495b00a24b6144593ac74"
+   },
+   {
+    "bytes": 2375654,
+    "kind": "e2s_grid",
+    "name": "e2s_gfs_grid_2026102300.nc",
+    "rows": null,
+    "sha256": "21cacfe61482030cf833b149fff061aa08734b1f7912bd28eeca6b9e1b9bb832"
+   }
+  ],
+  "http": {
+   "http_errors": 0,
+   "network_errors": 0,
+   "rate_limited": 0,
+   "requests": 47,
+   "retries": 0
+  },
+  "lead_day_definition": "valid_date_ist minus the IST calendar date of run_time_utc",
+  "points": 36,
+  "points_file": "archive/points.json",
+  "producer": {
+   "git_sha": "e435027e8be7c8ddaefd842245bf1679fc7bb156",
+   "run_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/actions/runs/39968760994",
+   "script": "archive/collect.py",
+   "test_injection": "none"
+  },
+  "run_time_policy": "forecasts table: run_time_utc is the exact model initialisation from Open-Meteo run metadata (checked before and after the request) or the Earth2Studio store issue time; run_time_known is always true. CORE tables record CORE's generated_at; CORE best-match is a blend and has no single run time.",
+  "schema_version": 2
+ },
+ "manifest_sha256": "549c6b70b42d4d11bf833f55993fa8bfddf3b4f946eb6acbab429eeb6f0c53ad",
+ "recorded_utc": "2026-10-23T14:21:10+00:00",
+ "release_url": null,
+ "run_id": "39968760994",
+ "status": "refused",
+ "tag": null
+}

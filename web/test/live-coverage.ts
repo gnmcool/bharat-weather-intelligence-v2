@@ -7,6 +7,7 @@
 import { appendFileSync } from "node:fs";
 import { coreText, cropName, EVENT_TITLE, eventText, indicatorText, seasonName, stageName, TLS, type Out, type TL } from "../src/i18n/coreText.ts";
 import { wmoText } from "../src/lib/format.ts";
+import { eventKey } from "../src/kisan/rules.ts";
 
 const BASE = (process.env.CORE_API_BASE ?? "https://bharat-weather-intelligence-brown.vercel.app/api/v1").replace(/\/$/, "");
 
@@ -142,6 +143,15 @@ async function main() {
     }
   }
 
+  // Farmer site (#/kisan): official warning types are translated from a fixed list; an unknown type is shown in the
+  // issuer's English. Report every live type that is not on the list.
+  const nat = await get<{ event: string | null }[]>("/warnings", { national: "true" });
+  const types = new Set<string>();
+  for (const w of nat ?? []) if (w.event) types.add(w.event);
+  for (const e of types) {
+    for (const l of TLS) check({ text: e, tr: eventKey(e) !== null }, `warning type "${e}" (farmer site)`, "SACHET national feed", l);
+  }
+
   const failedShare = failures / Math.max(1, requests);
   const lines: string[] = [
     `## Farmer-screen translation coverage against live CORE`,
@@ -150,7 +160,7 @@ async function main() {
     ``,
     `| | Count |`, `| --- | --- |`,
     `| Points (dashboard) | ${POINTS.length} |`, `| System events seen (Watch or above) | ${events} |`,
-    `| Farmer reports (crop × stage × point) | ${reports} |`, `| Strings checked (all languages) | ${checked} |`,
+    `| Farmer reports (crop × stage × point) | ${reports} |`, `| Official warning types in the feed | ${types.size} |`, `| Strings checked (all languages) | ${checked} |`,
     `| Failed requests | ${failures} of ${requests} |`,
     ``,
   ];

@@ -1,0 +1,1114 @@
+{
+ "archive_date_ist": "2026-10-26",
+ "checks": null,
+ "gap_report": {
+  "archive_date_ist": "2026-10-26",
+  "collection_errors": [],
+  "expected_counts": {
+   "e2s_gfs025": 1296,
+   "ecmwf_ifs025": 720,
+   "gfs_global": 1296,
+   "icon_global": 1008
+  },
+  "http": {
+   "http_errors": 0,
+   "network_errors": 0,
+   "rate_limited": 0,
+   "requests": 53,
+   "retries": 2
+  },
+  "missing": [
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-35-640",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-35-640",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-35-640",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-35-640",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-37-548",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-37-548",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-37-548",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-37-548",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-12-779",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-12-779",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-12-779",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-12-779",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-18-305",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-18-305",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-18-305",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-18-305",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-10-221",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-10-221",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-10-221",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-10-221",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-04-055",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-04-055",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-04-055",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-04-055",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-22-410",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-22-410",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-22-410",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-22-410",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-26-495",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-26-495",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-26-495",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-26-495",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-07-delhi",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-07-delhi",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-07-delhi",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-07-delhi",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-30-586",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-30-586",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-30-586",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-30-586",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-24-474",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-24-474",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-24-474",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-24-474",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-06-082",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-06-082",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-06-082",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-06-082",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-02-027",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-02-027",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-02-027",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-02-027",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-01-015",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-01-015",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-01-015",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-01-015",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-20-361",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-20-361",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-20-361",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-20-361",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-29-566",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-29-566",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-29-566",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-29-566",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-32-594",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-32-594",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-32-594",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-32-594",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-38-004",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-38-004",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-38-004",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-38-004",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-31-587",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-31-587",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-31-587",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-31-587",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-23-446",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-23-446",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-23-446",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-23-446",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-27-514",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-27-514",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-27-514",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-27-514",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-14-277",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-14-277",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-14-277",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-14-277",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-17-296",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-17-296",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-17-296",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-17-296",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-15-268",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-15-268",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-15-268",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-15-268",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-13-263",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-13-263",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-13-263",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-13-263",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-21-385",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-21-385",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-21-385",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-21-385",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-34-635",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-34-635",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-34-635",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-34-635",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-03-042",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-03-042",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-03-042",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-03-042",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-08-119",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-08-119",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-08-119",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-08-119",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-11-243",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-11-243",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-11-243",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-11-243",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-33-614",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-33-614",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-33-614",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-33-614",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-36-741",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-36-741",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-36-741",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-36-741",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-16-708",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-16-708",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-16-708",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-16-708",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-09-156",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-09-156",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-09-156",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-09-156",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-05-064",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-05-064",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-05-064",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-05-064",
+    "variable": "gust_max"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-19-333",
+    "variable": "tmax"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-19-333",
+    "variable": "tmin"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-19-333",
+    "variable": "precip"
+   },
+   {
+    "lead_day": 7,
+    "model": "icon_global",
+    "point_id": "IN-19-333",
+    "variable": "gust_max"
+   }
+  ],
+  "not_provided_by_source": [
+   {
+    "leads": [
+     0,
+     6,
+     7,
+     8,
+     9
+    ],
+    "model": "ecmwf_ifs025",
+    "reason": "outside the run's full-day coverage (partial or beyond its last valid time)"
+   },
+   {
+    "leads": [
+     0
+    ],
+    "model": "gfs_global",
+    "reason": "outside the run's full-day coverage (partial or beyond its last valid time)"
+   },
+   {
+    "leads": [
+     0,
+     8,
+     9
+    ],
+    "model": "icon_global",
+    "reason": "outside the run's full-day coverage (partial or beyond its last valid time)"
+   }
+  ],
+  "partial_days_stored": 1296,
+  "present_counts": {
+   "e2s_gfs025": 1296,
+   "ecmwf_ifs025": 720,
+   "gfs_global": 1296,
+   "icon_global": 864
+  },
+  "problems": [
+   "2 precip values outside the plausible range 0..1500",
+   "144 expected forecast values missing"
+  ],
+  "publishable": false,
+  "test_injection": "none"
+ },
+ "gap_report_sha256": "1e882233e8177ea89c829a612ee91b976272dd31a5ffb7131974300729f51ff4",
+ "manifest": {
+  "archive_date_ist": "2026-10-26",
+  "collection_errors": [],
+  "created_utc": "2026-10-26T16:15:02+00:00",
+  "data_licences": [
+   {
+    "attribution": "Weather data by Open-Meteo.com",
+    "licence": "CC BY 4.0",
+    "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+    "note": "Keep this attribution when redistributing these files. Other sources in this archive (CORE output, Earth2Studio GFS grid) are not covered by this entry.",
+    "source": "Open-Meteo forecast API (per-model forecasts and model run metadata)",
+    "source_url": "https://open-meteo.com/"
+   }
+  ],
+  "duration_s": 276.1,
+  "expected": {
+   "core": {
+    "points": 36,
+    "risks_per_point": 11,
+    "source": "https://bharat-weather-intelligence-brown.vercel.app/api/v1/dashboard"
+   },
+   "forecasts": [
+    {
+     "data_end_utc": "2026-11-01T09:00:00+00:00",
+     "expected_leads": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "metadata_ids": [
+      "ecmwf_ifs025"
+     ],
+     "model": "ecmwf_ifs025",
+     "open_meteo_model": "ecmwf_ifs025",
+     "points": 36,
+     "run_available_utc": "2026-10-26T13:42:06+00:00",
+     "run_time_utc": "2026-10-26T06:00:00+00:00",
+     "step_hours": 3,
+     "variables": [
+      "tmax",
+      "tmin",
+      "precip",
+      "gust_max"
+     ]
+    },
+    {
+     "data_end_utc": "2026-11-11T07:00:00+00:00",
+     "expected_leads": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+     ],
+     "metadata_ids": [
+      "ncep_gfs013",
+      "ncep_gfs025"
+     ],
+     "model": "gfs_global",
+     "open_meteo_model": "gfs_global",
+     "points": 36,
+     "run_available_utc": "2026-10-26T13:27:49+00:00",
+     "run_time_utc": "2026-10-26T06:00:00+00:00",
+     "step_hours": 1,
+     "variables": [
+      "tmax",
+      "tmin",
+      "precip",
+      "gust_max"
+     ]
+    },
+    {
+     "data_end_utc": "2026-11-03T01:00:00+00:00",
+     "expected_leads": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+     ],
+     "metadata_ids": [
+      "dwd_icon"
+     ],
+     "model": "icon_global",
+     "open_meteo_model": "icon_global",
+     "points": 36,
+     "run_available_utc": "2026-10-26T15:38:56+00:00",
+     "run_time_utc": "2026-10-26T12:00:00+00:00",
+     "step_hours": 1,
+     "variables": [
+      "tmax",
+      "tmin",
+      "precip",
+      "gust_max"
+     ]
+    },
+    {
+     "expected_leads": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+     ],
+     "grid_file": "e2s_gfs_grid_2026102600.nc",
+     "model": "e2s_gfs025",
+     "points": 36,
+     "run_time_utc": "2026-10-26T00:00:00+00:00",
+     "variables": [
+      "precip",
+      "tmax",
+      "tmin",
+      "gust_max"
+     ]
+    }
+   ]
+  },
+  "files": [
+   {
+    "bytes": 17929,
+    "kind": "forecasts",
+    "name": "forecasts_2026-10-26.parquet",
+    "rows": 5616,
+    "sha256": "64cbfde2e450bcddca5406a03359aab6a80fdd12ffe42bada1eecb8f52023b03"
+   },
+   {
+    "bytes": 10538,
+    "kind": "core_risks",
+    "name": "core_risks_2026-10-26.parquet",
+    "rows": 396,
+    "sha256": "cf47d6f09ee3f8d4619846ae3176a0a47ee876d423e05693b9c977493cde7581"
+   },
+   {
+    "bytes": 5450,
+    "kind": "core_daily",
+    "name": "core_daily_2026-10-26.parquet",
+    "rows": 1440,
+    "sha256": "82677b274543d63ded9641b0e1b91f2aa5e748d9284408ba340d14e9de6ee050"
+   },
+   {
+    "bytes": 2340563,
+    "kind": "e2s_grid",
+    "name": "e2s_gfs_grid_2026102600.nc",
+    "rows": null,
+    "sha256": "475c517d197f823374ac8bd2121f7c28c144c9629dcc22f3bddfc2e1476524ea"
+   }
+  ],
+  "http": {
+   "http_errors": 0,
+   "network_errors": 0,
+   "rate_limited": 0,
+   "requests": 53,
+   "retries": 2
+  },
+  "lead_day_definition": "valid_date_ist minus the IST calendar date of run_time_utc",
+  "points": 36,
+  "points_file": "archive/points.json",
+  "producer": {
+   "git_sha": "0f99926d97a6cba5f06c844c0858ee3885fcc98e",
+   "run_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/actions/runs/40357223446",
+   "script": "archive/collect.py",
+   "test_injection": "none"
+  },
+  "run_time_policy": "forecasts table: run_time_utc is the exact model initialisation from Open-Meteo run metadata (checked before and after the request) or the Earth2Studio store issue time; run_time_known is always true. CORE tables record CORE's generated_at; CORE best-match is a blend and has no single run time.",
+  "schema_version": 2
+ },
+ "manifest_sha256": "3e2b53dad93c0bfcbc4864de4d65f6758e74662ed428c79a64a355eba011672d",
+ "recorded_utc": "2026-10-26T16:19:39+00:00",
+ "release_url": null,
+ "run_id": "40357223446",
+ "status": "refused",
+ "tag": null
+}

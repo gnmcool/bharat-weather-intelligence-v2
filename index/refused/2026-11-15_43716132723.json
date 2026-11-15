@@ -1,0 +1,143 @@
+{
+ "archive_date_ist": "2026-11-15",
+ "checks": null,
+ "gap_report": {
+  "archive_date_ist": "2026-11-15",
+  "collection_errors": [
+   "https://api.open-meteo.com/data/ecmwf_ifs025/static/meta.json failed after retries: HTTP 404: {\"reason\":\"Not Found\",\"error\":true}",
+   "https://api.open-meteo.com/data/ncep_gfs013/static/meta.json failed after retries: HTTP 404: {\"error\":true,\"reason\":\"Not Found\"}",
+   "https://api.open-meteo.com/data/dwd_icon/static/meta.json failed after retries: HTTP 404: {\"error\":true,\"reason\":\"Not Found\"}"
+  ],
+  "expected_counts": {
+   "e2s_gfs025": 1296
+  },
+  "http": {
+   "http_errors": 3,
+   "network_errors": 0,
+   "rate_limited": 0,
+   "requests": 39,
+   "retries": 0
+  },
+  "missing": [],
+  "not_provided_by_source": [],
+  "partial_days_stored": 0,
+  "present_counts": {
+   "e2s_gfs025": 1296
+  },
+  "problems": [
+   "model ecmwf_ifs025 missing entirely",
+   "model gfs_global missing entirely",
+   "model icon_global missing entirely",
+   "collection errors: ['https://api.open-meteo.com/data/ecmwf_ifs025/static/meta.json failed after retries: HTTP 404: {\"reason\":\"Not Found\",\"error\":true}', 'https://api.open-meteo.com/data/ncep_gfs013/static/meta.json failed after retries: HTTP 404: {\"error\":true,\"reason\":\"Not Found\"}', 'https://api.open-meteo.com/data/dwd_icon/static/meta.json failed after retries: HTTP 404: {\"error\":true,\"reason\":\"Not Found\"}']"
+  ],
+  "publishable": false,
+  "test_injection": "none"
+ },
+ "gap_report_sha256": "eecc8a09f127203985be02ab83f2249ca84e6872148ba7f2f35dc77d02ead998",
+ "manifest": {
+  "archive_date_ist": "2026-11-15",
+  "collection_errors": [
+   "https://api.open-meteo.com/data/ecmwf_ifs025/static/meta.json failed after retries: HTTP 404: {\"reason\":\"Not Found\",\"error\":true}",
+   "https://api.open-meteo.com/data/ncep_gfs013/static/meta.json failed after retries: HTTP 404: {\"error\":true,\"reason\":\"Not Found\"}",
+   "https://api.open-meteo.com/data/dwd_icon/static/meta.json failed after retries: HTTP 404: {\"error\":true,\"reason\":\"Not Found\"}"
+  ],
+  "created_utc": "2026-11-15T12:53:52+00:00",
+  "data_licences": [
+   {
+    "attribution": "Weather data by Open-Meteo.com",
+    "licence": "CC BY 4.0",
+    "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+    "note": "Keep this attribution when redistributing these files. Other sources in this archive (CORE output, Earth2Studio GFS grid) are not covered by this entry.",
+    "source": "Open-Meteo forecast API (per-model forecasts and model run metadata)",
+    "source_url": "https://open-meteo.com/"
+   }
+  ],
+  "duration_s": 27.7,
+  "expected": {
+   "core": {
+    "points": 36,
+    "risks_per_point": 11,
+    "source": "https://bharat-weather-intelligence-brown.vercel.app/api/v1/dashboard"
+   },
+   "forecasts": [
+    {
+     "expected_leads": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+     ],
+     "grid_file": "e2s_gfs_grid_2026111506.nc",
+     "model": "e2s_gfs025",
+     "points": 36,
+     "run_time_utc": "2026-11-15T06:00:00+00:00",
+     "variables": [
+      "precip",
+      "tmax",
+      "tmin",
+      "gust_max"
+     ]
+    }
+   ]
+  },
+  "files": [
+   {
+    "bytes": 10878,
+    "kind": "forecasts",
+    "name": "forecasts_2026-11-15.parquet",
+    "rows": 1296,
+    "sha256": "3d99b3d35c8a40161ba4de81bd314b616197771dfe86a75053861bc7324b07b9"
+   },
+   {
+    "bytes": 9985,
+    "kind": "core_risks",
+    "name": "core_risks_2026-11-15.parquet",
+    "rows": 396,
+    "sha256": "f1383e9cbd9170af6458a706eb4a75b699a91c76d952b3447096da21a8ef972e"
+   },
+   {
+    "bytes": 5447,
+    "kind": "core_daily",
+    "name": "core_daily_2026-11-15.parquet",
+    "rows": 1440,
+    "sha256": "6685dc13248a12a693a5c6cb0fb5eb5f8f3bf36f40ff6d953bd20f355fcf9e86"
+   },
+   {
+    "bytes": 2382790,
+    "kind": "e2s_grid",
+    "name": "e2s_gfs_grid_2026111506.nc",
+    "rows": null,
+    "sha256": "9a4c38d841438fba9028f00b02f5c073f297a3df06190ca7292e7c29ed4d35d0"
+   }
+  ],
+  "http": {
+   "http_errors": 3,
+   "network_errors": 0,
+   "rate_limited": 0,
+   "requests": 39,
+   "retries": 0
+  },
+  "lead_day_definition": "valid_date_ist minus the IST calendar date of run_time_utc",
+  "points": 36,
+  "points_file": "archive/points.json",
+  "producer": {
+   "git_sha": "0f99926d97a6cba5f06c844c0858ee3885fcc98e",
+   "run_url": "https://github.com/gnmcool/bharat-weather-intelligence-v2/actions/runs/43716132723",
+   "script": "archive/collect.py",
+   "test_injection": "none"
+  },
+  "run_time_policy": "forecasts table: run_time_utc is the exact model initialisation from Open-Meteo run metadata (checked before and after the request) or the Earth2Studio store issue time; run_time_known is always true. CORE tables record CORE's generated_at; CORE best-match is a blend and has no single run time.",
+  "schema_version": 2
+ },
+ "manifest_sha256": "569dd7e12dec23b93dba8d1e1acf3a0b602baae1a5fc676308209f293a159551",
+ "recorded_utc": "2026-11-15T12:54:21+00:00",
+ "release_url": null,
+ "run_id": "43716132723",
+ "status": "refused",
+ "tag": null
+}
